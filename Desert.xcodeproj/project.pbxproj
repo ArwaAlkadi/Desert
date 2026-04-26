@@ -157,8 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				EC309FB52F97FEDD003E343E /* AppSettings.swift */,
-				EC309FB72F97FF5A003E343E /* SavedInfo.swift */,
 				EC309FB92F97FF69003E343E /* Trip.swift */,
+				EC309FB72F97FF5A003E343E /* SavedInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
