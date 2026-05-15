@@ -60,7 +60,8 @@ struct HomeView: View {
     @State private var currentPage: AppPage = .map
     @State private var showCreateTrip = false
 
-    var activeTrip: Trip? { trips.first { $0.isActive } }
+    /// Active or overdue trip — stays visible until the user taps "I'm Back Safely".
+    var activeTrip: Trip? { trips.first { $0.isActive || $0.isOverdue } }
 
     var body: some View {
         NavigationStack {
@@ -72,7 +73,6 @@ struct HomeView: View {
                     TripHistoryView(currentPage: $currentPage)
                 }
             }
-            .navigationBarHidden(currentPage == .map)
             .navigationDestination(isPresented: $showCreateTrip) {
                 CreateTripView(
                     showParentSheet: $showCreateTrip,
@@ -85,9 +85,7 @@ struct HomeView: View {
         }
         .environment(\.onTripStarted, { goToMap() })
         .onAppear {
-            TripSessionManager.shared.setModelContext(context)
-            TripSessionManager.shared.resumeActiveSessionIfNeeded(context: context)
-            NotificationsManager.shared.requestPermission()
+            vm.onAppear(context: context)
         }
     }
 

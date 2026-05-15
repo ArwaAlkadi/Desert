@@ -63,39 +63,23 @@ class FirebaseManager {
     
     // MARK: - Remote Config Models
 
-       struct AppUpdateConfig {
+    struct AppUpdateConfig {
+        let minimumVersion: String
+        let message: String
+        let appStoreURL: String
+    }
 
-           let minimumVersion: String
+    struct MaintenanceConfig {
+        let isEnabled: Bool
+        let title: String
+        let message: String
+    }
 
-           let message: String
+    // MARK: - Version Compare
 
-           let appStoreURL: String
-
-       }
-
-       struct MaintenanceConfig {
-
-           let isEnabled: Bool
-
-           let title: String
-
-           let message: String
-
-       }
-
-       // MARK: - Version Compare
-
-       static func isOlderVersion(
-
-           current: String,
-
-           required: String
-
-       ) -> Bool {
-
-           current.compare(required, options: .numeric) == .orderedAscending
-
-       }
+    static func isOlderVersion(current: String, required: String) -> Bool {
+        current.compare(required, options: .numeric) == .orderedAscending
+    }
     
     // MARK: - Anonymous Auth
     /// Signs in anonymously using Firebase Auth.
@@ -107,7 +91,6 @@ class FirebaseManager {
     ///
     /// - Note: Call this once in `AppDelegate.application(_:didFinishLaunchingWithOptions:)`
     func signInAnonymously() {
-        // لو في مستخدم موجود — ما نحتاج نسجل من جديد
         if let current = Auth.auth().currentUser {
             userId = current.uid
             print("Already signed in: \(current.uid)")
@@ -153,7 +136,6 @@ class FirebaseManager {
             counterRef.getDocument { doc, _ in
                 let total = doc?.data()?["total"] as? Int ?? 1
                 
-                // رقم متسلسل + 8 أحرف عشوائية
                 let sequential = String(format: "%03d", total)
                 let random = UUID().uuidString
                     .replacingOccurrences(of: "-", with: "")
@@ -161,7 +143,6 @@ class FirebaseManager {
                     .lowercased()
                 
                 let tripId = "trip_\(sequential)_\(random)"
-                // مثال: trip_001_8f3k9mp2
                 
                 print("trip ID created: \(tripId)")
                 completion(tripId)
@@ -241,7 +222,7 @@ class FirebaseManager {
     /// Updates the last known location in Firestore.
     ///
     /// Writes to `c-lastKnownLocation` only — does not rewrite the full document.
-    /// Called by `LocationManager` every 2km moved or every 1 hour, whichever comes first.
+    /// Called by `TripSessionManager` every 2km moved or every 30 minutes, whichever comes first.
     ///
     /// - Parameters:
     ///   - tripId: The Firebase trip ID to update.
@@ -281,16 +262,45 @@ class FirebaseManager {
             }
         }
     }
+
+    // MARK: - Update Return Time
+    /// Updates the trip's return time in Firestore.
+    /// Called when the user edits the return time from ActiveTripCardView during an active trip.
+    ///
+    /// - Parameters:
+    ///   - tripId: The Firebase trip ID to update.
+    ///   - returnTime: The new return time selected by the user.
+    ///   - onSuccess: Called when the Firestore write succeeds.
+    ///   - onFailure: Called when the Firestore write fails (e.g. offline).
+    func updateReturnTime(
+        tripId: String,
+        returnTime: Date,
+        onSuccess: (() -> Void)? = nil,
+        onFailure: (() -> Void)? = nil
+    ) {
+        db.collection("trips").document(tripId).updateData([
+            "e-tripInfo.returnTime": returnTime.timeIntervalSince1970,
+            "e-tripInfo.returnTimeReadable": formatDate(returnTime)
+        ]) { error in
+            if error == nil {
+                print("return time updated — \(tripId)")
+                onSuccess?()
+            } else {
+                print("failed to update return time: \(error!.localizedDescription)")
+                onFailure?()
+            }
+        }
+    }
     
     // MARK: - End Trip
     /// Marks a trip as completed in Firestore.
     ///
-    /// Updates `a-status` to `"completed"` only — does not modify any other fields.
+    /// Updates `b-status` to `"completed"` only — does not modify any other fields.
     ///
     /// - Parameter tripId: The Firebase trip ID to mark as completed.
     func endTrip(tripId: String) {
         db.collection("trips").document(tripId).updateData([
-            "a-status": "completed"
+            "b-status": "completed"
         ]) { error in
             if error == nil {
                 print("trip ended")
@@ -299,15 +309,30 @@ class FirebaseManager {
             }
         }
     }
-    
+
+    // MARK: - Send Overdue Alert
+    /// Marks the trip as overdue in Firestore — triggers the Cloud Function to send SMS alerts.
+    ///
+    /// Updates `b-status` to `"overdue"` only.
+    /// The Cloud Function listens to this field change and handles SMS delivery.
+    ///
+    /// - Parameter tripId: The Firebase trip ID to mark as overdue.
+    func sendOverdueAlert(tripId: String) {
+        db.collection("trips").document(tripId).updateData([
+            "b-status": "overdue"
+        ]) { error in
+            if error == nil {
+                print("overdue alert triggered — \(tripId)")
+            } else {
+                print("failed to trigger overdue alert: \(error!.localizedDescription)")
+            }
+        }
+    }
 
     // MARK: - Update Alert Status
-    /// Marks the alert as sent — called by Cloud Function after SMS is delivered.
-    ///
-    /// Updates `h-alertStatus` in Firestore.
-    /// - Parameters:
-    ///   - tripId: The Firebase trip ID to update.
-    ///   - sentAt: The timestamp when the alert was sent.
+    /// Marks the alert as sent.
+    /// NOTE: This should normally be updated by the Cloud Function after SMS delivery,
+    /// not by the iOS app directly.
     func updateAlertStatus(tripId: String, sentAt: Date) {
         db.collection("trips").document(tripId).updateData([
             "h-alertStatus": [
@@ -326,59 +351,62 @@ class FirebaseManager {
 
     // MARK: - App Update Config
 
-        func fetchAppUpdateConfig() async throws -> AppUpdateConfig {
+    func fetchAppUpdateConfig() async throws -> AppUpdateConfig {
+        let doc = try await db
+            .collection("remoteConfig")
+            .document("appUpdate")
+            .getDocument()
 
-            let doc = try await db
+        let data = doc.data() ?? [:]
 
-                .collection("remoteConfig")
+        return AppUpdateConfig(
+            minimumVersion: data["minimumVersion"] as? String ?? "1.0.0",
+            message: data["message"] as? String ?? "Please update the app to continue.",
+            appStoreURL: data["appStoreURL"] as? String ?? ""
+        )
+    }
 
-                .document("appUpdate")
+    // MARK: - Fetch Alert Status
+    /// Reads the alert status from Firebase.
+    /// Firebase/server is the source of truth for whether the SMS alert was actually sent.
 
-                .getDocument()
+    func fetchAlertStatus(
+        tripId: String,
+        completion: @escaping (Bool) -> Void
+    ) {
+        db.collection("trips").document(tripId).getDocument { document, error in
 
-            let data = doc.data() ?? [:]
+            if let error {
+                print("failed to fetch alert status: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
 
-            return AppUpdateConfig(
+            let data = document?.data()
+            let alertStatus = data?["h-alertStatus"] as? [String: Any]
+            let alertSent = alertStatus?["alertSent"] as? Bool ?? false
 
-                minimumVersion: data["minimumVersion"] as? String ?? "1.0.0",
-
-                message: data["message"] as? String
-
-                    ?? "Please update the app to continue.",
-
-                appStoreURL: data["appStoreURL"] as? String ?? ""
-
-            )
-
+            completion(alertSent)
         }
+    }
+    
+    // MARK: - Maintenance Config
 
-        // MARK: - Maintenance Config
+    func fetchMaintenanceConfig() async throws -> MaintenanceConfig {
+        let doc = try await db
+            .collection("remoteConfig")
+            .document("maintenance")
+            .getDocument()
 
-        func fetchMaintenanceConfig() async throws -> MaintenanceConfig {
+        let data = doc.data() ?? [:]
 
-            let doc = try await db
+        return MaintenanceConfig(
+            isEnabled: data["isEnabled"] as? Bool ?? false,
+            title: data["title"] as? String ?? "Maintenance Mode",
+            message: data["message"] as? String ?? "Desert is currently under maintenance."
+        )
+    }
 
-                .collection("remoteConfig")
-
-                .document("maintenance")
-
-                .getDocument()
-
-            let data = doc.data() ?? [:]
-
-            return MaintenanceConfig(
-
-                isEnabled: data["isEnabled"] as? Bool ?? false,
-
-                title: data["title"] as? String ?? "Maintenance Mode",
-
-                message: data["message"] as? String
-
-                    ?? "Desert is currently under maintenance."
-
-            )
-
-        }
     // MARK: - Format Date
     /// Converts a `Date` to a human-readable string for the Firebase console.
     ///

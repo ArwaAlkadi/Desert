@@ -3,4 +3,4 @@
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "The app requires always-on location access to continue tracking your trip in the background and share your last known location with emergency contacts when needed.";
 
 "NSUserNotificationsUsageDescription" = "The app uses notifications to send safety alerts and trip-related reminders.";
-4
+

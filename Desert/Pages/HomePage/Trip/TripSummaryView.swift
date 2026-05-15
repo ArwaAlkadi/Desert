@@ -9,7 +9,7 @@ import Network
 
 struct TripSummaryView: View {
 
-    @ObservedObject var vm: HomePageTripsViewModel
+    @ObservedObject var vm: TripsViewModel
     var isRepeat: Bool = false
     var onTripStarted: () -> Void
 
@@ -231,7 +231,7 @@ struct RepeatTripSummaryView: View {
     var onTripStarted: () -> Void
 
     @Environment(\.modelContext) private var context
-    @StateObject private var vm = HomePageTripsViewModel()
+    @StateObject private var vm = TripsViewModel()
 
     @State private var returnTimeChanged = false
     @State private var originalReturnTime: Date = Date()

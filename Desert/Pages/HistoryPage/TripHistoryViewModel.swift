@@ -26,6 +26,12 @@ class TripHistoryViewModel: ObservableObject {
         selectedTrips.removeAll()
     }
 
+    /// Deletes a single trip and saves the context.
+    func deleteTrip(_ trip: Trip, context: ModelContext) {
+        context.delete(trip)
+        try? context.save()
+    }
+
     // MARK: - Formatting
 
     /// Returns a readable date range string, e.g. "4 May — 5 May".

@@ -1,5 +1,5 @@
 /* App */
-"app_name" = "ديزرت";
+"app_name" = "سهيل";
 "onboarding_subtitle" = "رفيقك للسلامة في البرية";
 "get_started" = "ابدأ";
 
@@ -76,6 +76,7 @@
 
 /* Active Trip Card */
 "active" = "نشطة";
+"overdue" = "متأخرة";
 "last_upload" = "آخر رفع";
 "not_yet" = "لم يتم بعد";
 "uploaded" = "تم الرفع";
@@ -83,6 +84,9 @@
 "gps_points" = "%d نقطة GPS";
 "emergency" = "الطوارئ";
 "im_back_safely" = "عدت بسلام";
+"save" = "حفظ";
+"pending_upload" = "في الانتظار";
+"no_connection" = "لا يوجد اتصال";
 
 /* History */
 "history_title" = "السجل";
@@ -116,4 +120,14 @@
 /* Destination Picker */
 "select_destination" = "اختر الوجهة";
 "confirm_destination" = "تأكيد الوجهة";
+
+/* Local Notifications */
+"notification_return_time_title" = "حان وقت العودة";
+"notification_return_time_body" = "لقد حان وقت عودتك المتوقع. يرجى تأكيد سلامتك.";
+"notification_no_signal_title" = "لا توجد إشارة";
+"notification_no_signal_body" = "يبدو أنك خارج نطاق التغطية. ابقَ بالقرب من سيارتك.";
+"notification_safety_reminder_title" = "تذكير بالسلامة";
+"notification_safety_reminder_body" = "ابقَ هادئاً وظاهراً. من الأسهل إيجادك بالقرب من سيارتك.";
+"notification_stay_vehicle_title" = "ابقَ مع سيارتك";
+"notification_stay_vehicle_body" = "لا تبتعد. فرق الإنقاذ تبحث على طول المسارات المعروفة أولاً.";
 

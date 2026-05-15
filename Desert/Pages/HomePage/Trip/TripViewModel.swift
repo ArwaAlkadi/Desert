@@ -1,5 +1,5 @@
 //
-//  HomePageTripsViewModel.swift
+//  TripsViewModel.swift
 //  Desert
 //
 
@@ -9,7 +9,7 @@ import CoreLocation
 import Contacts
 import Combine
 
-class HomePageTripsViewModel: ObservableObject {
+class TripsViewModel: ObservableObject {
 
     // MARK: - Form Fields
 
@@ -39,6 +39,8 @@ class HomePageTripsViewModel: ObservableObject {
     @Published var locationAlertTitle = ""
     @Published var locationAlertMessage = ""
     @Published var showErrors = false
+    @Published var showContactError = false
+    @Published var contactErrorMessage = ""
 
     // MARK: - Validation
 
@@ -48,6 +50,13 @@ class HomePageTripsViewModel: ObservableObject {
     var returnTimeIsValid: Bool { returnTime > Date() }
     var emergencyContactsIsValid: Bool { !emergencyContacts.isEmpty }
 
+    let saudiPlateLetters: [(ar: String, en: String)] = [
+        ("أ", "A"), ("ب", "B"), ("ح", "J"), ("د", "D"),
+        ("ر", "R"), ("س", "S"), ("ص", "X"), ("ط", "T"),
+        ("ع", "E"), ("ق", "G"), ("ك", "K"), ("ل", "L"),
+        ("م", "Z"), ("ن", "N"), ("هـ", "H"), ("و", "U"), ("ى", "V")
+    ]
+    
     var formIsValid: Bool {
         destinationIsValid &&
         userNameIsValid &&
@@ -59,7 +68,7 @@ class HomePageTripsViewModel: ObservableObject {
 
 // MARK: - Load Data
 
-extension HomePageTripsViewModel {
+extension TripsViewModel {
 
     func loadSavedInfo(_ savedInfo: SavedInfo?) {
         guard let saved = savedInfo else { return }
@@ -110,34 +119,68 @@ extension HomePageTripsViewModel {
 
 // MARK: - Contacts
 
-extension HomePageTripsViewModel {
+extension TripsViewModel {
 
     func importEmergencyContact(_ contact: CNContact) {
+
+        guard let email = contact.emailAddresses.first?.value as String?,
+              !email.isEmpty else {
+
+            contactErrorMessage = "contact_phone_invalid".localized
+            showContactError = true
+            return
+        }
+
+        showContactError = false
+
         emergencyContacts.append(Contact(
             name: "\(contact.givenName) \(contact.familyName)",
-            phone: contact.phoneNumbers.first?.value.stringValue ?? ""
+            phone: email
         ))
     }
 
     func importGroupContact(_ contact: CNContact) {
+
+        guard let email = contact.emailAddresses.first?.value as String?,
+              !email.isEmpty else {
+
+            contactErrorMessage = "contact_phone_invalid".localized
+            showContactError = true
+            return
+        }
+
+        showContactError = false
+
         groupContacts.append(Contact(
             name: "\(contact.givenName) \(contact.familyName)",
-            phone: contact.phoneNumbers.first?.value.stringValue ?? ""
+            phone: email
         ))
     }
 
-    func removeEmergencyContact(at offsets: IndexSet) {
-        emergencyContacts.remove(atOffsets: offsets)
-    }
+    private func formatSaudiPhone(_ rawPhone: String?) -> String? {
+        guard let rawPhone, !rawPhone.isEmpty else { return nil }
 
-    func removeGroupContact(at offsets: IndexSet) {
-        groupContacts.remove(atOffsets: offsets)
+        let digits = rawPhone.filter { $0.isNumber }
+
+        if digits.hasPrefix("966"), digits.count == 12 {
+            return "+\(digits)"
+        }
+
+        if digits.hasPrefix("05"), digits.count == 10 {
+            return "+966\(digits.dropFirst())"
+        }
+
+        if digits.hasPrefix("5"), digits.count == 9 {
+            return "+966\(digits)"
+        }
+
+        return nil
     }
 }
 
 // MARK: - Start Trip
 
-extension HomePageTripsViewModel {
+extension TripsViewModel {
 
     @discardableResult
     func startTrip(context: ModelContext) -> Bool {

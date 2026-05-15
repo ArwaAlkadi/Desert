@@ -2,86 +2,54 @@
 //  NotificationsManager.swift
 //  Desert
 //
-//  Created by Arwa Alkadi on 06/05/2026.
+//  Manages all local notifications for active desert trips.
+//
+//  Responsibilities:
+//  1. Requesting notification permission (called once from HomeViewModel.onAppear)
+//  2. Scheduling safety reminders when Firebase upload fails and trip is overdue
+//  3. Cancelling all notifications when a trip ends or upload succeeds
+//  4. Showing notifications even when the app is in the foreground
+//
+//  Notification schedule (when offline and overdue):
+//  - 5 min:  "No Signal Detected"
+//  - 30 min: "Safety Reminder"
+//  - 60 min: "Stay With Your Vehicle"
 //
 
 import Foundation
 import UserNotifications
 import Combine
 
-/// Manages all local notifications for active desert trips.
-///
-/// ## Summary
-/// - No server required — all notifications are local via `UNUserNotificationCenter`
-/// - Offline notifications fire when Firebase upload fails and no network is detected
-///
-/// ## Responsibilities
-/// 1. Requesting notification permission from the user
-/// 2. Scheduling safety reminders based on trip return time
-/// 3. Scheduling emergency notifications when device has no network
-/// 4. Cancelling all notifications when a trip ends or network is restored
-/// 5. Showing notifications even when the app is in the foreground
-///
-/// ## Usage
-/// ```swift
-/// // 1. Request permission during onboarding
-/// NotificationsManager.shared.requestPermission()
-///
-/// // 2. Schedule offline notifications when network is lost
-/// NotificationsManager.shared.scheduleOfflineNotifications(returnTime: trip.returnTime)
-///
-/// // 3. Cancel all when trip ends or network is restored
-/// NotificationsManager.shared.cancelAllNotifications()
-/// ```
-///
-/// - Important: Always call ``requestPermission()`` during onboarding before
-///   scheduling any notifications.
 class NotificationsManager: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
-    
-    /// Shared singleton — use this throughout the app.
+
     static let shared = NotificationsManager()
-    
+
     /// Whether the user has granted notification permission.
-    ///
-    /// Observe this to update the UI if notifications are denied.
     @Published var isAuthorized: Bool = false
-    
+
     override init() {
         super.init()
-        // set delegate so notifications show while app is open
+        // Show notifications even when app is in foreground
         UNUserNotificationCenter.current().delegate = self
     }
-    
+
     // MARK: - Request Permission
     /// Requests notification permission from the user.
-    ///
-    /// Asks for `.alert` and `.sound` permissions.
-    /// Updates ``isAuthorized`` on the main thread when the user responds.
-    ///
-    /// - Note: Call this once during onboarding. The system dialog only
-    ///   appears once — subsequent calls are ignored by iOS.
+    /// Called once from HomeViewModel.onAppear on the second app visit.
+    /// Subsequent calls are ignored by iOS if permission was already decided.
     func requestPermission() {
         UNUserNotificationCenter.current().requestAuthorization(
             options: [.alert, .sound]
         ) { granted, _ in
             DispatchQueue.main.async {
                 self.isAuthorized = granted
-                print("Notifications authorized: \(granted)")
+                print("NotificationsManager: permission granted = \(granted)")
             }
         }
     }
-    
+
     // MARK: - Foreground Presentation
     /// Allows notifications to appear while the app is in the foreground.
-    ///
-    /// Without this delegate method, `UNUserNotificationCenter` suppresses
-    /// all notifications when the app is active. This override ensures
-    /// banners and sounds play regardless of app state.
-    ///
-    /// - Parameters:
-    ///   - center: The notification center handling the notification.
-    ///   - notification: The notification about to be presented.
-    ///   - completionHandler: Call with the desired presentation options.
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
@@ -89,122 +57,103 @@ class NotificationsManager: NSObject, ObservableObject, UNUserNotificationCenter
     ) {
         completionHandler([.banner, .sound])
     }
-    
-    // MARK: - Schedule Offline Notifications
-    /// Schedules a series of safety reminder notifications when the device has no network.
+
+    // MARK: - Schedule Return Time Reminder
+    /// Schedules a notification at the trip's return time.
+    /// Called when a trip starts — iOS fires it automatically at the right time.
+    /// Cancelled when the trip ends normally or the user updates the return time.
+    func scheduleReturnTimeReminder(returnTime: Date) {
+        guard returnTime > Date() else { return }
+
+        scheduleNotification(
+            title: "notification_return_time_title".localized,
+            body:  "notification_return_time_body".localized,
+            date:  returnTime
+        )
+
+        print("NotificationsManager: return time reminder scheduled for \(returnTime)")
+    }
+
+    // MARK: - Schedule Overdue Notifications
+    /// Schedules escalating safety reminders when a trip becomes overdue.
     ///
-    /// Called when a Firebase location upload fails due to no connectivity,
-    /// and the trip's return time has already passed. Fires three escalating
-    /// reminders at 5 minutes, 30 minutes, and 60 minutes from now.
+    /// Called by TripSessionManager in two cases:
+    /// 1. checkIfOverdue() — timer detects return time has passed
+    /// 2. uploadLocationToCloud() onFailure — upload fails and trip is overdue
     ///
-    /// Cancels any previously scheduled notifications before scheduling new ones
-    /// to avoid duplicates.
-    ///
-    /// - Parameter returnTime: The expected return time of the active trip.
-    ///   Notifications are only scheduled if the current time has passed this value.
-    ///
-    /// - Note: If the return time has not yet passed, this method exits early
-    ///   and no notifications are scheduled.
-    ///
-    /// ## Notification Schedule
-    /// | Delay | Title | Purpose |
-    /// | ----- | ----- | ------- |
-    /// | 5 min | No Signal Detected | Initial alert |
-    /// | 30 min | Safety Reminder | Encourage staying near vehicle |
-    /// | 60 min | Stay With Your Vehicle | Critical safety guidance |
-    func scheduleOfflineNotifications(returnTime: Date) {
+    /// Cancels existing notifications before scheduling new ones to avoid duplicates.
+    func scheduleOverdueNotifications() {
         cancelAllNotifications()
-        
+
         let now = Date()
-        
-        guard now >= returnTime else {
-            print("Return time not reached — offline notifications skipped")
-            return
-        }
-        
-        let notifications: [(title: String, body: String, delay: TimeInterval)] = [
+
+        let schedule: [(titleKey: String, bodyKey: String, delay: TimeInterval)] = [
             (
-                title: "No Signal Detected",
-                body: "You appear to be out of range. Stay near your vehicle.",
-                delay: 60 * 5
+                titleKey: "notification_no_signal_title",
+                bodyKey:  "notification_no_signal_body",
+                delay:    60 * 5
             ),
             (
-                title: "Safety Reminder",
-                body: "Stay calm and remain visible. Help is easier to find near your vehicle.",
-                delay: 60 * 30
+                titleKey: "notification_safety_reminder_title",
+                bodyKey:  "notification_safety_reminder_body",
+                delay:    60 * 30
             ),
             (
-                title: "Stay With Your Vehicle",
-                body: "Do not wander. Rescuers search along known routes first.",
-                delay: 60 * 60
+                titleKey: "notification_stay_vehicle_title",
+                bodyKey:  "notification_stay_vehicle_body",
+                delay:    60 * 60
             )
         ]
-        
-        for notification in notifications {
-            let fireDate = now.addingTimeInterval(notification.delay)
+
+        for item in schedule {
             scheduleNotification(
-                title: notification.title,
-                body: notification.body,
-                date: fireDate
+                title: item.titleKey.localized,
+                body:  item.bodyKey.localized,
+                date:  now.addingTimeInterval(item.delay)
             )
         }
-        
-        print("Offline emergency notifications scheduled")
+
+        print("NotificationsManager: overdue notifications scheduled")
     }
-    
+
     // MARK: - Cancel All Notifications
     /// Cancels all pending local notifications.
     ///
     /// Called when:
-    /// - The trip ends normally — user taps "I'm Back Safely"
-    /// - Network connectivity is restored and Firebase upload succeeds
-    ///
-    /// - Note: This only cancels **pending** notifications.
-    ///   Notifications already delivered to the notification center are not removed.
+    /// - Trip ends normally ("I'm Back Safely")
+    /// - Firebase upload succeeds (network restored)
     func cancelAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        print("All notifications cancelled")
+        print("NotificationsManager: all notifications cancelled")
     }
-    
+
     // MARK: - Schedule Single Notification
-    /// Schedules a single local notification at a specific date and time.
-    ///
-    /// Internal helper used by ``scheduleOfflineNotifications(returnTime:)``.
-    /// Creates a `UNCalendarNotificationTrigger` from the given date and
-    /// registers it with `UNUserNotificationCenter`.
-    ///
-    /// Each notification is assigned a unique `UUID` identifier so multiple
-    /// notifications can coexist without overwriting each other.
-    ///
-    /// - Parameters:
-    ///   - title: The notification title shown in bold.
-    ///   - body: The notification body shown below the title.
-    ///   - date: The exact date and time to fire the notification.
+    /// Internal helper — schedules one notification at a specific date.
     private func scheduleNotification(title: String, body: String, date: Date) {
         let content = UNMutableNotificationContent()
         content.title = title
-        content.body = body
+        content.body  = body
         content.sound = .default
-        
+
         let components = Calendar.current.dateComponents(
             [.year, .month, .day, .hour, .minute],
             from: date
         )
-        
+
         let trigger = UNCalendarNotificationTrigger(
             dateMatching: components,
             repeats: false
         )
-        
+
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
             content: content,
             trigger: trigger
         )
-        
+
         UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Failed to schedule notification: \(error.localizedDescription)")
+            if let error {
+                print("NotificationsManager: failed to schedule — \(error.localizedDescription)")
             }
         }
     }

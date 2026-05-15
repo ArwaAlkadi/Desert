@@ -41,6 +41,7 @@
 		ECCD9F402FB7A26A00E2B5B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ECCD9F3E2FB7A26A00E2B5B9 /* Localizable.strings */; };
 		ECCD9F432FB7B79F00E2B5B9 /* MaintenanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9F422FB7B79F00E2B5B9 /* MaintenanceView.swift */; };
 		ECCD9F832FB7CB0C00E2B5B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ECCD9F812FB7CB0C00E2B5B9 /* InfoPlist.strings */; };
+		ECCD9F862FB7E6FA00E2B5B9 /* TripSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9F852FB7E6FA00E2B5B9 /* TripSessionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		ECCD9F422FB7B79F00E2B5B9 /* MaintenanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceView.swift; sourceTree = "<group>"; };
 		ECCD9F822FB7CB0C00E2B5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ECCD9F842FB7CB2700E2B5B9 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		ECCD9F852FB7E6FA00E2B5B9 /* TripSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSessionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 				EC309FEA2FABDC58003E343E /* LocationManager.swift */,
 				EC309FEB2FABDC58003E343E /* NotificationsManager.swift */,
 				EC309FE92FABDC58003E343E /* FirebaseManager.swift */,
+				ECCD9F852FB7E6FA00E2B5B9 /* TripSessionManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				ECCD9EB72FB7846400E2B5B9 /* TripViewModel.swift in Sources */,
 				EC309FED2FABDC58003E343E /* FirebaseManager.swift in Sources */,
 				EC309FEE2FABDC58003E343E /* LocationManager.swift in Sources */,
+				ECCD9F862FB7E6FA00E2B5B9 /* TripSessionManager.swift in Sources */,
 				EC309FEF2FABDC58003E343E /* NotificationsManager.swift in Sources */,
 				ECCD9EB02FB7843F00E2B5B9 /* TripSummaryView.swift in Sources */,
 				EC309FB02F97FE92003E343E /* TripHistoryView.swift in Sources */,

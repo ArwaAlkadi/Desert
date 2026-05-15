@@ -76,6 +76,7 @@
 
 /* Active Trip Card */
 "active" = "Active";
+"overdue" = "Overdue";
 "last_upload" = "Last Upload";
 "not_yet" = "Not yet";
 "uploaded" = "Uploaded";
@@ -83,6 +84,9 @@
 "gps_points" = "%d GPS points";
 "emergency" = "Emergency";
 "im_back_safely" = "I'm Back Safely";
+"save" = "Save";
+"pending_upload" = "Pending";
+"no_connection" = "No connection";
 
 /* History */
 "history_title" = "History";
@@ -116,4 +120,14 @@
 /* Destination Picker */
 "select_destination" = "Select Destination";
 "confirm_destination" = "Confirm Destination";
+
+/* Local Notifications */
+"notification_return_time_title" = "Time to Head Back";
+"notification_return_time_body" = "Your expected return time has been reached. Please confirm your safety.";
+"notification_no_signal_title" = "No Signal Detected";
+"notification_no_signal_body" = "You appear to be out of range. Stay near your vehicle.";
+"notification_safety_reminder_title" = "Safety Reminder";
+"notification_safety_reminder_body" = "Stay calm and remain visible. Help is easier to find near your vehicle.";
+"notification_stay_vehicle_title" = "Stay With Your Vehicle";
+"notification_stay_vehicle_body" = "Do not wander. Rescuers search along known routes first.";
 

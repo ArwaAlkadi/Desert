@@ -40,13 +40,15 @@ struct CreateTripView: View {
     @Environment(\.dismiss) private var dismiss
 
     @Query var savedInfo: [SavedInfo]
-    @StateObject private var vm = HomePageTripsViewModel()
+    @StateObject private var vm = TripsViewModel()
 
     @State private var currentStep = 0
     @State private var showSummary = false
     @State private var initialSummaryShown = false
     @State private var showExitAlert = false
 
+    @FocusState private var focusedPlateNumber: Int?
+    
     private let totalSteps = 3
     var stepTitles: [String] {
         [
@@ -223,7 +225,7 @@ extension CreateTripView {
             VStack(alignment: .leading, spacing: 24) {
 
                 FieldSection(title: "trip_name") {
-                    TextField("trip_name_placeholder".localized, text: $vm.tripName)
+                    TextField(defaultTripName(), text: $vm.tripName)
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
@@ -347,16 +349,27 @@ extension CreateTripView {
                         ForEach(vm.emergencyContacts, id: \.name) { contact in
                             ContactRow(contact: contact)
                         }
+
                         if vm.emergencyContacts.count < 3 {
                             AddContactButton { vm.showEmergencyContactPicker = true }
                         }
+
+                        if vm.showContactError {
+                            Text(vm.contactErrorMessage)
+                                .font(.caption)
+                                .foregroundColor(.red)
+                        }
+
                         if vm.emergencyContacts.count >= 3 {
                             Text("max_contacts_reached".localized)
-                                .font(.caption).foregroundColor(.secondary)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
+
                         if vm.showErrors && !vm.emergencyContactsIsValid {
                             Text("emergency_contact_required".localized)
-                                .font(.caption).foregroundColor(.red)
+                                .font(.caption)
+                                .foregroundColor(.red)
                         }
                     }
                 }
@@ -407,14 +420,27 @@ extension CreateTripView {
                 }
 
                 FieldSection(title: "plate_info") {
-                    VStack(spacing: 8) {
-                        // 3 letter pickers for Arabic plate letters
+                    VStack(spacing: 10) {
+
                         HStack(spacing: 8) {
-                            ForEach(0..<3, id: \.self) { _ in LetterPicker() }
+                            ForEach(0..<3, id: \.self) { index in
+                                PlateLetterPicker(
+                                    selectedLetters: $vm.plateLetters,
+                                    index: index,
+                                    letters: vm.saudiPlateLetters,
+                                    isArabic: layoutDirection == .rightToLeft
+                                )
+                            }
                         }
-                        // 4 number boxes for plate digits
+
                         HStack(spacing: 8) {
-                            ForEach(0..<4, id: \.self) { _ in NumberBox() }
+                            ForEach(0..<4, id: \.self) { index in
+                                PlateNumberInput(
+                                    numbers: $vm.plateNumbers,
+                                    index: index,
+                                    focusedIndex: $focusedPlateNumber
+                                )
+                            }
                         }
                     }
                     .padding()
@@ -430,5 +456,12 @@ extension CreateTripView {
         let f = DateFormatter()
         f.dateFormat = "d MMM, h:mm a"
         return f.string(from: date)
+    }
+    
+    func defaultTripName() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMM"
+
+        return "\(formatter.string(from: Date())) Trip"
     }
 }

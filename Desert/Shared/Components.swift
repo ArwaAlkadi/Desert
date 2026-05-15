@@ -85,6 +85,7 @@ struct ContactRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(contact.name).font(.subheadline)
                 Text(contact.phone).font(.caption).foregroundColor(.secondary)
+                
             }
             Spacer()
         }
@@ -622,5 +623,125 @@ struct ToastNotification: View {
         .cornerRadius(14)
         .shadow(radius: 6)
         .padding(.horizontal)
+    }
+}
+
+
+// MARK: - Plate Number Input
+
+struct PlateNumberInput: View {
+
+    @Binding var numbers: String
+    let index: Int
+    var focusedIndex: FocusState<Int?>.Binding
+
+    var body: some View {
+        TextField("", text: digitBinding)
+            .keyboardType(.numberPad)
+            .multilineTextAlignment(.center)
+            .font(.title3)
+            .frame(width: 40, height: 40)
+            .background(Color(.systemBackground))
+            .cornerRadius(16)
+            .focused(focusedIndex, equals: index)
+    }
+
+    private var digitBinding: Binding<String> {
+        Binding(
+            get: {
+                let chars = Array(numbers)
+                return index < chars.count ? String(chars[index]) : ""
+            },
+            set: { newValue in
+                let digit = newValue.filter { $0.isNumber }.prefix(1)
+                guard let first = digit.first else { return }
+
+                var chars = Array(numbers)
+                while chars.count < 4 {
+                    chars.append(" ")
+                }
+
+                chars[index] = first
+                numbers = String(chars).replacingOccurrences(of: " ", with: "")
+
+                if index < 3 {
+                    focusedIndex.wrappedValue = index + 1
+                } else {
+                    focusedIndex.wrappedValue = nil
+                }
+            }
+        )
+    }
+}
+
+// MARK: - Plate Letter Input
+
+struct PlateLetterPicker: View {
+
+    @Binding var selectedLetters: String
+
+    let index: Int
+    let letters: [(ar: String, en: String)]
+    let isArabic: Bool
+
+    var body: some View {
+
+        Menu {
+
+            ForEach(letters, id: \.ar) { letter in
+
+                Button {
+
+                    updateLetter(
+                        isArabic ? letter.ar : letter.en
+                    )
+
+                } label: {
+
+                    Text(
+                        isArabic
+                        ? "\(letter.ar) - \(letter.en)"
+                        : "\(letter.en) - \(letter.ar)"
+                    )
+                }
+            }
+
+        } label: {
+
+            ZStack {
+
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(.systemBackground))
+
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color(.systemGray4))
+
+                Text(currentLetter)
+                    .font(.title3)
+                    .foregroundColor(.primary)
+            }
+            .frame(width: 90, height: 40)
+        }
+    }
+
+    private var currentLetter: String {
+
+        guard selectedLetters.count > index else { return "-" }
+
+        return String(Array(selectedLetters)[index])
+    }
+
+    private func updateLetter(_ value: String) {
+
+        var chars = Array(selectedLetters)
+
+        while chars.count < 3 {
+            chars.append(" ")
+        }
+
+        chars[index] = Character(value)
+
+        selectedLetters = String(chars)
+            .replacingOccurrences(of: " ", with: "")
     }
 }

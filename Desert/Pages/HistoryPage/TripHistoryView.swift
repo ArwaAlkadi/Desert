@@ -123,6 +123,6 @@ struct TripHistoryView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Color(UIColor.systemGroupedBackground))
-        .padding(.bottom, 100)
+        .padding(.bottom, 50)
     }
 }

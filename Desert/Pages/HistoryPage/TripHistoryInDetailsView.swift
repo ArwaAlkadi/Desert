@@ -14,6 +14,8 @@ struct TripHistoryInDetailsView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
 
+    @StateObject private var vm = TripHistoryViewModel()
+
     @State private var showRepeatTrip = false
     @State private var showFullMap = false
     @State private var showDeleteAlert = false
@@ -189,8 +191,8 @@ struct TripHistoryInDetailsView: View {
             Button("cancel".localized, role: .cancel) { }
 
             Button("delete".localized, role: .destructive) {
-                context.delete(trip)
-                try? context.save()
+                // Routed through TripHistoryViewModel — not SwiftData directly
+                vm.deleteTrip(trip, context: context)
                 dismiss()
             }
         } message: {
