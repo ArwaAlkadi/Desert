@@ -18,7 +18,6 @@ struct OnboardingViewModel {
     /// Completes onboarding: requests When In Use location permission
     /// and marks first launch as done in SwiftData.
     func completeOnboarding(context: ModelContext) {
-        LocationManager.shared.requestLocationPermission()
         markOnboardingComplete(context: context)
     }
 
