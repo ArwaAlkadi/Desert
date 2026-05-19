@@ -310,44 +310,6 @@ class FirebaseManager {
         }
     }
 
-    // MARK: - Send Overdue Alert
-    /// Marks the trip as overdue in Firestore — triggers the Cloud Function to send SMS alerts.
-    ///
-    /// Updates `b-status` to `"overdue"` only.
-    /// The Cloud Function listens to this field change and handles SMS delivery.
-    ///
-    /// - Parameter tripId: The Firebase trip ID to mark as overdue.
-    func sendOverdueAlert(tripId: String) {
-        db.collection("trips").document(tripId).updateData([
-            "b-status": "overdue"
-        ]) { error in
-            if error == nil {
-                print("overdue alert triggered — \(tripId)")
-            } else {
-                print("failed to trigger overdue alert: \(error!.localizedDescription)")
-            }
-        }
-    }
-
-    // MARK: - Update Alert Status
-    /// Marks the alert as sent.
-    /// NOTE: This should normally be updated by the Cloud Function after SMS delivery,
-    /// not by the iOS app directly.
-    func updateAlertStatus(tripId: String, sentAt: Date) {
-        db.collection("trips").document(tripId).updateData([
-            "h-alertStatus": [
-                "alertSent": true,
-                "alertSentAt": sentAt.timeIntervalSince1970,
-                "alertSentAtReadable": formatDate(sentAt)
-            ]
-        ]) { error in
-            if error == nil {
-                print("alert status updated")
-            } else {
-                print("failed to update alert status: \(error!.localizedDescription)")
-            }
-        }
-    }
 
     // MARK: - App Update Config
 
