@@ -59,7 +59,24 @@ class TripSessionManager: NSObject, ObservableObject {
     private let firebase = FirebaseManager.shared
 
     /// Fires every 60 seconds to check overdue status and location context.
-    private var overdueTimer: Timer?
+    private var overdueTimer: DispatchSourceTimer?
+    private var uploadTimer: DispatchSourceTimer?
+
+    private func startUploadTimer(context: ModelContext) {
+        uploadTimer?.cancel()
+        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+        timer.schedule(deadline: .now() + (30 * 60), repeating: 30 * 60)
+        timer.setEventHandler { [weak self] in
+            guard let self else { return }
+            guard let context = self.activeModelContext else { return }
+            guard let trip = self.fetchActiveTrip(context: context) else { return }
+            guard let lastLocation = self.locationManager.lastKnownLocation else { return }
+            self.uploadLocationToCloud(lastLocation, trip: trip, context: context)
+            print("TripSessionManager: periodic upload — stationary")
+        }
+        timer.resume()
+        uploadTimer = timer
+    }
 
     // MARK: - Start Trip
 
@@ -75,6 +92,7 @@ class TripSessionManager: NSObject, ObservableObject {
             notifications.scheduleReturnTimeReminder(returnTime: trip.returnTime)
             saveActiveTripToSettings(tripId: tripId, context: context)
             startOverdueTimer(context: context)
+            startUploadTimer(context: context)
 
             DispatchQueue.main.async { self.hasActiveTrip = true }
             print("TripSessionManager: trip started — \(tripId)")
@@ -91,6 +109,8 @@ class TripSessionManager: NSObject, ObservableObject {
         notifications.cancelAllNotifications()
         clearActiveTripFromSettings(context: context)
         stopOverdueTimer()
+        uploadTimer?.cancel()
+        uploadTimer = nil
 
         DispatchQueue.main.async { self.hasActiveTrip = false }
         print("TripSessionManager: trip finished — \(trip.tripId)")
@@ -109,6 +129,7 @@ class TripSessionManager: NSObject, ObservableObject {
 
         locationManager.resumeTrackingForTrip(settings.currentTripId)
         startOverdueTimer(context: context)
+        startUploadTimer(context: context)
 
         DispatchQueue.main.async { self.hasActiveTrip = true }
         print("TripSessionManager: session resumed — \(settings.currentTripId)")
@@ -129,16 +150,20 @@ class TripSessionManager: NSObject, ObservableObject {
     /// Acts only after return time has passed.
     private func startOverdueTimer(context: ModelContext) {
         stopOverdueTimer()
-        overdueTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+        timer.schedule(deadline: .now() + 60, repeating: 60)
+        timer.setEventHandler { [weak self] in
             self?.checkIfOverdue(context: context)
         }
+        timer.resume()
+        overdueTimer = timer
     }
 
     private func stopOverdueTimer() {
-        overdueTimer?.invalidate()
+        overdueTimer?.cancel()
         overdueTimer = nil
     }
-
+    
     // MARK: - Overdue Decision
 
     /// Runs every 60 seconds. Acts only after return time has passed.
