@@ -76,6 +76,7 @@ exports.checkOverdueTrips = onSchedule("every 5 minutes", async () => {
                     alertSentAt: now,
                     alertSentAtReadable: new Date().toLocaleString("ar-SA"),
                     updatedAlertSent: false,
+                    updatedAlertSentAt: 0,
                     reason: "return_time_passed_no_recent_upload"
                 }
             });
@@ -101,10 +102,16 @@ exports.onLocationUpdatedAfterOverdue = onDocumentUpdated("trips/{tripId}", asyn
     const newUploadTime = afterLocation.lastUploadTime ?? 0;
     const newUploadArrived = newUploadTime > oldUploadTime;
 
+    const now = Date.now() / 1000;
+
+    const lastUpdatedAt = alertStatus.updatedAlertSentAt ?? 0;
+    const thirtyMinutesPassed = now - lastUpdatedAt >= 30 * 60;
+
     if (status !== "overdue") return;
     if (!newUploadArrived) return;
     if (alertStatus.alertSent !== true) return;
-    if (alertStatus.updatedAlertSent === true) return;
+
+    if (alertStatus.updatedAlertSent === true && !thirtyMinutesPassed) return;
 
     const updateSentSuccessfully = await sendAlert({
         tripId,
@@ -119,7 +126,7 @@ exports.onLocationUpdatedAfterOverdue = onDocumentUpdated("trips/{tripId}", asyn
 
     await db.collection("trips").doc(tripId).update({
         "h-alertStatus.updatedAlertSent": true,
-        "h-alertStatus.updatedAlertSentAt": Date.now() / 1000,
+        "h-alertStatus.updatedAlertSentAt": now,
         "h-alertStatus.updatedAlertSentAtReadable": new Date().toLocaleString("ar-SA")
     });
 
@@ -141,7 +148,7 @@ async function sendAlert({ tripId, trip, type }) {
     const lat = location.lat;
     const lng = location.lng;
 
-    if (lat == null || lng == null) {
+    if (!lat || !lng || lat === "Unknown" || lng === "Unknown") {
         console.log(`No location available for ${tripId}, alert not sent`);
         return false;
     }
