@@ -15,6 +15,9 @@ const db = getFirestore();
 // WhatsApp server URL
 const WHATSAPP_SERVER = "https://suhail-whatsapp-production.up.railway.app";
 
+// WhatsApp API key — set via Firebase secret: WHATSAPP_API_KEY
+const WHATSAPP_API_KEY = process.env.WHATSAPP_API_KEY;
+
 // 35 minutes without any Firebase upload
 const NO_RECENT_UPLOAD_LIMIT = 35 * 60;
 
@@ -25,11 +28,10 @@ const DEBOUNCE_SECONDS = 2 * 60;
 const MAX_UPDATED_ALERTS = 3;
 
 // MARK: - Scheduled Trigger
-// Runs every 5 minutes.
-// Handles two responsibilities:
-// 1. Send initial overdue alert when no upload for 35 minutes after return time
-// 2. Send debounced updated alert when uploads arrive after overdue
-exports.checkOverdueTrips = onSchedule("every 5 minutes", async () => {
+exports.checkOverdueTrips = onSchedule({
+    schedule: "every 5 minutes",
+    secrets: ["WHATSAPP_API_KEY"]
+}, async () => {
     const now = Date.now() / 1000;
 
     const snapshot = await db
@@ -94,8 +96,6 @@ exports.checkOverdueTrips = onSchedule("every 5 minutes", async () => {
         }
 
         // Step 3: Send debounced updated alert
-        // Fires when a pending alert has been waiting for at least 2 minutes
-        // This ensures we always send the latest location after uploads settle
         const pendingAlertAt = alertStatus.pendingAlertAt ?? 0;
         const hasPendingAlert = pendingAlertAt > 0;
         const debounceElapsed = now - pendingAlertAt >= DEBOUNCE_SECONDS;
@@ -106,7 +106,6 @@ exports.checkOverdueTrips = onSchedule("every 5 minutes", async () => {
             const newCount = currentCount + 1;
             const shouldCompleteTrip = newCount >= MAX_UPDATED_ALERTS;
 
-            // Read latest trip data to get the most recent location
             const latestDoc = await db.collection("trips").doc(tripId).get();
             const latestTrip = latestDoc.data();
 
@@ -141,11 +140,10 @@ exports.checkOverdueTrips = onSchedule("every 5 minutes", async () => {
 });
 
 // MARK: - Location Update Trigger
-// Triggered on every Firestore document update.
-// When a new location upload arrives during an overdue trip,
-// sets pendingAlertAt to now — the scheduled function handles the actual sending
-// after the debounce period, ensuring the latest location is used.
-exports.onLocationUpdatedAfterOverdue = onDocumentUpdated("trips/{tripId}", async (event) => {
+exports.onLocationUpdatedAfterOverdue = onDocumentUpdated({
+    document: "trips/{tripId}",
+    secrets: ["WHATSAPP_API_KEY"]
+}, async (event) => {
     const before = event.data.before.data();
     const after = event.data.after.data();
 
@@ -169,7 +167,6 @@ exports.onLocationUpdatedAfterOverdue = onDocumentUpdated("trips/{tripId}", asyn
 
     const now = Date.now() / 1000;
 
-    // Set pending alert timestamp — scheduled function will send after debounce
     await db.collection("trips").doc(tripId).update({
         "h-alertStatus.pendingAlertAt": now
     });
@@ -253,6 +250,8 @@ ${lastUpload}${batteryLine}
             const response = await axios.post(`${WHATSAPP_SERVER}/send`, {
                 phone: contactPhone,
                 message
+            }, {
+                headers: { "x-api-key": WHATSAPP_API_KEY }
             });
 
             if (response.data?.success === true) {
