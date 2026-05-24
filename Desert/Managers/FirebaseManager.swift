@@ -253,8 +253,7 @@ class FirebaseManager {
         ]
         
         if let direction = direction {
-            location["direction"] = direction
-            location["directionReadable"] = readableDirection(from: direction)
+            location["direction"] = readableDirection(from: direction)
         }
         
         db.collection("trips").document(tripId).updateData([
