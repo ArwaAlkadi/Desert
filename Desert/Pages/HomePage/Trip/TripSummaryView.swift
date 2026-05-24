@@ -126,7 +126,6 @@ struct TripSummaryView: View {
                     )
                 }
 
-
                 Text("trip_safety_notice".localized)
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -140,7 +139,7 @@ struct TripSummaryView: View {
                     )
                     .cornerRadius(16)
                     .padding(.horizontal)
-                
+
                 if !isConnected {
                     Text("no_internet_connection".localized)
                         .font(.caption)
@@ -149,6 +148,9 @@ struct TripSummaryView: View {
                 }
 
                 Button(action: {
+                    // Prevent starting a new trip if one is already active
+                    guard !TripSessionManager.shared.hasActiveTrip else { return }
+
                     let started = vm.startTrip(context: context)
 
                     if started {
@@ -364,8 +366,6 @@ struct RepeatTripSummaryView: View {
                     }
                 }
 
-            
-
                 Text("trip_safety_notice".localized)
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -379,15 +379,18 @@ struct RepeatTripSummaryView: View {
                     )
                     .cornerRadius(16)
                     .padding(.horizontal)
-                
+
                 if !isConnected {
                     Text("no_internet_connection".localized)
                         .font(.caption)
                         .foregroundColor(.red)
                         .padding(.horizontal)
                 }
-                
+
                 Button(action: {
+                    // Prevent starting a new trip if one is already active
+                    guard !TripSessionManager.shared.hasActiveTrip else { return }
+
                     let started = vm.startTrip(context: context)
 
                     if started {

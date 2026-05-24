@@ -112,6 +112,7 @@ struct TripHistoryView: View {
                         showDetails = true
                     },
                     onRepeatTrip: {
+                        guard !TripSessionManager.shared.hasActiveTrip else { return }
                         tripToRepeat = trip
                         showRepeatTrip = true
                     }

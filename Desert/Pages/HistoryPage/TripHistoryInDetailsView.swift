@@ -153,10 +153,11 @@ struct TripHistoryInDetailsView: View {
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.primary)
+                        .background(TripSessionManager.shared.hasActiveTrip ? Color(.systemGray4) : Color.primary)
                         .foregroundColor(Color(UIColor.systemBackground))
                         .cornerRadius(22)
                 }
+                .disabled(TripSessionManager.shared.hasActiveTrip)
                 .padding(.horizontal, 40)
                 .padding(.top, 12)
                 .padding(.bottom, 40)

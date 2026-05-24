@@ -36,7 +36,10 @@ struct WelcomeCard: View {
                 Spacer()
             }
 
-            Button(action: onStartTrip) {
+            Button(action: {
+                guard !TripSessionManager.shared.hasActiveTrip else { return }
+                onStartTrip()
+            }) {
                 Text("start_new_trip".localized)
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
