@@ -33,6 +33,8 @@ struct HeaderView: View {
                 .foregroundStyle(Color.Primary)
                 .lineLimit(1)
         }
+        .padding(.horizontal, AppSpacing.lg) //هنا اضفت بادنق.. كنت بخليه ميديم بس شفتك حاطة بالباقي لارج
+
     }
 }
 
@@ -41,5 +43,4 @@ struct HeaderView: View {
     HeaderView(
         titleKey: "trip.personalDetails"
     )
-    .padding()
 }

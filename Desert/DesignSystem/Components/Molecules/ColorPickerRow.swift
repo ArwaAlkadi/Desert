@@ -1,11 +1,12 @@
 //
-//  Untitled.swift
+//  ColorPickerRow.swift
 //  Desert
 //
 //  Created by Samar A on 08/12/1447 AH.
 //
 
 
+// هنا اضفت الالوان بحيث تكون مع الكومبونت مرة وحدة بنفس طريقة لوحة السيارة
 
 import SwiftUI
 
@@ -15,7 +16,16 @@ struct ColorPickerRow: View {
 
     @Binding var selectedColorKey: String
 
-    var options: [String]
+    private let options: [String] = [
+        "vehicle.color.black",
+        "vehicle.color.white",
+        "vehicle.color.grey",
+        "vehicle.color.red",
+        "vehicle.color.orange",
+        "vehicle.color.yellow",
+        "vehicle.color.blue",
+        "vehicle.color.green"
+    ]
 
     var body: some View {
 
@@ -32,7 +42,7 @@ struct ColorPickerRow: View {
 
             HStack {
 
-                Text(selectedColorKey.localized)
+                Text(selectedColorKey.isEmpty ? placeholderKey.localized : selectedColorKey.localized)
                     .font(AppTypography.body)
                     .foregroundStyle(textColor)
 
@@ -56,7 +66,7 @@ private extension ColorPickerRow {
 
     var textColor: Color {
 
-        selectedColorKey == placeholderKey
+        selectedColorKey.isEmpty
         ? Color.Disabled
         : Color.Primary
     }
@@ -66,13 +76,7 @@ private extension ColorPickerRow {
 
     ColorPickerRow(
         placeholderKey: "vehicle.color.placeholder",
-        selectedColorKey: .constant("vehicle.color.placeholder"),
-        options: [
-            "vehicle.color.black",
-            "vehicle.color.white",
-            "vehicle.color.grey",
-            "vehicle.color.red"
-        ]
+        selectedColorKey: .constant("")
     )
     .padding()
 }

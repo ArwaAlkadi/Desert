@@ -5,6 +5,8 @@
 //  Created by Samar A on 07/12/1447 AH.
 //
 
+// هنا اضفت حد للسطور
+
 import SwiftUI
 
 struct DestinationRow: View {
@@ -27,6 +29,7 @@ struct DestinationRow: View {
                 Text(valueKey.localized)
                     .font(AppTypography.body)
                     .foregroundStyle(Color.Secondary02)
+                    .lineLimit(1)
 
             } else {
 

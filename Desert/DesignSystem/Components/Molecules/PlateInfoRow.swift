@@ -5,6 +5,8 @@
 //  Created by Samar A on 07/12/1447 AH.
 //
 
+// شلت البادنق .. يتنادى من برا
+
 import SwiftUI
 
 struct PlateInfoRow: View {
@@ -32,7 +34,6 @@ struct PlateInfoRow: View {
                 digits: $digits
             )
         }
-        .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, AppSpacing.sm)
     }
 }

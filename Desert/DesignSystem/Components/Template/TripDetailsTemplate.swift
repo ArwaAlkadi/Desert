@@ -1,62 +1,38 @@
 //
-//  Untitled.swift
+//  TripDetailsTemplate.swift
 //  Desert
 //
 //  Created by Samar A on 08/12/1447 AH.
 //
 
+//استبدلت الستيت بالفيو مودلز
+
 import SwiftUI
 
 struct TripDetailsTemplate: View {
 
-    @State private var tripName = "15th May Trip"
-    @State private var destination: String? = "trip.destination.alThoumamah"
-    @State private var startDate = Date()
-    @State private var endDate = Date().addingTimeInterval(3600)
-    @State private var isGroup = false
-    @State private var groupCount = 1
+    @ObservedObject var vm: TripsViewModel
 
     var body: some View {
 
-        VStack(spacing: 0) {
+        ScrollView(showsIndicators: false) {
 
-            HeaderView(titleKey: "trip.details")
-                .padding(.top, AppSpacing.sm)
-                .padding(.bottom, AppSpacing.lg)
-
-            ProgressBar(currentStep: 3)
-                .padding(.bottom, AppSpacing.xl)
-
-            ScrollView(showsIndicators: false) {
-
-                VStack(spacing: AppSpacing.lg) {
-
-                    tripNameSection
-                    destinationSection
-                    timeSection
-                    groupSection
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                        .frame(height: 220, alignment: .top)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.bottom, AppSpacing.xxl)
+            VStack(spacing: AppSpacing.lg) {
+                tripNameSection
+                destinationSection
+                timeSection
+                groupSection
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, AppSpacing.sm)
+            .padding(.bottom, AppSpacing.xxl)
+            .padding(.horizontal, AppSpacing.lg)
         }
-        .padding(.horizontal, AppSpacing.lg)
-        .padding(.top, AppSpacing.sm)
         .background(Color.Background)
-        
-        .environment(\.layoutDirection, .leftToRight)
-        .environment(\.locale, Locale(identifier: "en"))
-        .safeAreaInset(edge: .bottom) {
-            CTAButton(title: "common.next".localized) { }
-                .padding(.horizontal, AppSpacing.lg)
-                .padding(.top, AppSpacing.lg)
-                .padding(.bottom, AppSpacing.sm)
-                .background(Color.Background)
-        }
     }
 }
+
+// MARK: - Sections
 
 private extension TripDetailsTemplate {
 
@@ -69,14 +45,18 @@ private extension TripDetailsTemplate {
 
             AppTextField(
                 placeholderKey: "trip.name.placeholder",
-                text: $tripName
+                text: $vm.tripName
             )
-            .padding(.horizontal, AppSpacing.md)
             .frame(maxWidth: .infinity)
             .frame(height: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
+            
+            if vm.showStep2Errors && !vm.tripNameIsValid {
+                    ErrorMessageRow(messageKey: "trip_name_required")
+                }
         }
+        
     }
 
     var destinationSection: some View {
@@ -86,14 +66,22 @@ private extension TripDetailsTemplate {
                 .font(AppTypography.headline)
                 .foregroundStyle(Color.Primary)
 
-            DestinationRow(
-                titleKey: "trip.destination.placeholder",
-                valueKey: destination
-            )
+            Button {
+                vm.showDestinationPicker = true
+            } label: {
+                DestinationRow(
+                    titleKey: "trip.destination.placeholder",
+                    valueKey: vm.destination.isEmpty ? nil : vm.destination
+                )
+            }
             .frame(maxWidth: .infinity)
             .frame(height: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
+
+            if vm.showStep2Errors && !vm.destinationIsValid {
+                ErrorMessageRow(messageKey: "destination_required")
+            }
         }
     }
 
@@ -106,9 +94,9 @@ private extension TripDetailsTemplate {
 
             DateRangeRow(
                 startLabelKey: "trip.startTime",
-                startDate: $startDate,
+                startDate: .constant(Date()),
                 endLabelKey: "trip.endTime",
-                endDate: $endDate,
+                returnTime: $vm.returnTime,
                 isEndRequired: true,
                 displayedComponents: [.date, .hourAndMinute],
                 compactStyle: false
@@ -117,17 +105,24 @@ private extension TripDetailsTemplate {
             .frame(height: 72)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
+
+            if vm.showStep2Errors && !vm.returnTimeIsValid {
+                ErrorMessageRow(messageKey: "return_time_invalid")
+            }
         }
     }
 
     var groupSection: some View {
         GroupSection(
-            isGroup: $isGroup,
-            groupCount: $groupCount
-        )
+            isGroup: $vm.isGroup,
+            groupCount: $vm.groupCount,
+            groupContacts: $vm.groupContacts
+        ) {
+            vm.showGroupContactPicker = true
+        }
     }
 }
 
 #Preview {
-    TripDetailsTemplate()
+    TripDetailsTemplate(vm: TripsViewModel())
 }

@@ -13,22 +13,39 @@ class TripsViewModel: ObservableObject {
 
     // MARK: - Form Fields
 
-    @Published var tripName: String = ""
+    @Published var tripName: String = {
+        let f = DateFormatter()
+        f.dateFormat = "d MMM"
+        return f.string(from: Date()) + " Trip"
+    }()
+
     @Published var destination: String = ""
     @Published var destinationLat: Double = 0
     @Published var destinationLng: Double = 0
-    @Published var returnTime: Date = Date()
-    @Published var hasGroup: Bool = false
-    @Published var groupSize: Int = 1
-    @Published var userName: String = ""
+
+    @Published var returnTime: Date = Date() 
+    
+    @Published var isGroup: Bool = false
+    @Published var groupCount: Int = 1
+
+    @Published var fullName: String = ""
     @Published var phoneNumber: String = ""
-    @Published var carName: String = ""
-    @Published var carColor: String = ""
-    @Published var is4WD: Bool = false
-    @Published var plateLetters: String = ""
-    @Published var plateNumbers: String = ""
+
     @Published var emergencyContacts: [Contact] = []
     @Published var groupContacts: [Contact] = []
+
+    @Published var carModel: String = ""
+    @Published var selectedColor: String = ""
+    @Published var isFourWheelDrive: Bool = false
+
+    @Published var firstPlateLetter: String = ""
+    @Published var secondPlateLetter: String = ""
+    @Published var thirdPlateLetter: String = ""
+
+    @Published var plateDigits: [String] = ["", "", "", ""]
+
+    @Published var plateLetters: String = ""
+    @Published var plateNumbers: String = ""
 
     // MARK: - UI State
 
@@ -39,23 +56,28 @@ class TripsViewModel: ObservableObject {
     @Published var locationAlertTitle = ""
     @Published var locationAlertMessage = ""
     @Published var showErrors = false
+    @Published var showStep0Errors = false
+    @Published var showStep1Errors = false
+    @Published var showStep2Errors = false
     @Published var showContactError = false
     @Published var contactErrorMessage = ""
 
     // MARK: - Validation
 
     var destinationIsValid: Bool { !destination.isEmpty }
-    var userNameIsValid: Bool { !userName.isEmpty }
+    var fullNameIsValid: Bool { !fullName.isEmpty }
     var phoneNumberIsValid: Bool {
         let digits = phoneNumber.filter { $0.isNumber }
         return digits.hasPrefix("9665") && digits.count == 12
     }
     var returnTimeIsValid: Bool { returnTime > Date() }
     var emergencyContactsIsValid: Bool { !emergencyContacts.isEmpty }
-    var carNameIsValid: Bool { !carName.isEmpty }
-    var carColorIsValid: Bool { !carColor.isEmpty }
+    var carModelIsValid: Bool { !carModel.isEmpty }
+    var selectedColorIsValid: Bool {
+        !selectedColor.isEmpty && selectedColor != "vehicle.color.placeholder"
+    }
     var plateLettersIsValid: Bool { plateLetters.count == 3 }
-
+    var tripNameIsValid: Bool { !tripName.isEmpty }
     var plateNumbersIsValid: Bool {
         let digits = plateNumbers.filter { $0.isNumber }
         return digits.count >= 1 && digits.count <= 4
@@ -66,21 +88,36 @@ class TripsViewModel: ObservableObject {
         return digits + String(repeating: "-", count: max(0, 4 - digits.count))
     }
 
-    let saudiPlateLetters: [(ar: String, en: String)] = [
-        ("أ", "A"), ("ب", "B"), ("ح", "J"), ("د", "D"),
-        ("ر", "R"), ("س", "S"), ("ص", "X"), ("ط", "T"),
-        ("ع", "E"), ("ق", "G"), ("ك", "K"), ("ل", "L"),
-        ("م", "Z"), ("ن", "N"), ("هـ", "H"), ("و", "U"), ("ى", "V")
-    ]
+    func updatePlateInfoFromTemplate() {
+        plateLetters = firstPlateLetter + secondPlateLetter + thirdPlateLetter
+        plateNumbers = plateDigits.joined()
+    }
     
+    func loadPlateInfoToTemplate() {
+        let letters = Array(plateLetters)
+
+        if letters.count == 3 {
+            firstPlateLetter = String(letters[0])
+            secondPlateLetter = String(letters[1])
+            thirdPlateLetter = String(letters[2])
+        }
+
+        let numbers = Array(plateNumbers)
+
+        plateDigits = (0..<4).map { index in
+            index < numbers.count ? String(numbers[index]) : ""
+        }
+    }
+    
+   
     var formIsValid: Bool {
         destinationIsValid &&
-        userNameIsValid &&
+        fullNameIsValid &&
         phoneNumberIsValid &&
         returnTimeIsValid &&
         emergencyContactsIsValid &&
-        carNameIsValid &&
-        carColorIsValid &&
+        carModelIsValid &&
+        selectedColorIsValid &&
         plateLettersIsValid &&
         plateNumbersIsValid
     }
@@ -116,11 +153,11 @@ extension TripsViewModel {
     func loadSavedInfo(_ savedInfo: SavedInfo?) {
         guard let saved = savedInfo else { return }
 
-        userName = saved.userName
+        fullName = saved.userName
         phoneNumber = saved.phoneNumber
-        carName = saved.carName
-        carColor = saved.carColor
-        is4WD = saved.is4WD
+        carModel = saved.carName
+        selectedColor = saved.carColor
+        isFourWheelDrive = saved.is4WD
         plateLetters = saved.plateLetters
         plateNumbers = saved.plateNumbers
 
@@ -131,6 +168,8 @@ extension TripsViewModel {
         groupContacts = saved.defaultGroupContacts.map {
             Contact(name: $0.name, phone: $0.phone)
         }
+
+        loadPlateInfoToTemplate()
     }
 
     func loadTripData(from trip: Trip) {
@@ -138,13 +177,13 @@ extension TripsViewModel {
         destination = trip.destination
         destinationLat = trip.destinationLat
         destinationLng = trip.destinationLng
-        hasGroup = trip.hasGroup
-        groupSize = trip.groupSize
-        userName = trip.userName
+        isGroup = trip.hasGroup
+        groupCount = trip.groupSize
+        fullName = trip.userName
         phoneNumber = trip.phoneNumber
-        carName = trip.carName
-        carColor = trip.carColor
-        is4WD = trip.is4WD
+        carModel = trip.carName
+        selectedColor = trip.carColor
+        isFourWheelDrive = trip.is4WD
         plateLetters = trip.plateLetters
         plateNumbers = trip.plateNumbers
 
@@ -156,7 +195,8 @@ extension TripsViewModel {
             Contact(name: $0.name, phone: $0.phone)
         }
 
-        returnTime = Date()
+        returnTime = trip.returnTime
+        loadPlateInfoToTemplate()
     }
 }
 
@@ -282,6 +322,9 @@ extension TripsViewModel {
             return false
         }
 
+        
+        updatePlateInfoFromTemplate()
+
         guard formIsValid else {
             showErrors = true
             return false
@@ -290,17 +333,17 @@ extension TripsViewModel {
         let trip = Trip(
             tripId: "",
             tripName: tripName.isEmpty ? defaultTripName() : tripName,
-            userName: userName,
+            userName: fullName,
             phoneNumber: phoneNumber,
             destination: destination,
             destinationLat: destinationLat,
             destinationLng: destinationLng,
             returnTime: returnTime,
-            hasGroup: hasGroup,
-            groupSize: groupSize,
-            carName: carName,
-            carColor: carColor,
-            is4WD: is4WD,
+            hasGroup: isGroup,
+            groupSize: groupCount,
+            carName: carModel,
+            carColor: selectedColor,
+            is4WD: isFourWheelDrive,
             plateLetters: plateLetters,
             plateNumbers: plateNumbers
         )
@@ -330,11 +373,11 @@ extension TripsViewModel {
         let descriptor = FetchDescriptor<SavedInfo>()
 
         if let existing = (try? context.fetch(descriptor))?.first {
-            existing.userName = userName
+            existing.userName = fullName
             existing.phoneNumber = phoneNumber
-            existing.carName = carName
-            existing.carColor = carColor
-            existing.is4WD = is4WD
+            existing.carName = carModel
+            existing.carColor = selectedColor
+            existing.is4WD = isFourWheelDrive
             existing.plateLetters = plateLetters
             existing.plateNumbers = plateNumbers
 
@@ -348,11 +391,11 @@ extension TripsViewModel {
 
         } else {
             let saved = SavedInfo(
-                userName: userName,
+                userName: fullName,
                 phoneNumber: phoneNumber,
-                carName: carName,
-                carColor: carColor,
-                is4WD: is4WD,
+                carName: carModel,
+                carColor: selectedColor,
+                is4WD: isFourWheelDrive,
                 plateLetters: plateLetters,
                 plateNumbers: plateNumbers
             )

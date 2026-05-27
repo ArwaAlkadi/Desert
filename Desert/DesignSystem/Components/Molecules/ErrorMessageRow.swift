@@ -5,6 +5,8 @@
 //  Created by Samar A on 07/12/1447 AH.
 //
 
+// شلت البادنق .. يتنادى من برا
+
 import SwiftUI
 
 struct ErrorMessageRow: View {
@@ -20,8 +22,7 @@ struct ErrorMessageRow: View {
                 .foregroundStyle(Color.Destructive)
 
         }
-        .padding(.horizontal, AppSpacing.md)
-        .padding(.vertical, AppSpacing.sm)
+        
     }
 }
 

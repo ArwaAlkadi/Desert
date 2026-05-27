@@ -43,6 +43,7 @@
 		EC1FBEA92FC52FAA00CA755B /* AppRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE802FC52FAA00CA755B /* AppRadius.swift */; };
 		EC1FBEAA2FC52FAA00CA755B /* AppSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE822FC52FAA00CA755B /* AppSpacing.swift */; };
 		EC1FBEAB2FC52FAA00CA755B /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE842FC52FAA00CA755B /* AppTypography.swift */; };
+		EC1FBEAD2FC6541E00CA755B /* EmergencyContactsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBEAC2FC6541E00CA755B /* EmergencyContactsSection.swift */; };
 		EC309F722F8C1042003E343E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F712F8C1042003E343E /* FirebaseAnalytics */; };
 		EC309F742F8C1042003E343E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F732F8C1042003E343E /* FirebaseFirestore */; };
 		EC309F762F8C1042003E343E /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F752F8C1042003E343E /* FirebaseFunctions */; };
@@ -120,6 +121,7 @@
 		EC1FBE802FC52FAA00CA755B /* AppRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRadius.swift; sourceTree = "<group>"; };
 		EC1FBE822FC52FAA00CA755B /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
 		EC1FBE842FC52FAA00CA755B /* AppTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTypography.swift; sourceTree = "<group>"; };
+		EC1FBEAC2FC6541E00CA755B /* EmergencyContactsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyContactsSection.swift; sourceTree = "<group>"; };
 		EC309F602F8C0EB3003E343E /* Desert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Desert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC309F772F8C1058003E343E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC309F792F8C1058003E343E /* DesertApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesertApp.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				EC1FBE752FC52FAA00CA755B /* GroupSection.swift */,
 				EC1FBE762FC52FAA00CA755B /* HeaderView.swift */,
 				EC1FBE772FC52FAA00CA755B /* ProgressBar.swift */,
+				EC1FBEAC2FC6541E00CA755B /* EmergencyContactsSection.swift */,
 			);
 			path = Organisms;
 			sourceTree = "<group>";
@@ -333,13 +336,13 @@
 		EC309F7B2F8C1058003E343E /* Desert */ = {
 			isa = PBXGroup;
 			children = (
-				EC1FBE872FC52FAA00CA755B /* DesignSystem */,
 				EC309F902F97FAFF003E343E /* App */,
 				EC309FEC2FABDC58003E343E /* Managers */,
 				EC309F8F2F97FAFD003E343E /* Models */,
 				EC309F8E2F97FAF9003E343E /* Pages */,
 				EC309FC92FA386C8003E343E /* Shared */,
 				ECCD9FF02FB8AA2C00E2B5B9 /* Helpers */,
+				EC1FBE872FC52FAA00CA755B /* DesignSystem */,
 				EC309F9A2F97FD07003E343E /* Other */,
 			);
 			path = Desert;
@@ -589,6 +592,7 @@
 				EC1FBE892FC52FAA00CA755B /* ConnectivityIcon.swift in Sources */,
 				EC1FBE8A2FC52FAA00CA755B /* CounterButton.swift in Sources */,
 				EC1FBE8B2FC52FAA00CA755B /* Divider.swift in Sources */,
+				EC1FBEAD2FC6541E00CA755B /* EmergencyContactsSection.swift in Sources */,
 				EC1FBE8C2FC52FAA00CA755B /* PlateLetterPicker.swift in Sources */,
 				EC1FBE8D2FC52FAA00CA755B /* PlateNumberField.swift in Sources */,
 				EC1FBE8E2FC52FAA00CA755B /* progress.swift in Sources */,

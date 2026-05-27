@@ -135,3 +135,100 @@
 
 "no_internet_connection" = "لا يمكنك بدء الرحلة لعدم توفر الانترنت";
 
+
+/* MARK: - Common */
+
+"common.next" = "التالي";
+
+
+/* MARK: - Personal Details */
+
+"trip.personalDetails" = "البيانات الشخصية";
+
+"trip.fullName" = "الاسم الكامل";
+"trip.fullName.placeholder" = "أدخل الاسم الكامل";
+
+"trip.phone" = "رقم الجوال";
+"trip.phone.placeholder" = "+966 5X XXX XXXX";
+
+"trip.contacts" = "جهات الطوارئ";
+"trip.addContact" = "إضافة جهة طوارئ";
+"trip.contactsLimit" = "يمكن إضافة 3 جهات كحد أقصى";
+
+"error.phoneRequired" = "الرجاء إدخال رقم الجوال";
+
+
+/* MARK: - Mock Contacts */
+
+"contact.omSaqr" = "أم صقر";
+"contact.fajer" = "فجر";
+"contact.saqr" = "صقر";
+
+"contact.phone1" = "+966 5X XXX XXXX";
+"contact.phone2" = "+966 5X XXX XXXX";
+"contact.phone3" = "+966 5X XXX XXXX";
+
+
+/* MARK: - Vehicle Details */
+
+"vehicle.details" = "بيانات المركبة";
+
+"vehicle.carModel" = "موديل السيارة";
+"vehicle.carModel.placeholder" = "أدخل موديل السيارة";
+
+"vehicle.carColor" = "لون السيارة";
+"vehicle.color.placeholder" = "اختر لون السيارة";
+
+"vehicle.color.black" = "أسود";
+"vehicle.color.white" = "أبيض";
+"vehicle.color.grey" = "رمادي";
+"vehicle.color.red" = "أحمر";
+"vehicle.color.orange" = "برتقالي";
+"vehicle.color.yellow" = "أصفر";
+"vehicle.color.blue" = "أزرق";
+"vehicle.color.green" = "أخضر";
+
+"vehicle.isFourWheelDrive" = "مركبة دفع رباعي";
+
+"vehicle.plateInfo" = "بيانات اللوحة";
+
+
+/* MARK: - Trip Details */
+
+"trip.details" = "تفاصيل الرحلة";
+
+"trip.name" = "اسم الرحلة";
+"trip.name.placeholder" = "أدخل اسم الرحلة";
+
+"trip.destination" = "الوجهة";
+"trip.destination.placeholder" = "اختر الوجهة";
+"trip.destination.alThoumamah" = "الثمامة";
+
+"trip.time" = "الوقت";
+"trip.startTime" = "وقت البداية";
+"trip.endTime" = "وقت العودة";
+
+"trip.group" = "المجموعة";
+"trip.group.question" = "هل أنت مع مجموعة؟";
+"group.numberOfIndividuals" = "عدد الأفراد";
+
+"trip.groupContact.optional" = "جهة المجموعة (اختياري)";
+"trip.groupContact.select" = "اختر جهة المجموعة";
+
+"plate.letter.A" = "أ";
+"plate.letter.B" = "ب";
+"plate.letter.J" = "ح";
+"plate.letter.D" = "د";
+"plate.letter.R" = "ر";
+"plate.letter.S" = "س";
+"plate.letter.X" = "ص";
+"plate.letter.T" = "ط";
+"plate.letter.E" = "ع";
+"plate.letter.G" = "ق";
+"plate.letter.K" = "ك";
+"plate.letter.L" = "ل";
+"plate.letter.Z" = "م";
+"plate.letter.N" = "ن";
+"plate.letter.H" = "هـ";
+"plate.letter.U" = "و";
+"plate.letter.V" = "ى";

@@ -5,6 +5,9 @@
 //  Created by Samar A on 07/12/1447 AH.
 //
 
+// هنا غيرت الاسم من اند ديت لرتيرن تايم
+// وعدلت على البداية تكون ماتنضغط
+
 import SwiftUI
 
 struct DateRangeRow: View {
@@ -13,7 +16,7 @@ struct DateRangeRow: View {
     @Binding var startDate: Date
 
     var endLabelKey: String
-    @Binding var endDate: Date
+    @Binding var returnTime: Date
 
     var isEndRequired: Bool = false
 
@@ -24,91 +27,89 @@ struct DateRangeRow: View {
 
     var body: some View {
 
-        VStack(spacing: AppSpacing.sm) {
+        HStack(alignment: .center) {
 
+            // Start date — not tappable
+            LabelValueItem(
+                labelKey: startLabelKey,
+                value: startDate.formattedDateTime,
+                isDisabled: true
+            )
+            .frame(maxWidth: .infinity)
+
+            Rectangle()
+                .fill(Color.Grey100)
+                .frame(width: 1, height: 57)
+
+            // End date — tappable
             Button {
-
                 withAnimation {
                     showDatePicker.toggle()
                 }
-
             } label: {
-
-                HStack {
-
-                    LabelValueItem(
-                        labelKey: startLabelKey,
-                        value: startDate.formattedDateTime,
-                        isDisabled: true
-                    )
-
-                    Rectangle()
-                        .fill(Color.Grey100)
-                        .frame(width: 1, height: 57)
-
-                    LabelValueItem(
-                        labelKey: endLabelKey,
-                        value: endDate.formattedDateTime,
-                        isRequired: isEndRequired
-                    )
-                }
-                .padding(.horizontal, AppSpacing.md)
-                .padding(.vertical, AppSpacing.sm)
-                .background(Color.white)
-                .cornerRadius(AppRadius.md)
+                LabelValueItem(
+                    labelKey: endLabelKey,
+                    value: returnTime.formattedDateTime,
+                    isRequired: isEndRequired
+                )
+                .frame(maxWidth: .infinity)
             }
             .buttonStyle(.plain)
-            .sheet(isPresented: $showDatePicker) {
+        }
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.vertical, AppSpacing.sm)
+        .background(Color.white)
+        .cornerRadius(AppRadius.md)
+        .sheet(isPresented: $showDatePicker) {
 
-                ZStack(alignment: .topLeading) {
+            ZStack(alignment: .topLeading) {
 
-                    VStack(spacing: AppSpacing.sm) {
+                VStack(spacing: AppSpacing.sm) {
 
-                        if compactStyle {
-                            DatePicker(
-                                endLabelKey.localized,
-                                selection: $endDate,
-                                in: Date()...,
-                                displayedComponents: displayedComponents
-                            )
-                            .datePickerStyle(.compact)
-                            .labelsHidden()
-                        } else {
-                            DatePicker(
-                                endLabelKey.localized,
-                                selection: $endDate,
-                                in: Date()...,
-                                displayedComponents: displayedComponents
-                            )
-                            .datePickerStyle(.graphical)
-                            .labelsHidden()
-                        }
+                    if compactStyle {
+                        DatePicker(
+                            endLabelKey.localized,
+                            selection: $returnTime,
+                            in: Date().addingTimeInterval(3600)...,
+                            displayedComponents: displayedComponents
+                        )
+                        .datePickerStyle(.compact)
+                        .labelsHidden()
+                    } else {
+                        DatePicker(
+                            endLabelKey.localized,
+                            selection: $returnTime,
+                            in: Date().addingTimeInterval(3600)...,
+                            displayedComponents: displayedComponents
+                        )
+                        .datePickerStyle(.graphical)
+                        .labelsHidden()
                     }
-                    .tint(Color.Secondary02)
-                    .padding(.top, 84)
-                    .padding(.horizontal, AppSpacing.md)
-                    .padding(.bottom, AppSpacing.md)
-
-                    Button {
-                        showDatePicker = false
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(Color.Primary)
-                            .frame(width: 44, height: 44)
-                            .background(Color.Background)
-                            .clipShape(Circle())
-                    }
-                    .buttonStyle(.plain)
-                    .padding(.top, 28)
-                    .padding(.leading, AppSpacing.lg)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                .background(Color.white)
-                .presentationDetents([.height(500)])
-                .presentationDragIndicator(.hidden)
-                .environment(\.locale, Locale(identifier: "en"))
+                .tint(Color.Secondary02)
+                .padding(.top, 84)
+                .padding(.horizontal, AppSpacing.md)
+                .padding(.bottom, AppSpacing.md)
+
+                Button {
+                    showDatePicker = false
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(Color.Primary)
+                        .frame(width: 44, height: 44)
+                        .background(Color.Background)
+                        .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 28)
+                .padding(.leading, AppSpacing.lg)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .background(Color.white)
+            .presentationDetents([.height(500)])
+            .presentationDragIndicator(.hidden)
+            .environment(\.locale, Locale(identifier: "en"))
         }
     }
 }
@@ -166,7 +167,7 @@ private extension Date {
         startLabelKey: "date.start",
         startDate: .constant(Date()),
         endLabelKey: "date.end",
-        endDate: .constant(Date()),
+        returnTime: .constant(Date()),
         isEndRequired: true
     )
     .padding()

@@ -135,3 +135,101 @@
 
 "no_internet_connection" = "You can't start the trip, No internet connection";
 
+
+/* MARK: - Common */
+
+"common.next" = "Next";
+
+
+/* MARK: - Personal Details */
+
+"trip.personalDetails" = "Personal Details";
+
+"trip.fullName" = "Full Name";
+"trip.fullName.placeholder" = "Enter your full name";
+
+"trip.phone" = "Phone Number";
+"trip.phone.placeholder" = "+966 5X XXX XXXX";
+
+"trip.contacts" = "Emergency Contacts";
+"trip.addContact" = "Add Emergency Contact";
+"trip.contactsLimit" = "Maximum 3 contacts allowed";
+
+"error.phoneRequired" = "Please enter a phone number";
+
+
+/* MARK: - Mock Contacts */
+
+"contact.omSaqr" = "Om Saqr";
+"contact.fajer" = "Fajer";
+"contact.saqr" = "Saqr";
+
+"contact.phone1" = "+966 5X XXX XXXX";
+"contact.phone2" = "+966 5X XXX XXXX";
+"contact.phone3" = "+966 5X XXX XXXX";
+
+
+/* MARK: - Vehicle Details */
+
+"vehicle.details" = "Vehicle Details";
+
+"vehicle.carModel" = "Car Model";
+"vehicle.carModel.placeholder" = "Enter car model";
+
+"vehicle.carColor" = "Car Color";
+"vehicle.color.placeholder" = "Select car color";
+
+"vehicle.color.black" = "Black";
+"vehicle.color.white" = "White";
+"vehicle.color.grey" = "Grey";
+"vehicle.color.red" = "Red";
+"vehicle.color.orange" = "Orange";
+"vehicle.color.yellow" = "Yellow";
+"vehicle.color.blue" = "Blue";
+"vehicle.color.green" = "Green";
+
+"vehicle.isFourWheelDrive" = "4WD Vehicle";
+
+"vehicle.plateInfo" = "Plate Information";
+
+
+/* MARK: - Trip Details */
+
+"trip.details" = "Trip Details";
+
+"trip.name" = "Trip Name";
+"trip.name.placeholder" = "Enter trip name";
+
+"trip.destination" = "Destination";
+"trip.destination.placeholder" = "Select Destination";
+"trip.destination.alThoumamah" = "Al Thoumamah";
+
+"trip.time" = "Time";
+"trip.startTime" = "Start time";
+"trip.endTime" = "End time";
+
+"trip.group" = "Group";
+"trip.group.question" = "Are you with a group ?";
+
+"group.numberOfIndividuals" = "Number of individuals";
+
+"trip.groupContact.optional" = "Group contact (optional)";
+"trip.groupContact.select" = "Select group contact";
+
+"plate.letter.A" = "A";
+"plate.letter.B" = "B";
+"plate.letter.J" = "J";
+"plate.letter.D" = "D";
+"plate.letter.R" = "R";
+"plate.letter.S" = "S";
+"plate.letter.X" = "X";
+"plate.letter.T" = "T";
+"plate.letter.E" = "E";
+"plate.letter.G" = "G";
+"plate.letter.K" = "K";
+"plate.letter.L" = "L";
+"plate.letter.Z" = "Z";
+"plate.letter.N" = "N";
+"plate.letter.H" = "H";
+"plate.letter.U" = "U";
+"plate.letter.V" = "V";

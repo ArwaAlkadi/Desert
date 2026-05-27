@@ -261,6 +261,35 @@ struct ContactPickerSheetA: UIViewControllerRepresentable {
     }
 }
 
+struct ContactPickerSheetB: UIViewControllerRepresentable {
+
+    var onSelect: ([CNContact]) -> Void
+
+    func makeUIViewController(context: Context) -> CNContactPickerViewController {
+        let picker = CNContactPickerViewController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: CNContactPickerViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onSelect: onSelect)
+    }
+
+    class Coordinator: NSObject, CNContactPickerDelegate {
+
+        var onSelect: ([CNContact]) -> Void
+
+        init(onSelect: @escaping ([CNContact]) -> Void) {
+            self.onSelect = onSelect
+        }
+
+        func contactPicker(_ picker: CNContactPickerViewController, didSelect contacts: [CNContact]) {
+            onSelect(contacts)
+        }
+    }
+}
 // MARK: - Destination Picker View
 // Full-screen map sheet for selecting a trip destination by tapping or searching.
 // Used in CreateTripView step 1.

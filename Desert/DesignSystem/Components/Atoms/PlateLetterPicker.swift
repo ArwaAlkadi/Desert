@@ -5,6 +5,10 @@
 //  Created by Samar A on 05/12/1447 AH.
 
 //
+
+// هنا اضفت اللوكاليزيشن العربي
+
+
 import SwiftUI
 
 struct PlateLetterPicker: View {
@@ -22,7 +26,7 @@ struct PlateLetterPicker: View {
 
             ForEach(letters, id: \.self) { letter in
 
-                Button(letter) {
+                Button("plate.letter.\(letter)".localized) {
                     selectedLetter = letter
                 }
             }
@@ -34,7 +38,7 @@ struct PlateLetterPicker: View {
                 Image(systemName: "chevron.up.chevron.down")
                     .foregroundStyle(Color.Primary)
 
-                Text(selectedLetter.isEmpty ? "-" : selectedLetter)
+                Text(selectedLetter.isEmpty ? "-" : "plate.letter.\(selectedLetter)".localized)
                     .font(AppTypography.body)
                     .foregroundStyle(Color.Primary)
             }

@@ -85,7 +85,7 @@ struct TripSummaryView: View {
 
                     SummaryRowA(
                         label: "car_details",
-                        value: vm.carName.isEmpty ? "—" : "\(vm.carColor) \(vm.carName)"
+                        value: vm.carModel.isEmpty ? "—" : "\(vm.selectedColor) \(vm.carModel)"
                     )
 
                     Divider().padding(.leading)
@@ -99,8 +99,8 @@ struct TripSummaryView: View {
 
                     SummaryRowA(
                         label: "individuals",
-                        value: vm.hasGroup
-                            ? String(format: "people_count".localized, vm.groupSize)
+                        value: vm.isGroup
+                            ? String(format: "people_count".localized, vm.groupCount)
                             : "solo".localized
                     )
                 }
@@ -119,7 +119,7 @@ struct TripSummaryView: View {
                     )
                 }
 
-                if vm.hasGroup && !vm.groupContacts.isEmpty {
+                if vm.isGroup && !vm.groupContacts.isEmpty {
                     contactSection(
                         title: "group_contacts_optional".localized,
                         contacts: vm.groupContacts
