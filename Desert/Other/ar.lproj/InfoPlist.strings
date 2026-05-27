@@ -5,3 +5,129 @@
 "NSUserNotificationsUsageDescription" = "يستخدم التطبيق الإشعارات لإرسال تنبيهات السلامة والتذكيرات المتعلقة برحلتك.";
 
 "CFBundleDisplayName" = "سهيل";
+
+/*
+  Localizable.strings
+  Desert
+
+  Created by Samar A on 09/12/1447 AH.
+  
+
+ "common.next" = "التالي";
+
+
+ /* MARK: - Personal Details */
+
+ "trip.personalDetails" = "البيانات الشخصية";
+
+ "trip.fullName" = "الاسم الكامل";
+ "trip.fullName.placeholder" = "أدخل الاسم الكامل";
+
+ "trip.phone" = "رقم الجوال";
+ "trip.phone.placeholder" = "+966 5X XXX XXXX";
+
+ "trip.contacts" = "جهات الطوارئ";
+ "trip.addContact" = "إضافة جهة طوارئ";
+ "trip.contactsLimit" = "يمكن إضافة 3 جهات كحد أقصى";
+
+ "error.phoneRequired" = "الرجاء إدخال رقم الجوال";
+
+
+ /* MARK: - Mock Contacts */
+
+ "contact.omSaqr" = "أم صقر";
+ "contact.fajer" = "فجر";
+ "contact.saqr" = "صقر";
+
+ "contact.phone1" = "+966 5X XXX XXXX";
+ "contact.phone2" = "+966 5X XXX XXXX";
+ "contact.phone3" = "+966 5X XXX XXXX";
+
+
+ /* MARK: - Vehicle Details */
+
+ "vehicle.details" = "بيانات المركبة";
+
+ "vehicle.carModel" = "موديل السيارة";
+ "vehicle.carModel.placeholder" = "أدخل موديل السيارة";
+
+ "vehicle.carColor" = "لون السيارة";
+ "vehicle.color.placeholder" = "اختر لون السيارة";
+
+ "vehicle.color.black" = "أسود";
+ "vehicle.color.white" = "أبيض";
+ "vehicle.color.grey" = "رمادي";
+ "vehicle.color.red" = "أحمر";
+ "vehicle.color.orange" = "برتقالي";
+ "vehicle.color.yellow" = "أصفر";
+ "vehicle.color.blue" = "أزرق";
+ "vehicle.color.green" = "أخضر";
+
+ "vehicle.isFourWheelDrive" = "مركبة دفع رباعي";
+
+ "vehicle.plateInfo" = "بيانات اللوحة";
+
+
+ /* MARK: - Trip Details */
+
+ "trip.details" = "تفاصيل الرحلة";
+
+ "trip.name.placeholder" = "أدخل اسم الرحلة";
+
+ "trip.destination" = "الوجهة";
+ "trip.destination.placeholder" = "اختر الوجهة";
+ "trip.destination.alThoumamah" = "الثمامة";
+
+ "trip.time" = "الوقت";
+ "trip.startTime" = "وقت البداية";
+ "trip.endTime" = "وقت العودة";
+
+ "trip.group" = "المجموعة";
+ "trip.group.question" = "هل أنت مع مجموعة؟";
+
+ "group.numberOfIndividuals" = "عدد الأفراد";
+
+ "trip.groupContact.optional" = "جهة المجموعة (اختياري)";
+ "trip.groupContact.select" = "اختر جهة المجموعة";
+
+
+ /* MARK: - Summary trip */
+
+ "summary.title" = "الملخص";
+ "summary.startNewTrip" = "بدء رحلة جديدة";
+
+ "summary.startTime" = "وقت البداية";
+ "summary.returnTime" = "وقت العودة";
+ "summary.destination" = "الوجهة";
+ "summary.carDetails" = "تفاصيل السيارة";
+ "summary.plateNumber" = "رقم اللوحة";
+ "summary.selectedDistance" = "المسافة المحددة";
+ "summary.numberOfIndividuals" = "عدد الأفراد";
+
+ "summary.emergencyContacts" = "جهات الطوارئ";
+ "summary.groupContactOptional" = "جهة المجموعة (اختياري)";
+
+ "summary.warningMessage" = "تأكد من صحة المعلومات، لأنه لا يمكن تعديلها لاحقًا. إذا تجاوزت وقت العودة ولم يكن لديك إشارة، سيتم تنبيه جهات الطوارئ.";
+
+
+ /* MARK: - Summary Mock Data */
+"trip.name" = "اسم الرحلة";
+ "summary.mock.tripName" = "رحلة الثمامة";
+
+ "summary.mock.startTime" = "21 أبريل، 4:00 مساءً";
+ "summary.mock.returnTime" = "21 أبريل، 9:32 مساءً";
+ "summary.mock.destination" = "الثمامة";
+ "summary.mock.carDetails" = "تويوتا لاندكروزر أبيض";
+ "summary.mock.plateNumber" = "1234 | RSX";
+ "summary.mock.selectedDistance" = "55 كم";
+ "summary.mock.numberOfIndividuals" = "3 أشخاص";
+
+ "summary.mock.groupContactName" = "محمد";
+
+ "summary.mock.contact.omSaqr" = "أم صقر";
+ "summary.mock.contact.fajer" = "فجر";
+ "summary.mock.contact.saqr" = "صقر";
+
+ "summary.mock.contact.phone1" = "+966 5X XXX XXXX";
+ "summary.mock.contact.phone2" = "+966 5X XXX XXXX";
+ "summary.mock.contact.phone3" = "+966 5X XXX XXXX";

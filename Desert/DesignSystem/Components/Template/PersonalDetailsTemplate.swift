@@ -11,8 +11,12 @@ import SwiftUI
 
 struct PersonalDetailsTemplate: View {
     
-    @ObservedObject var vm: TripsViewModel
-
+    @Binding var fullName: String
+    @Binding var phoneNumber: String
+    @Binding var emergencyContacts: [Contact]
+    var showErrors: Bool = false
+    var onAddContact: () -> Void = {}
+    
     var body: some View {
 
 
@@ -48,15 +52,15 @@ private extension PersonalDetailsTemplate {
             
             AppTextField(
                 placeholderKey: "trip.fullName.placeholder",
-                text: $vm.fullName,
-                state: vm.showErrors && !vm.fullNameIsValid ? .error : .normal
+                text: $fullName,
+                state: showErrors && fullName.isEmpty ? .error : .normal
             )
             .frame(maxWidth: .infinity)
             .frame(height: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
-            if vm.showStep0Errors && !vm.fullNameIsValid {
+            if showErrors && fullName.isEmpty {
                 ErrorMessageRow(messageKey: "name_required")
             }
         }
@@ -70,15 +74,15 @@ private extension PersonalDetailsTemplate {
 
             AppTextField(
                 placeholderKey: "trip.phone.placeholder",
-                text: $vm.phoneNumber,
-                state: vm.showErrors && !vm.phoneNumberIsValid ? .error : .normal
+                text: $phoneNumber,
+                state: showErrors && !phoneNumberIsValid ? .error : .normal
             )
             .frame(maxWidth: .infinity)
             .frame(height: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
-            if vm.showStep0Errors && !vm.phoneNumberIsValid {
+            if showErrors && !phoneNumberIsValid {
                 ErrorMessageRow(messageKey: "phone_required")
             }
         }
@@ -87,15 +91,24 @@ private extension PersonalDetailsTemplate {
     
     var EmergencyContactsSectiona : some View {
         EmergencyContactsSection(
-                    emergencyContacts: $vm.emergencyContacts,
-                    showErrors: vm.showStep0Errors,
-                    onAddContact: { vm.showEmergencyContactPicker = true }
-                )
+            emergencyContacts: $emergencyContacts,
+            showErrors: showErrors,
+            onAddContact: onAddContact
+        )
         }
     
-    
+   
+    var phoneNumberIsValid: Bool {
+            let digits = phoneNumber.filter { $0.isNumber }
+            return digits.hasPrefix("9665") && digits.count == 12
+        }
 }
 
 #Preview {
-    PersonalDetailsTemplate(vm: TripsViewModel())
+    PersonalDetailsTemplate(
+        fullName: .constant(""),
+        phoneNumber: .constant(""),
+        emergencyContacts: .constant([])
+    )
 }
+

@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct HeaderView: View {
+    
+    enum LeadingButton {
+        case back
+        case close
+    }
 
     var titleKey: String
-    var backAction: () -> Void = {}
+    var leadingButton: LeadingButton = .back
+    var action: () -> Void = {}
 
     var body: some View {
 
@@ -18,8 +24,11 @@ struct HeaderView: View {
 
             HStack {
 
-                BackButton(style: .primary) {
-                    backAction()
+                ToolbarButton(
+                    style: toolbarStyle,
+                    icon: toolbarIcon
+                ) {
+                    action()
                 }
 
                 Spacer()
@@ -33,14 +42,39 @@ struct HeaderView: View {
                 .foregroundStyle(Color.Primary)
                 .lineLimit(1)
         }
-        .padding(.horizontal, AppSpacing.lg) //هنا اضفت بادنق.. كنت بخليه ميديم بس شفتك حاطة بالباقي لارج
+    }
+}
 
+private extension HeaderView {
+    
+    var toolbarIcon: ToolbarButton.Icon {
+        switch leadingButton {
+        case .back:
+            return .back
+        case .close:
+            return .close
+        }
+    }
+    
+    var toolbarStyle: ToolbarButton.Style {
+        switch leadingButton {
+        case .back:
+            return .primary
+        case .close:
+            return .secondary
+        }
     }
 }
 
 #Preview {
-
-    HeaderView(
-        titleKey: "trip.personalDetails"
-    )
+    VStack(spacing: 24) {
+        HeaderView(titleKey: "trip.personalDetails")
+        
+        HeaderView(
+            titleKey: "trip.personalDetails",
+            leadingButton: .close
+        )
+    }
+    .padding()
 }
+

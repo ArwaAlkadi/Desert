@@ -232,3 +232,25 @@
 "plate.letter.H" = "هـ";
 "plate.letter.U" = "و";
 "plate.letter.V" = "ى";
+
+"summary.mock.contact.phone1" = "+966 5X XXX XXXX";
+"summary.mock.contact.phone2" = "+966 5X XXX XXXX";
+"summary.mock.contact.phone3" = "+966 5X XXX XXXX";
+
+
+/* MARK: - Tab Bar */
+
+"tab.history" = "السجل";
+"tab.map" = "الخريطة";
+
+/* MARK: - Network Status */
+
+"network.disconnected.title" = "لا يوجد اتصال بالإنترنت";
+"network.disconnected.message" = "تحقق من بيانات الجوال أو شبكة Wi-Fi.";
+
+"network.connected.title" = "تم استعادة الاتصال";
+
+
+
+"history.status.noAlert" = "لم يتم إرسال تنبيه";
+"history.status.alertSent" = "تم إرسال التنبيه";

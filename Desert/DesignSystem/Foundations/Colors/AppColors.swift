@@ -43,6 +43,10 @@ extension Color {
     
     static let TabSelected =
     Color("TabSelected")
+    
+    static let TabNotSelected =
+    Color("TabNotSelected")
 }
+
 
 

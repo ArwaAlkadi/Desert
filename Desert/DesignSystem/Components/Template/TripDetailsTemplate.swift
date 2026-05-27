@@ -11,8 +11,16 @@ import SwiftUI
 
 struct TripDetailsTemplate: View {
 
-    @ObservedObject var vm: TripsViewModel
-
+        @Binding var tripName: String
+        @Binding var destination: String
+        @Binding var returnTime: Date
+        @Binding var isGroup: Bool
+        @Binding var groupCount: Int
+        @Binding var groupContacts: [Contact]
+        var showErrors: Bool = false
+        var onSelectDestination: () -> Void = {}
+        var onAddGroupContact: () -> Void = {}
+  
     var body: some View {
 
         ScrollView(showsIndicators: false) {
@@ -45,14 +53,14 @@ private extension TripDetailsTemplate {
 
             AppTextField(
                 placeholderKey: "trip.name.placeholder",
-                text: $vm.tripName
+                text: $tripName
             )
             .frame(maxWidth: .infinity)
             .frame(height: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
             
-            if vm.showStep2Errors && !vm.tripNameIsValid {
+            if showErrors && tripName.isEmpty {
                     ErrorMessageRow(messageKey: "trip_name_required")
                 }
         }
@@ -67,11 +75,11 @@ private extension TripDetailsTemplate {
                 .foregroundStyle(Color.Primary)
 
             Button {
-                vm.showDestinationPicker = true
+                onSelectDestination()
             } label: {
                 DestinationRow(
                     titleKey: "trip.destination.placeholder",
-                    valueKey: vm.destination.isEmpty ? nil : vm.destination
+                    valueKey: destination.isEmpty ? nil : destination
                 )
             }
             .frame(maxWidth: .infinity)
@@ -79,7 +87,7 @@ private extension TripDetailsTemplate {
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
-            if vm.showStep2Errors && !vm.destinationIsValid {
+            if showErrors && destination.isEmpty {
                 ErrorMessageRow(messageKey: "destination_required")
             }
         }
@@ -96,7 +104,7 @@ private extension TripDetailsTemplate {
                 startLabelKey: "trip.startTime",
                 startDate: .constant(Date()),
                 endLabelKey: "trip.endTime",
-                returnTime: $vm.returnTime,
+                returnTime: $returnTime,
                 isEndRequired: true,
                 displayedComponents: [.date, .hourAndMinute],
                 compactStyle: false
@@ -106,7 +114,7 @@ private extension TripDetailsTemplate {
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
-            if vm.showStep2Errors && !vm.returnTimeIsValid {
+            if showErrors && returnTime <= Date() {
                 ErrorMessageRow(messageKey: "return_time_invalid")
             }
         }
@@ -114,15 +122,22 @@ private extension TripDetailsTemplate {
 
     var groupSection: some View {
         GroupSection(
-            isGroup: $vm.isGroup,
-            groupCount: $vm.groupCount,
-            groupContacts: $vm.groupContacts
+            isGroup: $isGroup,
+            groupCount: $groupCount,
+            groupContacts: $groupContacts
         ) {
-            vm.showGroupContactPicker = true
+            onAddGroupContact()
         }
     }
 }
 
 #Preview {
-    TripDetailsTemplate(vm: TripsViewModel())
+    TripDetailsTemplate(
+        tripName: .constant(""),
+        destination: .constant(""),
+        returnTime: .constant(Date().addingTimeInterval(3600)),
+        isGroup: .constant(false),
+        groupCount: .constant(2),
+        groupContacts: .constant([])
+    )
 }

@@ -11,7 +11,14 @@ import SwiftUI
 
 struct VehicleDetailsTemplate: View {
 
-    @ObservedObject var vm: TripsViewModel
+       @Binding var carModel: String
+       @Binding var selectedColor: String
+       @Binding var isFourWheelDrive: Bool
+       @Binding var firstPlateLetter: String
+       @Binding var secondPlateLetter: String
+       @Binding var thirdPlateLetter: String
+       @Binding var plateDigits: [String]
+       var showErrors: Bool = false
 
     var body: some View {
 
@@ -45,15 +52,15 @@ private extension VehicleDetailsTemplate {
 
             AppTextField(
                 placeholderKey: "vehicle.carModel.placeholder",
-                text: $vm.carModel,
-                state: vm.showStep1Errors && !vm.carModelIsValid ? .error : .normal
+                text: $carModel,
+                state: showErrors && carModel.isEmpty ? .error : .normal
             )
             .frame(maxWidth: .infinity)
             .frame(height: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
-            if vm.showStep1Errors && !vm.carModelIsValid {
+            if showErrors && carModel.isEmpty {
                 ErrorMessageRow(messageKey: "car_model_required")
             }
         }
@@ -68,10 +75,10 @@ private extension VehicleDetailsTemplate {
 
             ColorPickerRow(
                 placeholderKey: "vehicle.color.placeholder",
-                selectedColorKey: $vm.selectedColor
+                selectedColorKey: $selectedColor
             )
 
-            if vm.showStep1Errors && !vm.selectedColorIsValid {
+            if showErrors && selectedColor.isEmpty {
                 ErrorMessageRow(messageKey: "car_color_required")
             }
         }
@@ -80,7 +87,7 @@ private extension VehicleDetailsTemplate {
     var fourWheelDriveSection: some View {
         InquiryRow(
             titleKey: "vehicle.isFourWheelDrive",
-            isOn: $vm.isFourWheelDrive
+            isOn: $isFourWheelDrive
         )
         .frame(maxWidth: .infinity)
         .frame(height: 52)
@@ -96,16 +103,21 @@ private extension VehicleDetailsTemplate {
                 .foregroundStyle(Color.Primary)
 
             PlateInfoRow(
-                firstLetter: $vm.firstPlateLetter,
-                secondLetter: $vm.secondPlateLetter,
-                thirdLetter: $vm.thirdPlateLetter,
-                digits: $vm.plateDigits
+                firstLetter: $firstPlateLetter,
+                secondLetter: $secondPlateLetter,
+                thirdLetter: $thirdPlateLetter,
+                digits: $plateDigits
             )
             .frame(maxWidth: .infinity)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
-            if vm.showStep1Errors && (!vm.plateLettersIsValid || !vm.plateNumbersIsValid) {
+            if showErrors && (
+                firstPlateLetter.isEmpty ||
+                secondPlateLetter.isEmpty ||
+                thirdPlateLetter.isEmpty ||
+                plateDigits.filter { !$0.isEmpty }.isEmpty
+            ) {
                 ErrorMessageRow(messageKey: "plate_required")
             }
         }
@@ -113,5 +125,13 @@ private extension VehicleDetailsTemplate {
 }
 
 #Preview {
-    VehicleDetailsTemplate(vm: TripsViewModel())
+    VehicleDetailsTemplate(
+        carModel: .constant("f"),
+        selectedColor: .constant("f"),
+        isFourWheelDrive: .constant(true),
+        firstPlateLetter: .constant("f"),
+        secondPlateLetter: .constant("f"),
+        thirdPlateLetter: .constant("f"),
+        plateDigits: .constant([])
+        )
 }

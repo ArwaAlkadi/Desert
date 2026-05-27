@@ -18,7 +18,7 @@
 		EC1FBE902FC52FAA00CA755B /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE602FC52FAA00CA755B /* StatusBadge.swift */; };
 		EC1FBE912FC52FAA00CA755B /* Stepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE612FC52FAA00CA755B /* Stepper.swift */; };
 		EC1FBE922FC52FAA00CA755B /* Toggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE622FC52FAA00CA755B /* Toggle.swift */; };
-		EC1FBE932FC52FAA00CA755B /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE642FC52FAA00CA755B /* BackButton.swift */; };
+		EC1FBE932FC52FAA00CA755B /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE642FC52FAA00CA755B /* ToolbarButton.swift */; };
 		EC1FBE942FC52FAA00CA755B /* CTAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE652FC52FAA00CA755B /* CTAButton.swift */; };
 		EC1FBE952FC52FAA00CA755B /* FABButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE662FC52FAA00CA755B /* FABButton.swift */; };
 		EC1FBE962FC52FAA00CA755B /* RepeatTripButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE672FC52FAA00CA755B /* RepeatTripButton.swift */; };
@@ -36,7 +36,6 @@
 		EC1FBEA22FC52FAA00CA755B /* GroupSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE752FC52FAA00CA755B /* GroupSection.swift */; };
 		EC1FBEA32FC52FAA00CA755B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE762FC52FAA00CA755B /* HeaderView.swift */; };
 		EC1FBEA42FC52FAA00CA755B /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE772FC52FAA00CA755B /* ProgressBar.swift */; };
-		EC1FBEA52FC52FAA00CA755B /* PersonalDetailsTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE792FC52FAA00CA755B /* PersonalDetailsTemp.swift */; };
 		EC1FBEA62FC52FAA00CA755B /* TripDetailsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE7A2FC52FAA00CA755B /* TripDetailsTemplate.swift */; };
 		EC1FBEA72FC52FAA00CA755B /* VehicleDetailsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE7B2FC52FAA00CA755B /* VehicleDetailsTemplate.swift */; };
 		EC1FBEA82FC52FAA00CA755B /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE7E2FC52FAA00CA755B /* AppColors.swift */; };
@@ -44,6 +43,14 @@
 		EC1FBEAA2FC52FAA00CA755B /* AppSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE822FC52FAA00CA755B /* AppSpacing.swift */; };
 		EC1FBEAB2FC52FAA00CA755B /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE842FC52FAA00CA755B /* AppTypography.swift */; };
 		EC1FBEAD2FC6541E00CA755B /* EmergencyContactsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBEAC2FC6541E00CA755B /* EmergencyContactsSection.swift */; };
+		EC1FBEB02FC74EF300CA755B /* MobileGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBEAE2FC74EF300CA755B /* MobileGrid.swift */; };
+		EC1FBEB22FC74FD000CA755B /* SummaryTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBEB12FC74FD000CA755B /* SummaryTemplate.swift */; };
+		EC1FBEB42FC74FF100CA755B /* PersonalDetailsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBEB32FC74FF100CA755B /* PersonalDetailsTemplate.swift */; };
+		EC2F62FA2FC7B079007FF45C /* AppTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F62F92FC7B079007FF45C /* AppTabBar.swift */; };
+		EC2F62FC2FC7B07E007FF45C /* NoActiveTripsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F62FB2FC7B07E007FF45C /* NoActiveTripsCard.swift */; };
+		EC2F62FE2FC7B081007FF45C /*  NetworkStatusBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F62FD2FC7B081007FF45C /*  NetworkStatusBanner.swift */; };
+		EC2F63002FC7B084007FF45C /*  HistoryTripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F62FF2FC7B084007FF45C /*  HistoryTripCard.swift */; };
+		EC2F63022FC7B0C3007FF45C /* HomeTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F63012FC7B0C3007FF45C /* HomeTemplate.swift */; };
 		EC309F722F8C1042003E343E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F712F8C1042003E343E /* FirebaseAnalytics */; };
 		EC309F742F8C1042003E343E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F732F8C1042003E343E /* FirebaseFirestore */; };
 		EC309F762F8C1042003E343E /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F752F8C1042003E343E /* FirebaseFunctions */; };
@@ -96,7 +103,7 @@
 		EC1FBE602FC52FAA00CA755B /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
 		EC1FBE612FC52FAA00CA755B /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		EC1FBE622FC52FAA00CA755B /* Toggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggle.swift; sourceTree = "<group>"; };
-		EC1FBE642FC52FAA00CA755B /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
+		EC1FBE642FC52FAA00CA755B /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
 		EC1FBE652FC52FAA00CA755B /* CTAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTAButton.swift; sourceTree = "<group>"; };
 		EC1FBE662FC52FAA00CA755B /* FABButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FABButton.swift; sourceTree = "<group>"; };
 		EC1FBE672FC52FAA00CA755B /* RepeatTripButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatTripButton.swift; sourceTree = "<group>"; };
@@ -114,7 +121,6 @@
 		EC1FBE752FC52FAA00CA755B /* GroupSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSection.swift; sourceTree = "<group>"; };
 		EC1FBE762FC52FAA00CA755B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		EC1FBE772FC52FAA00CA755B /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
-		EC1FBE792FC52FAA00CA755B /* PersonalDetailsTemp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetailsTemp.swift; sourceTree = "<group>"; };
 		EC1FBE7A2FC52FAA00CA755B /* TripDetailsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsTemplate.swift; sourceTree = "<group>"; };
 		EC1FBE7B2FC52FAA00CA755B /* VehicleDetailsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailsTemplate.swift; sourceTree = "<group>"; };
 		EC1FBE7E2FC52FAA00CA755B /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
@@ -122,6 +128,14 @@
 		EC1FBE822FC52FAA00CA755B /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
 		EC1FBE842FC52FAA00CA755B /* AppTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTypography.swift; sourceTree = "<group>"; };
 		EC1FBEAC2FC6541E00CA755B /* EmergencyContactsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyContactsSection.swift; sourceTree = "<group>"; };
+		EC1FBEAE2FC74EF300CA755B /* MobileGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileGrid.swift; sourceTree = "<group>"; };
+		EC1FBEB12FC74FD000CA755B /* SummaryTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryTemplate.swift; sourceTree = "<group>"; };
+		EC1FBEB32FC74FF100CA755B /* PersonalDetailsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetailsTemplate.swift; sourceTree = "<group>"; };
+		EC2F62F92FC7B079007FF45C /* AppTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBar.swift; sourceTree = "<group>"; };
+		EC2F62FB2FC7B07E007FF45C /* NoActiveTripsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoActiveTripsCard.swift; sourceTree = "<group>"; };
+		EC2F62FD2FC7B081007FF45C /*  NetworkStatusBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " NetworkStatusBanner.swift"; sourceTree = "<group>"; };
+		EC2F62FF2FC7B084007FF45C /*  HistoryTripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " HistoryTripCard.swift"; sourceTree = "<group>"; };
+		EC2F63012FC7B0C3007FF45C /* HomeTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTemplate.swift; sourceTree = "<group>"; };
 		EC309F602F8C0EB3003E343E /* Desert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Desert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC309F772F8C1058003E343E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC309F792F8C1058003E343E /* DesertApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesertApp.swift; sourceTree = "<group>"; };
@@ -206,7 +220,7 @@
 		EC1FBE682FC52FAA00CA755B /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				EC1FBE642FC52FAA00CA755B /* BackButton.swift */,
+				EC1FBE642FC52FAA00CA755B /* ToolbarButton.swift */,
 				EC1FBE652FC52FAA00CA755B /* CTAButton.swift */,
 				EC1FBE662FC52FAA00CA755B /* FABButton.swift */,
 				EC1FBE672FC52FAA00CA755B /* RepeatTripButton.swift */,
@@ -235,6 +249,10 @@
 		EC1FBE782FC52FAA00CA755B /* Organisms */ = {
 			isa = PBXGroup;
 			children = (
+				EC2F62FF2FC7B084007FF45C /*  HistoryTripCard.swift */,
+				EC2F62FD2FC7B081007FF45C /*  NetworkStatusBanner.swift */,
+				EC2F62FB2FC7B07E007FF45C /* NoActiveTripsCard.swift */,
+				EC2F62F92FC7B079007FF45C /* AppTabBar.swift */,
 				EC1FBE752FC52FAA00CA755B /* GroupSection.swift */,
 				EC1FBE762FC52FAA00CA755B /* HeaderView.swift */,
 				EC1FBE772FC52FAA00CA755B /* ProgressBar.swift */,
@@ -246,9 +264,11 @@
 		EC1FBE7C2FC52FAA00CA755B /* Template */ = {
 			isa = PBXGroup;
 			children = (
-				EC1FBE792FC52FAA00CA755B /* PersonalDetailsTemp.swift */,
-				EC1FBE7A2FC52FAA00CA755B /* TripDetailsTemplate.swift */,
+				EC2F63012FC7B0C3007FF45C /* HomeTemplate.swift */,
+				EC1FBEB32FC74FF100CA755B /* PersonalDetailsTemplate.swift */,
 				EC1FBE7B2FC52FAA00CA755B /* VehicleDetailsTemplate.swift */,
+				EC1FBE7A2FC52FAA00CA755B /* TripDetailsTemplate.swift */,
+				EC1FBEB12FC74FD000CA755B /* SummaryTemplate.swift */,
 			);
 			path = Template;
 			sourceTree = "<group>";
@@ -256,11 +276,11 @@
 		EC1FBE7D2FC52FAA00CA755B /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				EC1FBE7C2FC52FAA00CA755B /* Template */,
+				EC1FBE782FC52FAA00CA755B /* Organisms */,
+				EC1FBE742FC52FAA00CA755B /* Molecules */,
 				EC1FBE632FC52FAA00CA755B /* Atoms */,
 				EC1FBE682FC52FAA00CA755B /* Buttons */,
-				EC1FBE742FC52FAA00CA755B /* Molecules */,
-				EC1FBE782FC52FAA00CA755B /* Organisms */,
-				EC1FBE7C2FC52FAA00CA755B /* Template */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -300,9 +320,10 @@
 		EC1FBE862FC52FAA00CA755B /* Foundations */ = {
 			isa = PBXGroup;
 			children = (
-				EC1FBE7F2FC52FAA00CA755B /* Colors */,
+				EC1FBEAF2FC74EF300CA755B /* Grid System */,
 				EC1FBE812FC52FAA00CA755B /* Radius */,
 				EC1FBE832FC52FAA00CA755B /* Spacing */,
+				EC1FBE7F2FC52FAA00CA755B /* Colors */,
 				EC1FBE852FC52FAA00CA755B /* Typography */,
 			);
 			path = Foundations;
@@ -315,6 +336,14 @@
 				EC1FBE862FC52FAA00CA755B /* Foundations */,
 			);
 			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		EC1FBEAF2FC74EF300CA755B /* Grid System */ = {
+			isa = PBXGroup;
+			children = (
+				EC1FBEAE2FC74EF300CA755B /* MobileGrid.swift */,
+			);
+			path = "Grid System";
 			sourceTree = "<group>";
 		};
 		EC309F572F8C0EB3003E343E = {
@@ -573,7 +602,9 @@
 				EC309FEE2FABDC58003E343E /* LocationManager.swift in Sources */,
 				ECCD9F862FB7E6FA00E2B5B9 /* TripSessionManager.swift in Sources */,
 				EC309FEF2FABDC58003E343E /* NotificationsManager.swift in Sources */,
+				EC2F62FC2FC7B07E007FF45C /* NoActiveTripsCard.swift in Sources */,
 				ECCD9FF42FB8AA8E00E2B5B9 /* NavigationHelper.swift in Sources */,
+				EC2F63022FC7B0C3007FF45C /* HomeTemplate.swift in Sources */,
 				ECCD9EB02FB7843F00E2B5B9 /* TripSummaryView.swift in Sources */,
 				EC309FB02F97FE92003E343E /* TripHistoryView.swift in Sources */,
 				ECCD9FF62FB8AAA300E2B5B9 /* NetworkMonitorHelper.swift in Sources */,
@@ -590,7 +621,9 @@
 				EC309FB62F97FEDD003E343E /* AppSettings.swift in Sources */,
 				EC1FBE882FC52FAA00CA755B /* AvatarCircle.swift in Sources */,
 				EC1FBE892FC52FAA00CA755B /* ConnectivityIcon.swift in Sources */,
+				EC2F63002FC7B084007FF45C /*  HistoryTripCard.swift in Sources */,
 				EC1FBE8A2FC52FAA00CA755B /* CounterButton.swift in Sources */,
+				EC1FBEB42FC74FF100CA755B /* PersonalDetailsTemplate.swift in Sources */,
 				EC1FBE8B2FC52FAA00CA755B /* Divider.swift in Sources */,
 				EC1FBEAD2FC6541E00CA755B /* EmergencyContactsSection.swift in Sources */,
 				EC1FBE8C2FC52FAA00CA755B /* PlateLetterPicker.swift in Sources */,
@@ -598,14 +631,17 @@
 				EC1FBE8E2FC52FAA00CA755B /* progress.swift in Sources */,
 				EC1FBE8F2FC52FAA00CA755B /* ProgressSegment.swift in Sources */,
 				EC1FBE902FC52FAA00CA755B /* StatusBadge.swift in Sources */,
+				EC2F62FE2FC7B081007FF45C /*  NetworkStatusBanner.swift in Sources */,
 				EC1FBE912FC52FAA00CA755B /* Stepper.swift in Sources */,
 				EC1FBE922FC52FAA00CA755B /* Toggle.swift in Sources */,
-				EC1FBE932FC52FAA00CA755B /* BackButton.swift in Sources */,
+				EC1FBE932FC52FAA00CA755B /* ToolbarButton.swift in Sources */,
 				EC1FBE942FC52FAA00CA755B /* CTAButton.swift in Sources */,
 				EC1FBE952FC52FAA00CA755B /* FABButton.swift in Sources */,
 				EC1FBE962FC52FAA00CA755B /* RepeatTripButton.swift in Sources */,
+				EC1FBEB02FC74EF300CA755B /* MobileGrid.swift in Sources */,
 				EC1FBE972FC52FAA00CA755B /* AddContactRow.swift in Sources */,
 				EC1FBE982FC52FAA00CA755B /* ColorPickerRow.swift in Sources */,
+				EC2F62FA2FC7B079007FF45C /* AppTabBar.swift in Sources */,
 				EC1FBE992FC52FAA00CA755B /* ContactRow.swift in Sources */,
 				EC1FBE9A2FC52FAA00CA755B /* DateRangeRow.swift in Sources */,
 				EC1FBE9B2FC52FAA00CA755B /* DestinationRow.swift in Sources */,
@@ -618,7 +654,7 @@
 				EC1FBEA22FC52FAA00CA755B /* GroupSection.swift in Sources */,
 				EC1FBEA32FC52FAA00CA755B /* HeaderView.swift in Sources */,
 				EC1FBEA42FC52FAA00CA755B /* ProgressBar.swift in Sources */,
-				EC1FBEA52FC52FAA00CA755B /* PersonalDetailsTemp.swift in Sources */,
+				EC1FBEB22FC74FD000CA755B /* SummaryTemplate.swift in Sources */,
 				EC1FBEA62FC52FAA00CA755B /* TripDetailsTemplate.swift in Sources */,
 				EC1FBEA72FC52FAA00CA755B /* VehicleDetailsTemplate.swift in Sources */,
 				EC1FBEA82FC52FAA00CA755B /* AppColors.swift in Sources */,

@@ -80,13 +80,39 @@ struct CreateTripView: View {
                 switch currentStep {
 
                 case 0:
-                    PersonalDetailsTemplate(vm: vm)
+                    PersonalDetailsTemplate(
+                        fullName: $vm.fullName,
+                        phoneNumber: $vm.phoneNumber,
+                        emergencyContacts: $vm.emergencyContacts,
+                        showErrors: vm.showStep0Errors,
+                        onAddContact: { vm.showEmergencyContactPicker = true }
+                    )
+                   
 
                 case 1:
-                    VehicleDetailsTemplate(vm: vm)
+                    VehicleDetailsTemplate(
+                        carModel: $vm.carModel,
+                        selectedColor: $vm.selectedColor,
+                        isFourWheelDrive: $vm.isFourWheelDrive,
+                        firstPlateLetter: $vm.firstPlateLetter,
+                        secondPlateLetter: $vm.secondPlateLetter,
+                        thirdPlateLetter: $vm.thirdPlateLetter,
+                        plateDigits: $vm.plateDigits,
+                        showErrors: vm.showStep1Errors
+                    )
 
                 case 2:
-                    TripDetailsTemplate(vm: vm)
+                    TripDetailsTemplate(
+                        tripName: $vm.tripName,
+                        destination: $vm.destination,
+                        returnTime: $vm.returnTime,
+                        isGroup: $vm.isGroup,
+                        groupCount: $vm.groupCount,
+                        groupContacts: $vm.groupContacts,
+                        showErrors: vm.showStep2Errors,
+                        onSelectDestination: { vm.showDestinationPicker = true },
+                        onAddGroupContact: { vm.showGroupContactPicker = true }
+                    )
 
                 default:
                     EmptyView()

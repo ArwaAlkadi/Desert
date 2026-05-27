@@ -233,3 +233,34 @@
 "plate.letter.H" = "H";
 "plate.letter.U" = "U";
 "plate.letter.V" = "V";
+
+"summary.mock.contact.phone1" = "+966 5X XXX XXXX";
+"summary.mock.contact.phone2" = "+966 5X XXX XXXX";
+"summary.mock.contact.phone3" = "+966 5X XXX XXXX";
+
+
+/* MARK: - Tab Bar */
+"tab.history" = "history";
+"tab.map" = "Map";
+
+
+/* MARK: - Network Status */
+
+"network.disconnected.title" = "No internet Connection";
+"network.disconnected.message" = "Check your cellular data or Wi-Fi.";
+"network.connected.title" = "Connection restored";
+
+
+"history.repeatTrip" = "Repeat Trip";
+"history.status.noAlert" = "No Alert Sent";
+
+"history.mock.title" = "Weekend Camp";
+"history.mock.destination" = "Al Thoumamah";
+"history.mock.duration" = "2 Days";
+"history.mock.distance" = "34Km";
+"history.mock.people" = "5 people";
+"history.mock.date" = "01 May, 12:00PM";
+
+
+"history.status.noAlert" = "No Alert Sent";
+"history.status.alertSent" = "Alert Sent";
