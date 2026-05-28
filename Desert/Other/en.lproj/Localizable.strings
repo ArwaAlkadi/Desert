@@ -404,3 +404,6 @@
 
 "history.status.noAlert" = "No Alert Sent";
 "history.status.alertSent" = "Alert Sent";
+
+"contact_phone_invalid" = "Please select a contact with a valid Saudi phone number.";
+"contact_already_added" = "This contact has already been added.";

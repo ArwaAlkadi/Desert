@@ -255,9 +255,9 @@
 				EC2F62FD2FC7B081007FF45C /*  NetworkStatusBanner.swift */,
 				EC2F62FB2FC7B07E007FF45C /* NoActiveTripsCard.swift */,
 				EC2F62F92FC7B079007FF45C /* AppTabBar.swift */,
-				EC1FBE752FC52FAA00CA755B /* GroupSection.swift */,
 				EC1FBE762FC52FAA00CA755B /* HeaderView.swift */,
 				EC1FBE772FC52FAA00CA755B /* ProgressBar.swift */,
+				EC1FBE752FC52FAA00CA755B /* GroupSection.swift */,
 				EC1FBEAC2FC6541E00CA755B /* EmergencyContactsSection.swift */,
 			);
 			path = Organisms;

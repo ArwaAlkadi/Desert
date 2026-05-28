@@ -13,6 +13,8 @@ struct GroupSection: View {
     @Binding var isGroup: Bool
     @Binding var groupCount: Int
     @Binding var groupContacts: [Contact]
+
+    var contactErrorMessage: String = ""
     var onAddGroupContact: () -> Void = {}
 
     var body: some View {
@@ -54,50 +56,50 @@ struct GroupSection: View {
                 }
             }
 
-            VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            if isGroup {
+                VStack(alignment: .leading, spacing: AppSpacing.sm) {
 
-                Text("trip.groupContact.optional".localized)
-                    .font(AppTypography.headline)
-                    .foregroundStyle(Color.Primary)
+                    Text("trip.groupContact.optional".localized)
+                        .font(AppTypography.headline)
+                        .foregroundStyle(Color.Primary)
 
-                VStack(spacing: 0) {
+                    VStack(spacing: 0) {
 
-                    ForEach(groupContacts, id: \.name) { contact in
+                        ForEach(groupContacts, id: \.name) { contact in
 
-                        ContactRow(
-                            initial: String(contact.name.prefix(1)),
-                            titleKey: contact.name,
-                            captionKey: contact.phone
-                        ) {
-                            groupContacts.removeAll { $0.name == contact.name }
+                            ContactRow(
+                                initial: String(contact.name.prefix(1)),
+                                titleKey: contact.name,
+                                captionKey: contact.phone
+                            ) {
+                                groupContacts.removeAll { $0.name == contact.name }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 64)
+
+                            if contact.name != groupContacts.last?.name {
+                                AppDivider()
+                            }
+                        }
+
+                        AddContactRow(titleKey: "trip.groupContact.select") {
+                            onAddGroupContact()
                         }
                         .frame(maxWidth: .infinity)
-                        .frame(height: 64)
-
-                        if contact.name != groupContacts.last?.name {
-                            AppDivider()
-                        }
+                        .frame(height: 56)
                     }
+                    .background(Color.white)
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: AppRadius.md)
+                    )
 
-                    AddContactRow(titleKey: "trip.groupContact.select") {
-                        onAddGroupContact()
+                    if !contactErrorMessage.isEmpty {
+                        ErrorMessageRow(messageKey: contactErrorMessage)
                     }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 56)
                 }
-                .background(Color.white)
-                .clipShape(
-                    RoundedRectangle(cornerRadius: AppRadius.md)
-                )
+                .padding(.top, AppSpacing.md)
             }
-            .padding(.top, AppSpacing.md)
-            .opacity(isGroup ? 1 : 0)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .frame(height: isGroup ? (groupContacts.isEmpty ? 220 : CGFloat(220 + groupContacts.count * 64)) : 100, alignment: .top)
     }
-}
-
-#Preview {
-
 }

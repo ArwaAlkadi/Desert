@@ -14,6 +14,7 @@ struct PersonalDetailsTemplate: View {
     @Binding var fullName: String
     @Binding var phoneNumber: String
     @Binding var emergencyContacts: [Contact]
+    var contactErrorMessage: String = ""
     var showErrors: Bool = false
     var onAddContact: () -> Void = {}
     
@@ -94,9 +95,10 @@ private extension PersonalDetailsTemplate {
         EmergencyContactsSection(
             emergencyContacts: $emergencyContacts,
             showErrors: showErrors,
+            contactErrorMessage: contactErrorMessage,
             onAddContact: onAddContact
         )
-        }
+    }
     
    
     var phoneNumberIsValid: Bool {

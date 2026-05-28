@@ -59,9 +59,9 @@ class TripsViewModel: ObservableObject {
     @Published var showStep0Errors = false
     @Published var showStep1Errors = false
     @Published var showStep2Errors = false
-    @Published var showContactError = false
-    @Published var contactErrorMessage = ""
-
+    @Published var emergencyContactErrorMessage = ""
+    @Published var groupContactErrorMessage = ""
+    
     // MARK: - Validation
 
     var destinationIsValid: Bool { !destination.isEmpty }
@@ -203,20 +203,18 @@ extension TripsViewModel {
 // MARK: - Contacts
 
 extension TripsViewModel {
-
+    
     func importEmergencyContact(_ contact: CNContact) {
 
         guard emergencyContacts.count < 3 else {
-            contactErrorMessage = "max_contacts_reached".localized
-            showContactError = true
+            showTemporaryEmergencyError("max_contacts_reached".localized)
             return
         }
 
         let rawPhone = contact.phoneNumbers.first?.value.stringValue ?? ""
 
         guard let formattedPhone = formatSaudiPhone(rawPhone) else {
-            contactErrorMessage = "contact_phone_invalid".localized
-            showContactError = true
+            showTemporaryEmergencyError("contact_phone_invalid".localized)
             return
         }
 
@@ -228,22 +226,32 @@ extension TripsViewModel {
         }
 
         guard !alreadyExists else {
-            contactErrorMessage = "contact_already_added".localized
-            showContactError = true
+            showTemporaryEmergencyError("contact_already_added".localized)
             return
         }
 
-        showContactError = false
-        emergencyContacts.append(Contact(name: name, phone: formattedPhone))
+        emergencyContactErrorMessage = ""
+
+        emergencyContacts.append(
+            Contact(name: name, phone: formattedPhone)
+        )
+    }
+
+    private func showTemporaryEmergencyError(_ message: String) {
+        emergencyContactErrorMessage = message
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            guard self?.emergencyContactErrorMessage == message else { return }
+            self?.emergencyContactErrorMessage = ""
+        }
     }
 
     func importGroupContact(_ contact: CNContact) {
 
-        guard let email = contact.emailAddresses.first?.value as String?,
-              !email.isEmpty else {
+        let rawPhone = contact.phoneNumbers.first?.value.stringValue ?? ""
 
-            contactErrorMessage = "contact_phone_invalid".localized
-            showContactError = true
+        guard let formattedPhone = formatSaudiPhone(rawPhone) else {
+            showTemporaryGroupError("contact_phone_invalid".localized)
             return
         }
 
@@ -251,23 +259,30 @@ extension TripsViewModel {
             .trimmingCharacters(in: .whitespaces)
 
         let alreadyExists = groupContacts.contains {
-            $0.phone.lowercased() == email.lowercased()
+            $0.phone == formattedPhone
         }
 
         guard !alreadyExists else {
-            contactErrorMessage = "contact_already_added".localized
-            showContactError = true
+            showTemporaryGroupError("contact_already_added".localized)
             return
         }
 
-        showContactError = false
+        groupContactErrorMessage = ""
 
-        groupContacts.append(Contact(
-            name: name,
-            phone: email
-        ))
+        groupContacts.append(
+            Contact(name: name, phone: formattedPhone)
+        )
     }
 
+    private func showTemporaryGroupError(_ message: String) {
+        groupContactErrorMessage = message
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            guard self?.groupContactErrorMessage == message else { return }
+            self?.groupContactErrorMessage = ""
+        }
+    }
+    
     private func formatSaudiPhone(_ rawPhone: String?) -> String? {
         guard let rawPhone, !rawPhone.isEmpty else { return nil }
 

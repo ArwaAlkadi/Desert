@@ -403,3 +403,6 @@
 
 "history.status.noAlert" = "لم يتم إرسال تنبيه";
 "history.status.alertSent" = "تم إرسال التنبيه";
+
+"contact_phone_invalid" = "يرجى اختيار جهة اتصال تحتوي على رقم سعودي صحيح";
+"contact_already_added" = "تمت إضافة جهة الاتصال مسبقًا";

@@ -17,6 +17,7 @@ struct TripDetailsTemplate: View {
         @Binding var isGroup: Bool
         @Binding var groupCount: Int
         @Binding var groupContacts: [Contact]
+        var contactErrorMessage: String = ""
         var showErrors: Bool = false
         var onSelectDestination: () -> Void = {}
         var onAddGroupContact: () -> Void = {}
@@ -124,10 +125,10 @@ private extension TripDetailsTemplate {
         GroupSection(
             isGroup: $isGroup,
             groupCount: $groupCount,
-            groupContacts: $groupContacts
-        ) {
-            onAddGroupContact()
-        }
+            groupContacts: $groupContacts,
+            contactErrorMessage: contactErrorMessage,
+            onAddGroupContact: onAddGroupContact
+        )
     }
 }
 

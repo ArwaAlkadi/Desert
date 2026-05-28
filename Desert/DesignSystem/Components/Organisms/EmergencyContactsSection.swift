@@ -10,7 +10,9 @@ import SwiftUI
 struct EmergencyContactsSection: View {
 
     @Binding var emergencyContacts: [Contact]
+
     var showErrors: Bool = false
+    var contactErrorMessage: String = ""
     var onAddContact: () -> Void = {}
 
     var body: some View {
@@ -51,7 +53,9 @@ struct EmergencyContactsSection: View {
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
-            if showErrors && emergencyContacts.isEmpty {
+            if !contactErrorMessage.isEmpty {
+                ErrorMessageRow(messageKey: contactErrorMessage)
+            } else if showErrors && emergencyContacts.isEmpty {
                 ErrorMessageRow(messageKey: "emergency_contact_required")
             }
 
@@ -60,12 +64,4 @@ struct EmergencyContactsSection: View {
                 .foregroundStyle(Color.Disabled)
         }
     }
-}
-
-#Preview {
-    EmergencyContactsSection(
-        emergencyContacts: .constant([]),
-        onAddContact: {}
-    )
-    .padding()
 }

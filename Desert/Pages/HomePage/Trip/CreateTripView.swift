@@ -178,8 +178,11 @@ struct CreateTripView: View {
             fullName: $vm.fullName,
             phoneNumber: $vm.phoneNumber,
             emergencyContacts: $vm.emergencyContacts,
+            contactErrorMessage: vm.emergencyContactErrorMessage,
             showErrors: vm.showStep0Errors,
-            onAddContact: { vm.showEmergencyContactPicker = true }
+            onAddContact: {
+                vm.showEmergencyContactPicker = true
+            }
         )
         .padding(.horizontal, AppSpacing.lg)
 
@@ -207,6 +210,7 @@ struct CreateTripView: View {
             isGroup: $vm.isGroup,
             groupCount: $vm.groupCount,
             groupContacts: $vm.groupContacts,
+            contactErrorMessage: vm.groupContactErrorMessage,
             showErrors: vm.showStep2Errors,
             onSelectDestination: { vm.showDestinationPicker = true },
             onAddGroupContact: { vm.showGroupContactPicker = true }
