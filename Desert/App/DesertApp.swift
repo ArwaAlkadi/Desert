@@ -18,6 +18,7 @@ struct DesertApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .preferredColorScheme(.light)
         }
         .modelContainer(for: [
             AppSettings.self,

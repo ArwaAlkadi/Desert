@@ -17,7 +17,7 @@ struct AppTabBar: View {
             tabButton(tab: .map, icon: "map.fill", titleKey: "tab.map")
         }
         .padding(6)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: UIScreen.main.bounds.width - 32)
         .frame(height: 64)
         .background(Color.Secondary)
         .clipShape(Capsule())

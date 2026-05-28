@@ -9,7 +9,7 @@ import SwiftUI
 
 enum MobileGrid {
     
-    static let columns: Int = 4
+    static let columns: Int = 5
     static let horizontalMargin: CGFloat = 16
     static let gutter: CGFloat = 20
     
@@ -26,4 +26,36 @@ enum MobileGrid {
     static let textFieldHeight: CGFloat = 52
     static let cardRadius: CGFloat = 20
     
+}
+
+
+struct GridOverlay: View {
+
+    var body: some View {
+
+        GeometryReader { geo in
+
+            let totalGutter =
+                CGFloat(MobileGrid.columns - 1) * MobileGrid.gutter
+
+            let totalMargins =
+                MobileGrid.horizontalMargin * 2
+
+            let columnWidth =
+                (geo.size.width - totalMargins - totalGutter)
+                / CGFloat(MobileGrid.columns)
+
+            HStack(spacing: MobileGrid.gutter) {
+
+                ForEach(0..<MobileGrid.columns, id: \.self) { _ in
+
+                    Color.red.opacity(0.08)
+                        .frame(width: columnWidth)
+                }
+            }
+            .padding(.horizontal, MobileGrid.horizontalMargin)
+            .ignoresSafeArea()
+        }
+        .allowsHitTesting(false)
+    }
 }

@@ -274,7 +274,6 @@
 "trip.phone.countryCode" = "+966";
 
  "trip.phone" = "رقم الجوال";
- "trip.phone.placeholder" = "5X XXX XXXX";
 
  "trip.contacts" = "جهات الطوارئ";
  "trip.addContact" = "إضافة جهة طوارئ";
@@ -406,3 +405,4 @@
 
 "contact_phone_invalid" = "يرجى اختيار جهة اتصال تحتوي على رقم سعودي صحيح";
 "contact_already_added" = "تمت إضافة جهة الاتصال مسبقًا";
+"button.repeatTrip" = "إعادة الرحلة";

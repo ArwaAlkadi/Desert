@@ -45,14 +45,21 @@ struct RootView: View {
             }
         }
         .overlay(alignment: .top) {
-            if networkMonitor.showOfflineToast {
-                NetworkStatusBanner(status: .disconnected)
-                    .padding(.horizontal, AppSpacing.md)
-            }
+            ZStack(alignment: .top) {
 
-            if networkMonitor.showOnlineToast {
-                NetworkStatusBanner(status: .connected)
-                    .padding(.horizontal, AppSpacing.md)
+                #if DEBUG
+                GridOverlay()
+                #endif
+
+                if networkMonitor.showOfflineToast {
+                    NetworkStatusBanner(status: .disconnected)
+                        .padding(.horizontal, AppSpacing.md)
+                }
+
+                if networkMonitor.showOnlineToast {
+                    NetworkStatusBanner(status: .connected)
+                        .padding(.horizontal, AppSpacing.md)
+                }
             }
         }
         .onAppear {
@@ -77,6 +84,7 @@ struct RootView: View {
                 hideKeyboard()
             }
         )
+        
     }
     
 

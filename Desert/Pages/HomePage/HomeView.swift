@@ -98,17 +98,17 @@ struct HomeView: View {
                     NoActiveTripsCard {
                         showCreateTrip = true
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 16)
                     .padding(.bottom, 8)
                 } else {
                     ActiveTripCardView(trip: activeTrip!)
-                        .padding(.horizontal)
+                        .padding(.horizontal, 16)
                         .padding(.bottom, 8)
                 }
 
                 AppTabBar(selectedTab: $currentPage)
-                    .padding(.horizontal, 20)
                     .padding(.bottom, 32)
+
             }
         }
         .ignoresSafeArea(edges: .bottom)

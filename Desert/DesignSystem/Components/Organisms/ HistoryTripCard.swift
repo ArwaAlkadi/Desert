@@ -35,9 +35,9 @@ struct HistoryTripCard: View {
             footerSection
                 .padding(.top, 12)
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 14)
-        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 16)
+        .frame(maxWidth: UIScreen.main.bounds.width - 32)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
     }
@@ -107,7 +107,6 @@ private extension HistoryTripCard {
             RepeatTripButton {
                 repeatAction()
             }
-            .scaleEffect(0.82)
         }
     }
     

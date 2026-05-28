@@ -48,7 +48,6 @@ struct CreateTripView: View {
             ) {
                 handleBackAction()
             }
-            .padding(.top, AppSpacing.sm)
             .padding(.bottom, AppSpacing.md)
             .padding(.horizontal, AppSpacing.lg)
 

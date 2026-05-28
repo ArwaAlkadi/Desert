@@ -29,15 +29,31 @@ struct TripHistoryView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
 
-            Group {
-                if trips.isEmpty {
-                    emptyState
-                } else {
-                    tripList
+            VStack(spacing: 0) {
+                
+                VStack(alignment: .leading, spacing: 2) {
+
+                    Text("history_title".localized)
+                        .font(AppTypography.largeTitle)
+                        .foregroundStyle(Color.Primary)
+
+                    Text("\(trips.count) \("tripsـ".localized)")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(Color.lableSec)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, AppSpacing.lg)
+                .padding(.top, AppSpacing.md)
+                .padding(.bottom, AppSpacing.md)
+                
+                Group {
+                    if trips.isEmpty {
+                        emptyState
+                    } else {
+                        tripList
+                    }
                 }
             }
-            .navigationTitle("history_title".localized)
-            .navigationBarTitleDisplayMode(.large)
             .alert(
                 String(format: "delete_trips_alert".localized, vm.selectedTrips.count),
                 isPresented: $vm.showDeleteAlert
@@ -69,10 +85,9 @@ struct TripHistoryView: View {
             }
 
             AppTabBar(selectedTab: $currentPage)
-                .padding(.horizontal, 20)
                 .padding(.bottom, 32)
         }
-        .background(Color(UIColor.systemGroupedBackground))
+        .background(Color.Background)
         .ignoresSafeArea(edges: .bottom)
         .onAppear {
             for trip in trips {
@@ -99,37 +114,44 @@ struct TripHistoryView: View {
     }
 
     var tripList: some View {
-        List {
-            ForEach(trips, id: \.tripId) { trip in
-                TripHistoryRowA(
-                    trip: trip,
-                    dateRange: vm.formatDateRange(trip.startTime, trip.returnTime),
-                    duration: vm.tripDuration(trip),
-                    distance: "\(trip.gpsTrack.count * 250 / 1000) KM",
-                    alertSent: trip.alertSent,
-                    onOpenDetails: {
+
+        ScrollView(showsIndicators: false) {
+
+            LazyVStack(spacing: 16) {
+
+                ForEach(trips, id: \.tripId) { trip in
+
+                    HistoryTripCard(
+                        titleKey: trip.tripName,
+                        destinationKey: trip.destination,
+                        statusKey: trip.alertSent
+                            ? "history.status.alertSent"
+                            : "history.status.noAlert",
+                        badgeStyle: trip.alertSent ? .destructive : .positive,
+                        durationKey: vm.tripDuration(trip),
+                        distanceKey: "\(trip.gpsTrack.count * 250 / 1000) KM",
+                        peopleKey: "\(trip.groupSize) people",
+                        dateKey: vm.formatDateRange(trip.startTime, trip.returnTime),
+                        repeatAction: {
+                            guard !TripSessionManager.shared.hasActiveTrip else { return }
+                            tripToRepeat = trip
+                            showRepeatTrip = true
+                        }
+                    )
+                    .onTapGesture {
                         selectedTrip = trip
                         showDetails = true
-                    },
-                    onRepeatTrip: {
-                        guard !TripSessionManager.shared.hasActiveTrip else { return }
-                        tripToRepeat = trip
-                        showRepeatTrip = true
                     }
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    DeleteSwipeActionA {
-                        vm.selectedTrips = [trip.tripId]
-                        vm.showDeleteAlert = true
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        DeleteSwipeActionA {
+                            vm.selectedTrips = [trip.tripId]
+                            vm.showDeleteAlert = true
+                        }
                     }
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 120)
         }
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
-        .background(Color(UIColor.systemGroupedBackground))
-        .padding(.bottom, 50)
     }
 }

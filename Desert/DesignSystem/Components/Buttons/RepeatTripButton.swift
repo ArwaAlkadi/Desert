@@ -19,10 +19,11 @@ struct RepeatTripButton: View {
             HStack(spacing: AppSpacing.sm) {
 
                 Image(systemName: "arrow.counterclockwise")
-
                     .frame(width: 24 ,height: 24)
 
                 Text(title)
+                    .font(AppTypography.caption2Semibold)
+                    .lineLimit(1)
                     .font(
                         Font(
                             UIFont(
@@ -34,7 +35,7 @@ struct RepeatTripButton: View {
             }
             .foregroundStyle(.white)
             .padding(.vertical, AppSpacing.sm)
-            .padding(.horizontal, AppSpacing.lg)
+            .padding(.horizontal, AppSpacing.md)
             .background(Color.Secondary02)
             .cornerRadius(AppRadius.xxl)
         }

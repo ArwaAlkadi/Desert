@@ -27,9 +27,12 @@ struct NoActiveTripsCard: View {
             CTAButton(title: "Start new trip") {
                 onStartTrip()
             }
-            .padding(.horizontal, 24)
+
         }
-        .frame(width: 370, height: 470)
+        .frame(
+            width: UIScreen.main.bounds.width - 32,
+            height: 470
+        )
         .background(Color.Background)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.xl))
         .shadow(

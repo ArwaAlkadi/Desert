@@ -282,7 +282,6 @@
 "trip.fullName" = "Full Name";
 "trip.fullName.placeholder" = "Enter your full name";
 "trip.phone" = "Phone Number";
-"trip.phone.placeholder" = " 5X XXX XXXX";
 "trip.contacts" = "Emergency Contacts";
 "trip.addContact" = "Add Emergency Contact";
 "trip.contactsLimit" = "Maximum 3 contacts allowed";
@@ -407,3 +406,4 @@
 
 "contact_phone_invalid" = "Please select a contact with a valid Saudi phone number.";
 "contact_already_added" = "This contact has already been added.";
+"button.repeatTrip" = "Repeat Trip";
