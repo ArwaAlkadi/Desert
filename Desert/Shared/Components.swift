@@ -79,45 +79,6 @@ struct StatItemA: View {
     }
 }
 
-// MARK: - Custom Tab Bar
-// Capsule-style tab bar with Map and History tabs. Used in HomeView and TripHistoryView.
-
-struct CustomTabBarA: View {
-
-    @Binding var currentPage: AppPage
-
-    var body: some View {
-        HStack(spacing: 8) {
-            tabItem(icon: "map.fill", labelKey: "tab_map", page: .map)
-            tabItem(icon: "clock.fill", labelKey: "tab_history", page: .history)
-        }
-        .frame(maxWidth: .infinity)
-        .background(Color(.systemGray6))
-        .clipShape(Capsule())
-    }
-
-    @ViewBuilder
-    func tabItem(icon: String, labelKey: String, page: AppPage) -> some View {
-        let isSelected = currentPage == page
-
-        Button(action: { currentPage = page }) {
-            VStack(spacing: 4) {
-                Image(systemName: icon)
-                    .font(.system(size: 16, weight: .medium))
-                Text(labelKey.localized)
-                    .font(.caption)
-                    .fontWeight(.medium)
-            }
-            .foregroundColor(isSelected ? .primary : .secondary)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .frame(maxWidth: .infinity, maxHeight: 56)
-            .background(isSelected ? Color(.systemGray5) : Color.clear)
-            .clipShape(Capsule())
-            .padding(5)
-        }
-    }
-}
 
 // MARK: - Contact Picker Sheet
 // Wraps CNContactPickerViewController for native contact selection.

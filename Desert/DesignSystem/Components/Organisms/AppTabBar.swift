@@ -9,16 +9,11 @@ import SwiftUI
 
 struct AppTabBar: View {
     
-    @Binding var selectedTab: TabItem
-    
-    enum TabItem {
-        case trips
-        case map
-    }
+    @Binding var selectedTab: AppPage
     
     var body: some View {
         HStack(spacing: 0) {
-            tabButton(tab: .trips, icon: "doc.text.fill", titleKey: "tab.history")
+            tabButton(tab: .history, icon: "doc.text.fill", titleKey: "tab.history")
             tabButton(tab: .map, icon: "map.fill", titleKey: "tab.map")
         }
         .padding(6)
@@ -29,7 +24,7 @@ struct AppTabBar: View {
     }
     
     private func tabButton(
-        tab: TabItem,
+        tab: AppPage,
         icon: String,
         titleKey: String
     ) -> some View {
@@ -49,21 +44,9 @@ struct AppTabBar: View {
             .foregroundStyle(isSelected ? Color.Primary : Color.TabNotSelected)
             .frame(maxWidth: .infinity)
             .frame(height: 52)
-            .background(isSelected ? Color.TabSelected: Color.clear)
+            .background(isSelected ? Color.TabSelected : Color.clear)
             .clipShape(Capsule())
         }
         .buttonStyle(.plain)
     }
-}
-#Preview {
-    
-    @Previewable @State var selectedTab: AppTabBar.TabItem = .trips
-    
-    VStack {
-        Spacer()
-        
-        AppTabBar(selectedTab: $selectedTab)
-            .padding(.horizontal, AppSpacing.lg)
-    }
-    .background(Color.Background)
 }

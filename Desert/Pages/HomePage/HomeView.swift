@@ -104,7 +104,7 @@ struct HomeView: View {
                         .padding(.bottom, 8)
                 }
 
-                CustomTabBarA(currentPage: $currentPage)
+                AppTabBar(selectedTab: $currentPage)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 32)
             }

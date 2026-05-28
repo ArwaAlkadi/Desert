@@ -63,7 +63,6 @@ struct SummaryTemplate: View {
             .padding(.horizontal, AppSpacing.lg)
             .padding(.top, AppSpacing.lg)
             .padding(.bottom, AppSpacing.sm)
-            .background(Color.Background)
         }
     }
 }
