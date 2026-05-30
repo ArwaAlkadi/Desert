@@ -48,10 +48,24 @@ class ActiveTripCardViewModel: ObservableObject {
     }
 
     func daysLeftText(for returnTime: Date) -> String {
+
         let seconds = returnTime.timeIntervalSince(Date())
 
         if seconds <= 0 {
-            return "activeTrip.overdue".localized
+
+            let overdueSeconds = abs(seconds)
+
+            let days = Int(overdueSeconds / 86400)
+            let hours = Int(overdueSeconds / 3600)
+            let minutes = Int(overdueSeconds / 60)
+
+            if days > 0 {
+                return String(format: "activeTrip.daysOverdue".localized, days)
+            } else if hours > 0 {
+                return String(format: "activeTrip.hoursOverdue".localized, hours)
+            } else {
+                return String(format: "activeTrip.minutesOverdue".localized, minutes)
+            }
         }
 
         let days = Int(seconds / 86400)

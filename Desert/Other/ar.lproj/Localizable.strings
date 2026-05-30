@@ -408,3 +408,6 @@
 "button.repeatTrip" = "إعادة الرحلة";
 "activeTrip.daysLeft" = "متبقي %d يوم";
 "activeTrip.hoursLeft" = "متبقي %d ساعة";
+"activeTrip.daysOverdue" = "متأخر %d يوم";
+"activeTrip.hoursOverdue" = "متأخر %d ساعة";
+"activeTrip.minutesOverdue" = "متأخر %d دقيقة";

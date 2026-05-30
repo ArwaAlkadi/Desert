@@ -441,3 +441,6 @@
 "history.tripTrack"="tripTrack";
 "activeTrip.daysLeft" = "%d days left";
 "activeTrip.hoursLeft" = "%d hours left";
+"activeTrip.daysOverdue" = "%d days overdue";
+"activeTrip.hoursOverdue" = "%d hours overdue";
+"activeTrip.minutesOverdue" = "%d min overdue";
