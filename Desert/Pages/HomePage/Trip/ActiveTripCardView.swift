@@ -73,182 +73,52 @@ struct ActiveTripCardView: View {
         }
     }
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+    private var daysLeftText: String {
+        let seconds = trip.returnTime.timeIntervalSince(Date())
 
-            // MARK: - Header (always visible)
-            Button(action: {
-                withAnimation(.spring()) { isExpanded.toggle() }
-            }) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(trip.tripName)
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                        Text(trip.destination)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                    Spacer()
-
-                    HStack(spacing: 4) {
-                        Circle()
-                            .fill(trip.isOverdue ? Color.orange : Color.green)
-                            .frame(width: 8, height: 8)
-                        Text(trip.isOverdue ? "overdue".localized : "active".localized)
-                            .font(.caption)
-                            .foregroundColor(trip.isOverdue ? .orange : .green)
-                    }
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background((trip.isOverdue ? Color.orange : Color.green).opacity(0.1))
-                    .cornerRadius(8)
-
-                    Image(systemName: isExpanded ? "chevron.down" : "chevron.up")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .padding(.leading, 4)
-                }
-            }
-
-            // MARK: - Expanded Content
-            if isExpanded {
-                Divider().padding(.top, 10)
-
-                VStack(alignment: .leading, spacing: 12) {
-
-                    // Return Time — editable
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack {
-                            Text("return_time".localized)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            // Upload status indicator
-                            if returnTimeUploadStatus != .idle {
-                                HStack(spacing: 4) {
-                                    Image(systemName: returnTimeUploadStatus.icon)
-                                        .font(.caption2)
-                                    Text(returnTimeUploadStatus.label)
-                                        .font(.caption2)
-                                }
-                                .foregroundColor(returnTimeUploadStatus.color)
-                            }
-                        }
-
-                        if isEditingReturnTime {
-                            HStack {
-                                DatePicker(
-                                    "",
-                                    selection: $editedReturnTime,
-                                    displayedComponents: [.date, .hourAndMinute]
-                                )
-                                .labelsHidden()
-
-                                Spacer()
-
-                                // Save button
-                                Button(action: { saveReturnTime() }) {
-                                    Text("save".localized)
-                                        .font(.caption)
-                                        .fontWeight(.semibold)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
-                                        .background(Color.primary)
-                                        .foregroundColor(Color(UIColor.systemBackground))
-                                        .cornerRadius(8)
-                                }
-
-                                // Cancel button
-                                Button(action: { isEditingReturnTime = false }) {
-                                    Text("cancel".localized)
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                        } else {
-                            HStack {
-                                Text(formatDate(trip.returnTime))
-                                    .font(.caption)
-                                    .fontWeight(.medium)
-                                Spacer()
-                                // Edit button
-                                Button(action: {
-                                    editedReturnTime = trip.returnTime
-                                    isEditingReturnTime = true
-                                }) {
-                                    Image(systemName: "pencil")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                        }
-                    }
-                    .padding(10)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-
-                    // Last Upload
-                    HStack {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("last_upload".localized)
-                                .font(.caption).foregroundColor(.secondary)
-                            Text(trip.lastUploadTime != nil
-                                 ? formatDate(trip.lastUploadTime!)
-                                 : "not_yet".localized)
-                                .font(.caption).fontWeight(.medium)
-                        }
-                        Spacer()
-                        Text(String(format: "gps_points".localized, trip.gpsTrack.count))
-                            .font(.caption).foregroundColor(.secondary)
-                    }
-
-                    // Connection status
-                    if !isConnected {
-                        HStack(spacing: 4) {
-                            Image(systemName: "wifi.slash")
-                                .font(.caption2)
-                            Text("no_connection".localized)
-                                .font(.caption2)
-                        }
-                        .foregroundColor(.orange)
-                    }
-
-                    if !trip.emergencyContacts.isEmpty {
-                        Text("\("emergency".localized): \(trip.emergencyContacts.map { $0.name }.joined(separator: ", "))")
-                            .font(.caption).foregroundColor(.secondary)
-                    }
-
-                    Divider()
-
-                    Button(action: { vm.endTrip(trip, context: context) }) {
-                        Text("im_back_safely".localized)
-                            .fontWeight(.semibold)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                            .background(Color.primary)
-                            .foregroundColor(Color(UIColor.systemBackground))
-                            .cornerRadius(10)
-                    }
-                }
-                .padding(.top, 10)
-            }
+        if seconds <= 0 {
+            return "activeTrip.overdue".localized
         }
-        .padding()
-        .background(Color(UIColor.systemBackground))
-        .cornerRadius(16)
-        .shadow(radius: 4)
-        .onAppear {
-            monitor.pathUpdateHandler = { path in
-                DispatchQueue.main.async {
-                    isConnected = path.status == .satisfied
-                }
-            }
-            monitor.start(queue: DispatchQueue(label: "ActiveTripNetworkMonitor"))
-        }
-        .onDisappear {
-            monitor.cancel()
+
+        let days = Int(seconds / 86400)
+        let hours = Int(seconds / 3600)
+
+        if days > 0 {
+            return String(format: "activeTrip.daysLeft".localized, days)
+        } else {
+            return String(format: "activeTrip.hoursLeft".localized, hours)
         }
     }
+    
+        var body: some View {
+            ActiveTripCard(
+                tripName: trip.tripName,
+                daysLeft: daysLeftText,
+                isUploaded: returnTimeUploadStatus == .uploaded,
+                returnTime: trip.returnTime,
+                isOverdue: trip.isOverdue,
+                emergencyContacts: trip.emergencyContacts,
+                onUpdateReturnTime: { newTime in
+                    editedReturnTime = newTime
+                    saveReturnTime()
+                },
+                onEndTrip: {
+                    vm.endTrip(trip, context: context)
+                }
+            )
+            .onAppear {
+                monitor.pathUpdateHandler = { path in
+                    DispatchQueue.main.async {
+                        isConnected = path.status == .satisfied
+                    }
+                }
+                monitor.start(queue: DispatchQueue(label: "ActiveTripNetworkMonitor"))
+            }
+            .onDisappear {
+                monitor.cancel()
+            }
+        }
+  
 
     // MARK: - Save Return Time
 

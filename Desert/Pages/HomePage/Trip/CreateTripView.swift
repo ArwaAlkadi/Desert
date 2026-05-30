@@ -116,6 +116,10 @@ struct CreateTripView: View {
         }
     }
     
+}
+
+
+extension CreateTripView {
     // MARK: - Step Views
 
     @ViewBuilder

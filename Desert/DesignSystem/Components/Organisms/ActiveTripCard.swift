@@ -17,6 +17,9 @@ struct ActiveTripCard: View {
     var tripName: String = "Desert Trip"
     var daysLeft: String = "4 days left"
     var isUploaded: Bool = true
+    var returnTime: Date = Date()
+    var isOverdue: Bool = false
+
     
     var emergencyContacts: [Contact] = []
     
@@ -59,6 +62,14 @@ struct ActiveTripCard: View {
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
         .shadow(color: .black.opacity(0.12), radius: 12, x: 0, y: 4)
+        .onAppear {
+            selectedReturnTime = returnTime
+            draftReturnTime = returnTime
+        }
+        .onChange(of: returnTime) { _, newValue in
+            selectedReturnTime = newValue
+            draftReturnTime = newValue
+        }
     }
 }
 
@@ -85,8 +96,8 @@ private extension ActiveTripCard {
             
             HStack(spacing: AppSpacing.sm) {
                 StatusBadge(
-                    titleKey: "activeTrip.active",
-                    style: .positive,
+                    titleKey: isOverdue ? "activeTrip.overdue" : "activeTrip.active",
+                    style: isOverdue ? .destructive : .positive,
                     size: .small
                 )
                 

@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct HistoryTemplate: View {
+struct HistoryTemplate<Content: View>: View {
     
-    @State private var selectedTab: AppPage = .history
+    @Binding var selectedTab: AppPage
     
-    var hasTrips: Bool = true
-    var tripsCount: Int = 2
+    var hasTrips: Bool
+    var tripsCount: Int
     
     var onStartTrip: () -> Void = {}
-    var onOpenTrip: () -> Void = {}
-    var onRepeatTrip: () -> Void = {}
+    
+    @ViewBuilder var content: Content
     
     var body: some View {
         
@@ -25,12 +25,11 @@ struct HistoryTemplate: View {
             headerSection
             
             if hasTrips {
-                tripsListSection
+                content
             } else {
                 emptyStateSection
             }
         }
-        .padding(.horizontal, AppSpacing.lg)
         .padding(.top, AppSpacing.lg)
         .background(Color.Background)
         .safeAreaInset(edge: .bottom) {
@@ -43,7 +42,6 @@ struct HistoryTemplate: View {
                     .padding(.bottom, AppSpacing.sm)
             }
             .frame(maxWidth: .infinity)
-            .background(Color.Background.ignoresSafeArea(edges: .bottom))
         }
     }
 }
@@ -61,68 +59,31 @@ private extension HistoryTemplate {
                 .font(AppTypography.caption)
                 .foregroundStyle(Color.lableSec)
         }
-    }
-    
-    var tripsListSection: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: AppSpacing.md) {
-                
-                HistoryTripCard(
-                    titleKey: "history.mock.title",
-                    destinationKey: "history.mock.destination",
-                    statusKey: "history.status.noAlert",
-                    badgeStyle: .positive,
-                    durationKey: "history.mock.duration",
-                    distanceKey: "history.mock.distance",
-                    peopleKey: "history.mock.people",
-                    dateKey: "history.mock.date",
-                    repeatAction: onRepeatTrip
-                )
-                .onTapGesture {
-                    onOpenTrip()
-                }
-                
-                HistoryTripCard(
-                    titleKey: "history.mock.title",
-                    destinationKey: "history.mock.destination",
-                    statusKey: "history.status.alertSent",
-                    badgeStyle: .destructive,
-                    durationKey: "history.mock.duration",
-                    distanceKey: "history.mock.distance",
-                    peopleKey: "history.mock.people",
-                    dateKey: "history.mock.date",
-                    repeatAction: onRepeatTrip
-                )
-                .onTapGesture {
-                    onOpenTrip()
-                }
-            }
-            .padding(.bottom, 120)
-        }
+        .padding(.horizontal, AppSpacing.lg)
     }
     
     var emptyStateSection: some View {
         
         VStack(spacing: AppSpacing.xl) {
-
+            
             Spacer(minLength: 40)
-
+            
             Image("noPreviousTrip")
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: 400)
-
+            
             VStack(spacing: AppSpacing.sx) {
-
+                
                 Text("history.noPreviousTrips".localized)
                     .font(AppTypography.title2)
                     .foregroundStyle(Color.black)
-
+                
                 Text("history.noTripsDescription".localized)
                     .font(AppTypography.caption)
                     .foregroundStyle(Color.lableSec)
             }
-
+            
             CTAButton(
                 title: "history.startNewTrip".localized,
                 style: .primary,
@@ -130,7 +91,7 @@ private extension HistoryTemplate {
             ) {
                 onStartTrip()
             }
-
+            
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -138,14 +99,34 @@ private extension HistoryTemplate {
 }
 
 #Preview {
-//    HistoryTemplate(
-//        hasTrips: true,
-//        tripsCount: 2
-//    )
-
-        HistoryTemplate(
-            hasTrips: false,
-            tripsCount: 0
-        )
-    
+    HistoryTemplate(
+        selectedTab: .constant(.history),
+        hasTrips: true,
+        tripsCount: 2
+    ) {
+        VStack(spacing: AppSpacing.md) {
+            HistoryTripCard(
+                titleKey: "history.mock.title",
+                destinationKey: "history.mock.destination",
+                statusKey: "history.status.noAlert",
+                badgeStyle: .positive,
+                durationKey: "history.mock.duration",
+                distanceKey: "history.mock.distance",
+                peopleKey: "history.mock.people",
+                dateKey: "history.mock.date"
+            )
+            
+            HistoryTripCard(
+                titleKey: "history.mock.title",
+                destinationKey: "history.mock.destination",
+                statusKey: "history.status.alertSent",
+                badgeStyle: .destructive,
+                durationKey: "history.mock.duration",
+                distanceKey: "history.mock.distance",
+                peopleKey: "history.mock.people",
+                dateKey: "history.mock.date"
+            )
+        }
+        .padding(.horizontal, AppSpacing.lg)
+    }
 }

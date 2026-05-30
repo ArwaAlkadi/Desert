@@ -27,65 +27,44 @@ struct TripHistoryView: View {
     @State private var showRepeatTrip = false
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        HistoryTemplate(
+            selectedTab: $currentPage,
+            hasTrips: !trips.isEmpty,
+            tripsCount: trips.count,
+            onStartTrip: {
+                currentPage = .map
+            }
+        ) {
+            tripList
+        }
+        .alert(
+            String(format: "delete_trips_alert".localized, vm.selectedTrips.count),
+            isPresented: $vm.showDeleteAlert
+        ) {
+            Button("cancel".localized, role: .cancel) { }
 
-            VStack(spacing: 0) {
-                
-                VStack(alignment: .leading, spacing: 2) {
-
-                    Text("history_title".localized)
-                        .font(AppTypography.largeTitle)
-                        .foregroundStyle(Color.Primary)
-
-                    Text("\(trips.count) \("tripsـ".localized)")
-                        .font(AppTypography.caption)
-                        .foregroundStyle(Color.lableSec)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, AppSpacing.lg)
-                .padding(.top, AppSpacing.md)
-                .padding(.bottom, AppSpacing.md)
-                
-                Group {
-                    if trips.isEmpty {
-                        emptyState
-                    } else {
-                        tripList
+            Button("delete".localized, role: .destructive) {
+                vm.deleteSelected(trips: trips, context: context)
+            }
+        } message: {
+            Text("delete_trips_message".localized)
+        }
+        .navigationDestination(isPresented: $showDetails) {
+            if let selectedTrip {
+                TripHistoryInDetailsView(trip: selectedTrip)
+            }
+        }
+        .navigationDestination(isPresented: $showRepeatTrip) {
+            if let tripToRepeat {
+                CreateTripView(
+                    showParentSheet: $showRepeatTrip,
+                    tripToRepeat: tripToRepeat,
+                    onTripStarted: {
+                        showRepeatTrip = false
+                        currentPage = .map
                     }
-                }
+                )
             }
-            .alert(
-                String(format: "delete_trips_alert".localized, vm.selectedTrips.count),
-                isPresented: $vm.showDeleteAlert
-            ) {
-                Button("cancel".localized, role: .cancel) { }
-
-                Button("delete".localized, role: .destructive) {
-                    vm.deleteSelected(trips: trips, context: context)
-                }
-            } message: {
-                Text("delete_trips_message".localized)
-            }
-            .navigationDestination(isPresented: $showDetails) {
-                if let selectedTrip {
-                    TripHistoryInDetailsView(trip: selectedTrip)
-                }
-            }
-            .navigationDestination(isPresented: $showRepeatTrip) {
-                if let tripToRepeat {
-                    CreateTripView(
-                        showParentSheet: $showRepeatTrip,
-                        tripToRepeat: tripToRepeat,
-                        onTripStarted: {
-                            showRepeatTrip = false
-                            currentPage = .map
-                        }
-                    )
-                }
-            }
-
-            AppTabBar(selectedTab: $currentPage)
-                .padding(.bottom, 32)
         }
         .background(Color.Background)
         .ignoresSafeArea(edges: .bottom)
@@ -95,24 +74,16 @@ struct TripHistoryView: View {
             }
         }
     }
+}
 
-    var emptyState: some View {
-        VStack(spacing: 12) {
-            Spacer()
 
-            Image(systemName: "clock.arrow.circlepath")
-                .font(.system(size: 48))
-                .foregroundColor(.secondary)
 
-            Text("no_trips_yet".localized)
-                .foregroundColor(.secondary)
 
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.bottom, 100)
-    }
 
+
+
+
+extension TripHistoryView {
     var tripList: some View {
 
         ScrollView(showsIndicators: false) {
