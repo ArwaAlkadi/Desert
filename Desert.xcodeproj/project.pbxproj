@@ -60,6 +60,9 @@
 		EC2F63082FC88FC5007FF45C /* TripTrackTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F63072FC88FC5007FF45C /* TripTrackTemplate.swift */; };
 		EC2F630A2FC8901D007FF45C /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F63092FC8901D007FF45C /* SearchBar.swift */; };
 		EC2F630C2FC8903E007FF45C /* TripSummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F630B2FC8903E007FF45C /* TripSummaryCard.swift */; };
+		EC2F63492FCA6DBA007FF45C /* CreateTripStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F63482FCA6DBA007FF45C /* CreateTripStepsView.swift */; };
+		EC2F634B2FCA6DF9007FF45C /* CreateTripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F634A2FCA6DF9007FF45C /* CreateTripViewModel.swift */; };
+		EC2F634D2FCA6E30007FF45C /* ActiveTripCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F634C2FCA6E30007FF45C /* ActiveTripCardViewModel.swift */; };
 		EC309F722F8C1042003E343E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F712F8C1042003E343E /* FirebaseAnalytics */; };
 		EC309F742F8C1042003E343E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F732F8C1042003E343E /* FirebaseFirestore */; };
 		EC309F762F8C1042003E343E /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = EC309F752F8C1042003E343E /* FirebaseFunctions */; };
@@ -88,8 +91,6 @@
 		EC309FEF2FABDC58003E343E /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC309FEB2FABDC58003E343E /* NotificationsManager.swift */; };
 		EC7DEA1F2FB5043D008D3938 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = EC7DEA1E2FB5043D008D3938 /* FirebaseAuth */; };
 		ECCD9EB02FB7843F00E2B5B9 /* TripSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9EAF2FB7843F00E2B5B9 /* TripSummaryView.swift */; };
-		ECCD9EB62FB7846400E2B5B9 /* CreateTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9EB32FB7846400E2B5B9 /* CreateTripView.swift */; };
-		ECCD9EB72FB7846400E2B5B9 /* TripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9EB42FB7846400E2B5B9 /* TripViewModel.swift */; };
 		ECCD9F402FB7A26A00E2B5B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ECCD9F3E2FB7A26A00E2B5B9 /* Localizable.strings */; };
 		ECCD9F432FB7B79F00E2B5B9 /* MaintenanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9F422FB7B79F00E2B5B9 /* MaintenanceView.swift */; };
 		ECCD9F832FB7CB0C00E2B5B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ECCD9F812FB7CB0C00E2B5B9 /* InfoPlist.strings */; };
@@ -153,6 +154,9 @@
 		EC2F63072FC88FC5007FF45C /* TripTrackTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTrackTemplate.swift; sourceTree = "<group>"; };
 		EC2F63092FC8901D007FF45C /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		EC2F630B2FC8903E007FF45C /* TripSummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSummaryCard.swift; sourceTree = "<group>"; };
+		EC2F63482FCA6DBA007FF45C /* CreateTripStepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripStepsView.swift; sourceTree = "<group>"; };
+		EC2F634A2FCA6DF9007FF45C /* CreateTripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripViewModel.swift; sourceTree = "<group>"; };
+		EC2F634C2FCA6E30007FF45C /* ActiveTripCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTripCardViewModel.swift; sourceTree = "<group>"; };
 		EC309F602F8C0EB3003E343E /* Desert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Desert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC309F772F8C1058003E343E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC309F792F8C1058003E343E /* DesertApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesertApp.swift; sourceTree = "<group>"; };
@@ -179,8 +183,6 @@
 		EC309FEA2FABDC58003E343E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		EC309FEB2FABDC58003E343E /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		ECCD9EAF2FB7843F00E2B5B9 /* TripSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSummaryView.swift; sourceTree = "<group>"; };
-		ECCD9EB32FB7846400E2B5B9 /* CreateTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripView.swift; sourceTree = "<group>"; };
-		ECCD9EB42FB7846400E2B5B9 /* TripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripViewModel.swift; sourceTree = "<group>"; };
 		ECCD9F3F2FB7A26A00E2B5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECCD9F412FB7A29700E2B5B9 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECCD9F422FB7B79F00E2B5B9 /* MaintenanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceView.swift; sourceTree = "<group>"; };
@@ -370,6 +372,25 @@
 			path = "Grid System";
 			sourceTree = "<group>";
 		};
+		EC2F63462FCA6BF8007FF45C /* ActiveTripCard */ = {
+			isa = PBXGroup;
+			children = (
+				EC2F634C2FCA6E30007FF45C /* ActiveTripCardViewModel.swift */,
+				EC309FC32FA385E4003E343E /* ActiveTripCardView.swift */,
+			);
+			path = ActiveTripCard;
+			sourceTree = "<group>";
+		};
+		EC2F63472FCA6BFD007FF45C /* CreateTripPage */ = {
+			isa = PBXGroup;
+			children = (
+				EC2F634A2FCA6DF9007FF45C /* CreateTripViewModel.swift */,
+				EC2F63482FCA6DBA007FF45C /* CreateTripStepsView.swift */,
+				ECCD9EAF2FB7843F00E2B5B9 /* TripSummaryView.swift */,
+			);
+			path = CreateTripPage;
+			sourceTree = "<group>";
+		};
 		EC309F572F8C0EB3003E343E = {
 			isa = PBXGroup;
 			children = (
@@ -416,7 +437,7 @@
 			children = (
 				EC309FA52F97FDF5003E343E /* HomeViewModel.swift */,
 				EC309FA32F97FDDF003E343E /* HomeView.swift */,
-				ECCD9EB52FB7846400E2B5B9 /* Trip */,
+				EC2F63462FCA6BF8007FF45C /* ActiveTripCard */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -445,6 +466,7 @@
 				EC309F8D2F97FAF9003E343E /* SplashPage */,
 				EC309F8C2F97FAF9003E343E /* OnboardingPage */,
 				EC309F8B2F97FAF9003E343E /* HomePage */,
+				EC2F63472FCA6BFD007FF45C /* CreateTripPage */,
 				EC309F8A2F97FAF9003E343E /* HistoryPage */,
 			);
 			path = Pages;
@@ -502,17 +524,6 @@
 				ECCD9F852FB7E6FA00E2B5B9 /* TripSessionManager.swift */,
 			);
 			path = Managers;
-			sourceTree = "<group>";
-		};
-		ECCD9EB52FB7846400E2B5B9 /* Trip */ = {
-			isa = PBXGroup;
-			children = (
-				ECCD9EB42FB7846400E2B5B9 /* TripViewModel.swift */,
-				ECCD9EB32FB7846400E2B5B9 /* CreateTripView.swift */,
-				ECCD9EAF2FB7843F00E2B5B9 /* TripSummaryView.swift */,
-				EC309FC32FA385E4003E343E /* ActiveTripCardView.swift */,
-			);
-			path = Trip;
 			sourceTree = "<group>";
 		};
 		ECCD9FF02FB8AA2C00E2B5B9 /* Helpers */ = {
@@ -615,14 +626,14 @@
 				EC309FA42F97FDDF003E343E /* HomeView.swift in Sources */,
 				EC309FA22F97FDC9003E343E /* OnboardingViewModel.swift in Sources */,
 				EC309FA62F97FDF5003E343E /* HomeViewModel.swift in Sources */,
+				EC2F634B2FCA6DF9007FF45C /* CreateTripViewModel.swift in Sources */,
 				EC309FE52FABCB93003E343E /* Documentation.docc in Sources */,
 				EC309F7F2F8C1058003E343E /* DesertApp.swift in Sources */,
 				EC309FC42FA385E4003E343E /* ActiveTripCardView.swift in Sources */,
 				EC309F9C2F97FD87003E343E /* SplashView.swift in Sources */,
 				EC2F630C2FC8903E007FF45C /* TripSummaryCard.swift in Sources */,
 				EC309FC02F9800DE003E343E /* RootView.swift in Sources */,
-				ECCD9EB62FB7846400E2B5B9 /* CreateTripView.swift in Sources */,
-				ECCD9EB72FB7846400E2B5B9 /* TripViewModel.swift in Sources */,
+				EC2F63492FCA6DBA007FF45C /* CreateTripStepsView.swift in Sources */,
 				EC309FED2FABDC58003E343E /* FirebaseManager.swift in Sources */,
 				EC309FEE2FABDC58003E343E /* LocationManager.swift in Sources */,
 				ECCD9F862FB7E6FA00E2B5B9 /* TripSessionManager.swift in Sources */,
@@ -665,6 +676,7 @@
 				EC1FBE912FC52FAA00CA755B /* Stepper.swift in Sources */,
 				EC1FBE922FC52FAA00CA755B /* Toggle.swift in Sources */,
 				EC1FBE932FC52FAA00CA755B /* ToolbarButton.swift in Sources */,
+				EC2F634D2FCA6E30007FF45C /* ActiveTripCardViewModel.swift in Sources */,
 				EC1FBE942FC52FAA00CA755B /* CTAButton.swift in Sources */,
 				EC1FBE952FC52FAA00CA755B /* FABButton.swift in Sources */,
 				EC1FBE962FC52FAA00CA755B /* RepeatTripButton.swift in Sources */,

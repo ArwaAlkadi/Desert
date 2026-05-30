@@ -1,5 +1,5 @@
 //
-//  CreateTripView.swift
+//  CreateTripStepsView.swift
 //  Desert
 //
 
@@ -7,7 +7,7 @@ import SwiftUI
 import SwiftData
 import ContactsUI
 
-struct CreateTripView: View {
+struct CreateTripStepsView: View {
 
     @Binding var showParentSheet: Bool
     var tripToRepeat: Trip? = nil
@@ -19,7 +19,7 @@ struct CreateTripView: View {
     @Environment(\.dismiss) private var dismiss
 
     @Query var savedInfo: [SavedInfo]
-    @StateObject private var vm = TripsViewModel()
+    @StateObject private var vm = CreateTripViewModel()
 
     @State private var currentStep = 0
     @State private var showSummary = false
@@ -119,7 +119,7 @@ struct CreateTripView: View {
 }
 
 
-extension CreateTripView {
+extension CreateTripStepsView {
     // MARK: - Step Views
 
     @ViewBuilder
@@ -222,7 +222,7 @@ extension CreateTripView {
 
 #Preview {
     NavigationStack {
-        CreateTripView(showParentSheet: .constant(true))
+        CreateTripStepsView(showParentSheet: .constant(true))
     }
     .modelContainer(for: [
         SavedInfo.self,
@@ -230,3 +230,4 @@ extension CreateTripView {
         Trip.self
     ], inMemory: true)
 }
+

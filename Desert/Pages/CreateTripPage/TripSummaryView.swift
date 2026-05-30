@@ -8,7 +8,7 @@ import SwiftData
 
 struct TripSummaryView: View {
 
-    @ObservedObject var vm: TripsViewModel
+    @ObservedObject var vm: CreateTripViewModel
     var onTripStarted: () -> Void
 
     @Environment(\.modelContext) private var context

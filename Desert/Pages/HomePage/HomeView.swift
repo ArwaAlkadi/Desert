@@ -33,7 +33,7 @@ struct HomeView: View {
                 }
             }
             .navigationDestination(isPresented: $showCreateTrip) {
-                CreateTripView(
+                CreateTripStepsView(
                     showParentSheet: $showCreateTrip,
                     onTripStarted: {
                         showCreateTrip = false

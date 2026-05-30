@@ -1,5 +1,5 @@
 //
-//  TripsViewModel.swift
+//  CreateTripViewModel.swift
 //  Desert
 //
 
@@ -9,7 +9,7 @@ import CoreLocation
 import Contacts
 import Combine
 
-class TripsViewModel: ObservableObject {
+class CreateTripViewModel: ObservableObject {
 
     // MARK: - Form Fields
 
@@ -209,7 +209,7 @@ class TripsViewModel: ObservableObject {
 
 // MARK: - Load Data
 
-extension TripsViewModel {
+extension CreateTripViewModel {
 
     func loadSavedInfo(_ savedInfo: SavedInfo?) {
         guard let saved = savedInfo else { return }
@@ -263,7 +263,7 @@ extension TripsViewModel {
 
 // MARK: - Contacts
 
-extension TripsViewModel {
+extension CreateTripViewModel {
 
     func importEmergencyContact(_ contact: CNContact) {
 
@@ -367,7 +367,7 @@ extension TripsViewModel {
 
 // MARK: - Start Trip
 
-extension TripsViewModel {
+extension CreateTripViewModel {
 
     @discardableResult
     func startTrip(
@@ -500,3 +500,4 @@ extension TripsViewModel {
         }
     }
 }
+

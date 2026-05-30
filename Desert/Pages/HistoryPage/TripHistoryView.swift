@@ -56,7 +56,7 @@ struct TripHistoryView: View {
         }
         .navigationDestination(isPresented: $showRepeatTrip) {
             if let tripToRepeat {
-                CreateTripView(
+                CreateTripStepsView(
                     showParentSheet: $showRepeatTrip,
                     tripToRepeat: tripToRepeat,
                     onTripStarted: {

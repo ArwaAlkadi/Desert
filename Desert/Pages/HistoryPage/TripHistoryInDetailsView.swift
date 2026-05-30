@@ -63,7 +63,7 @@ struct TripHistoryInDetailsView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
         .navigationDestination(isPresented: $showRepeatTrip) {
-            CreateTripView(
+            CreateTripStepsView(
                 showParentSheet: $showRepeatTrip,
                 tripToRepeat: trip,
                 onTripStarted: { showRepeatTrip = false },
