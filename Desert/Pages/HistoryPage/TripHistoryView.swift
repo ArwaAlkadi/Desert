@@ -134,3 +134,17 @@ extension TripHistoryView {
         }
     }
 }
+
+
+#Preview {
+    NavigationStack {
+        TripHistoryView(currentPage: .constant(.history))
+    }
+    .modelContainer(for: [
+        Trip.self,
+        LocationPoint.self,
+        SavedInfo.self,
+        SavedContact.self,
+        AppSettings.self
+    ], inMemory: true)
+}

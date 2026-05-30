@@ -96,3 +96,44 @@ struct TripHistoryInDetailsView: View {
         }
     }
 }
+
+
+#Preview {
+    let trip = Trip(
+        tripId: "trip_001_preview",
+        tripName: "27 May Trip",
+        userName: "Samar",
+        phoneNumber: "+966501234567",
+        destination: "Al Thumamah",
+        destinationLat: 24.9,
+        destinationLng: 46.7,
+        returnTime: Date().addingTimeInterval(3600 * 8),
+        hasGroup: true,
+        groupSize: 3,
+        carName: "Toyota",
+        carColor: "White",
+        is4WD: true,
+        plateLetters: "ABC",
+        plateNumbers: "1234"
+    )
+
+    trip.status = "completed"
+    trip.alertSent = false
+    trip.emergencyContacts = [
+        Contact(name: "Ahmed", phone: "+966501234567")
+    ]
+    trip.groupContacts = [
+        Contact(name: "Faisal", phone: "+966507654321")
+    ]
+
+    return NavigationStack {
+        TripHistoryInDetailsView(trip: trip)
+    }
+    .modelContainer(for: [
+        Trip.self,
+        LocationPoint.self,
+        SavedInfo.self,
+        SavedContact.self,
+        AppSettings.self
+    ], inMemory: true)
+}

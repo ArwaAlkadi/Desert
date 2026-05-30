@@ -2,19 +2,6 @@
 //  ActiveTripCardView.swift
 //  Desert
 //
-//  Collapsible card shown at the bottom of the map during an active trip.
-//
-//  Collapsed: trip name, destination, Active/Overdue badge.
-//  Expanded:  return time (editable), last upload time, GPS point count,
-//             emergency contacts, upload status, end trip button.
-//
-//  Tapping the header toggles between collapsed and expanded states.
-//  "I'm Back Safely" ends the trip via HomeViewModel → TripSessionManager.
-//  Return time edits are saved locally and synced to Firebase if online.
-//
-//  Layout direction:
-//  - All HStack elements respect the system language direction automatically (LTR/RTL).
-//
 
 import SwiftUI
 import SwiftData
@@ -51,4 +38,31 @@ struct ActiveTripCardView: View {
             vm.stopMonitoring()
         }
     }
+}
+
+
+#Preview {
+    ActiveTripCardView(
+        trip: Trip(
+            tripId: "trip_001_preview",
+            tripName: "Desert Trip",
+            userName: "Samar",
+            phoneNumber: "+966501234567",
+            destination: "Al Thumamah",
+            destinationLat: 24.9,
+            destinationLng: 46.7,
+            returnTime: Date().addingTimeInterval(4 * 24 * 60 * 60),
+            hasGroup: false,
+            groupSize: 1,
+            carName: "Toyota",
+            carColor: "White",
+            is4WD: true,
+            plateLetters: "ABC",
+            plateNumbers: "1234"
+        )
+    )
+    .modelContainer(for: [
+        Trip.self,
+        LocationPoint.self
+    ], inMemory: true)
 }

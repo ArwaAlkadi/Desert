@@ -46,7 +46,19 @@ struct HomeView: View {
         .onAppear { vm.onAppear(context: context) }
         .navigationBarBackButtonHidden()
     }
+}
 
+
+#Preview {
+    HomeView()
+        .modelContainer(for: [
+            Trip.self, Contact.self, LocationPoint.self,
+            AppSettings.self, SavedInfo.self, SavedContact.self
+        ], inMemory: true)
+}
+
+
+extension HomeView {
     func goToMap() {
         showCreateTrip = false
         currentPage = .map
@@ -113,12 +125,4 @@ struct HomeView: View {
         }
         .ignoresSafeArea(edges: .bottom)
     }
-}
-
-#Preview {
-    HomeView()
-        .modelContainer(for: [
-            Trip.self, Contact.self, LocationPoint.self,
-            AppSettings.self, SavedInfo.self, SavedContact.self
-        ], inMemory: true)
 }

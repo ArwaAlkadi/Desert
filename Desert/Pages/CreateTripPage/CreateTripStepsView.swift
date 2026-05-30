@@ -119,6 +119,18 @@ struct CreateTripStepsView: View {
 }
 
 
+#Preview {
+    NavigationStack {
+        CreateTripStepsView(showParentSheet: .constant(true))
+    }
+    .modelContainer(for: [
+        SavedInfo.self,
+        SavedContact.self,
+        Trip.self
+    ], inMemory: true)
+}
+
+
 extension CreateTripStepsView {
     // MARK: - Step Views
 
@@ -219,15 +231,3 @@ extension CreateTripStepsView {
         }
     }
 }
-
-#Preview {
-    NavigationStack {
-        CreateTripStepsView(showParentSheet: .constant(true))
-    }
-    .modelContainer(for: [
-        SavedInfo.self,
-        SavedContact.self,
-        Trip.self
-    ], inMemory: true)
-}
-

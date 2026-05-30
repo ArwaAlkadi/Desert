@@ -69,3 +69,34 @@ struct TripSummaryView: View {
         }
     }
 }
+
+
+#Preview {
+    let vm = CreateTripViewModel()
+    vm.tripName = "Desert Trip"
+    vm.destination = "Al Thumamah"
+    vm.returnTime = Date().addingTimeInterval(3600 * 8)
+    vm.fullName = "Samar"
+    vm.phoneNumber = "+966501234567"
+    vm.carModel = "Toyota"
+    vm.selectedColor = "White"
+    vm.plateLetters = "ABC"
+    vm.plateNumbers = "1234"
+    vm.emergencyContacts = [
+        Contact(name: "Ahmed", phone: "+966501234567")
+    ]
+
+    return NavigationStack {
+        TripSummaryView(
+            vm: vm,
+            onTripStarted: {}
+        )
+    }
+    .modelContainer(for: [
+        Trip.self,
+        SavedInfo.self,
+        SavedContact.self,
+        LocationPoint.self,
+        AppSettings.self
+    ], inMemory: true)
+}
