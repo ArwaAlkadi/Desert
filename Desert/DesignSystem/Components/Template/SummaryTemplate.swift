@@ -30,7 +30,10 @@ struct SummaryTemplate: View {
             HeaderView(
                 titleKey: "summary.title",
                 leadingButton: .back,
-                action: { onBack() }
+                action: {
+                    guard !isLoading else { return }
+                    onBack()
+                }
             )
             .padding(.top, 0)
             .padding(.bottom, 28)
