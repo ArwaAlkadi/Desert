@@ -64,6 +64,7 @@ struct SummaryTemplate: View {
                 ) {
                     onStartTrip()
                 }
+                .disabled(true) //موقتا لين نحل المشكلة
                 .padding(.horizontal, AppSpacing.xxl)
                 .padding(.top, AppSpacing.lg)
                 .padding(.bottom, AppSpacing.sm)
