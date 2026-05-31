@@ -25,17 +25,27 @@ struct TripHistoryView: View {
 
     @State private var tripToRepeat: Trip?
     @State private var showRepeatTrip = false
-
+    @State private var showCreateTrip = false
+    
     var body: some View {
         HistoryTemplate(
             selectedTab: $currentPage,
             hasTrips: !trips.isEmpty,
             tripsCount: trips.count,
             onStartTrip: {
-                currentPage = .map
+                showCreateTrip = true
             }
         ) {
             tripList
+        }
+        .navigationDestination(isPresented: $showCreateTrip) {
+            CreateTripStepsView(
+                showParentSheet: $showCreateTrip,
+                onTripStarted: {
+                    showCreateTrip = false
+                    currentPage = .map
+                }
+            )
         }
         .alert(
             String(format: "delete_trips_alert".localized, vm.selectedTrips.count),
@@ -54,18 +64,7 @@ struct TripHistoryView: View {
                 TripHistoryInDetailsView(trip: selectedTrip)
             }
         }
-        .navigationDestination(isPresented: $showRepeatTrip) {
-            if let tripToRepeat {
-                CreateTripStepsView(
-                    showParentSheet: $showRepeatTrip,
-                    tripToRepeat: tripToRepeat,
-                    onTripStarted: {
-                        showRepeatTrip = false
-                        currentPage = .map
-                    }
-                )
-            }
-        }
+       
         .onAppear {
             for trip in trips {
                 vm.syncAlertStatusIfNeeded(for: trip, context: context)
