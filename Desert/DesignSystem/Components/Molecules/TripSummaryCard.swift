@@ -54,23 +54,23 @@ private extension TripSummaryCard {
     VStack(spacing: 24) {
         
         TripSummaryCard(rows: [
-            ("summary.startTime", "summary.mock.startTime"),
-            ("summary.returnTime", "summary.mock.returnTime"),
-            ("summary.destination", "summary.mock.destination"),
-            ("summary.carDetails", "summary.mock.carDetails"),
-            ("summary.plateNumber", "summary.mock.plateNumber"),
-            ("summary.selectedDistance", "summary.mock.selectedDistance"),
-            ("summary.numberOfIndividuals", "summary.mock.numberOfIndividuals")
+            ("Start Time", "1 Jun, 04:30PM"),
+            ("Return Time", "1 Jun, 09:00PM"),
+            ("Destination", "Al Thumamah"),
+            ("Car Details", "White Toyota Land Cruiser"),
+            ("Plate Number", "1234 | RSX"),
+            ("Selected Distance", "78 km"),
+            ("No. of individuals", "3 People")
         ])
         
         TripSummaryCard(rows: [
-            ("summary.startTime", "summary.mock.startTime"),
-            ("summary.returnTime", "summary.mock.returnTime"),
-            ("summary.destination", "summary.mock.destination"),
-            ("summary.numberOfIndividuals", "summary.mock.numberOfIndividuals"),
-            ("summary.carDetails", "summary.mock.carDetails"),
-            ("summary.plateNumber", "summary.mock.plateNumber"),
-            ("summary.distance", "summary.mock.selectedDistance")
+            ("Start Time", "24 May, 09:15AM"),
+            ("Return Time", "24 May, 05:30PM"),
+            ("Destination", "Rub' al Khali"),
+            ("No. of individuals", "5 People"),
+            ("Car Details", "Black Nissan Patrol"),
+            ("Plate Number", "5678 | ABD"),
+            ("Distance", "240 km")
         ])
     }
     .padding()

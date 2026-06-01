@@ -104,6 +104,7 @@
 "summary.destination" = "الوجهة";
 "summary.carDetails" = "تفاصيل السيارة";
 "summary.plateNumber" = "رقم اللوحة";
+"summary.distance" = "المسافة";
 "summary.numberOfIndividuals" = "عدد الأفراد";
 "summary.emergencyContacts" = "جهات الطوارئ";
 "summary.groupContactOptional" = "جهة اتصال المجموعة (اختياري)";

@@ -104,6 +104,7 @@
 "summary.destination" = "Destination";
 "summary.carDetails" = "Car Details";
 "summary.plateNumber" = "Plate Number";
+"summary.distance" = "Distance";
 "summary.numberOfIndividuals" = "No. of individuals";
 "summary.emergencyContacts" = "Emergency Contacts";
 "summary.groupContactOptional" = "Group contact (optional)";

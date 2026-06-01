@@ -138,6 +138,7 @@ private extension ContactRow {
             }
     }
 }
+
 #Preview {
 
     VStack(spacing: 24) {
@@ -146,8 +147,8 @@ private extension ContactRow {
 
             ContactRow(
                 initial: "A",
-                titleKey: "contact.omSaqr",
-                captionKey: "contact.phone1",
+                titleKey: "Abeer",
+                captionKey: "+966 50 123 4567",
                 isEditable: true
             ) {
                 print("Deleted")
@@ -157,8 +158,8 @@ private extension ContactRow {
 
             ContactRow(
                 initial: "F",
-                titleKey: "contact.fajer",
-                captionKey: "contact.phone2",
+                titleKey: "Fajer",
+                captionKey: "+966 55 987 6543",
                 isEditable: true
             ) {
                 print("Deleted")
@@ -171,8 +172,8 @@ private extension ContactRow {
 
             ContactRow(
                 initial: "D",
-                titleKey: "history.mock.contact.dad",
-                captionKey: "contact.phone1",
+                titleKey: "Dad",
+                captionKey: "+966 54 111 2222",
                 isEditable: false
             )
 
@@ -180,8 +181,8 @@ private extension ContactRow {
 
             ContactRow(
                 initial: "O",
-                titleKey: "history.mock.contact.omar",
-                captionKey: "contact.phone2",
+                titleKey: "Omar",
+                captionKey: "+966 56 333 4444",
                 isEditable: false
             )
         }
@@ -191,4 +192,3 @@ private extension ContactRow {
     .padding()
     .background(Color.Background)
 }
-

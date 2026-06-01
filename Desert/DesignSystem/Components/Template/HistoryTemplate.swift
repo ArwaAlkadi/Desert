@@ -107,26 +107,27 @@ private extension HistoryTemplate {
         tripsCount: 2
     ) {
         VStack(spacing: AppSpacing.md) {
+
             HistoryTripCard(
-                titleKey: "history.mock.title",
-                destinationKey: "history.mock.destination",
-                statusKey: "history.status.noAlert",
+                titleKey: "Al Thumamah Trip",
+                destinationKey: "Al Thumamah",
+                statusKey: "No Alert Sent",
                 badgeStyle: .positive,
-                durationKey: "history.mock.duration",
-                distanceKey: "history.mock.distance",
-                peopleKey: "history.mock.people",
-                dateKey: "history.mock.date"
+                durationKey: "4h 25m",
+                distanceKey: "78 km",
+                peopleKey: "3 People",
+                dateKey: "1 Jun 2026"
             )
-            
+
             HistoryTripCard(
-                titleKey: "history.mock.title",
-                destinationKey: "history.mock.destination",
-                statusKey: "history.status.alertSent",
+                titleKey: "Empty Quarter Trip",
+                destinationKey: "Rub' al Khali",
+                statusKey: "Alert Sent",
                 badgeStyle: .destructive,
-                durationKey: "history.mock.duration",
-                distanceKey: "history.mock.distance",
-                peopleKey: "history.mock.people",
-                dateKey: "history.mock.date"
+                durationKey: "8h 10m",
+                distanceKey: "240 km",
+                peopleKey: "5 People",
+                dateKey: "24 May 2026"
             )
         }
         .padding(.horizontal, AppSpacing.lg)
