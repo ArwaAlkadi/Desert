@@ -112,6 +112,7 @@
 "summary.warningMessage" = "تأكد من صحة المعلومات قبل المتابعة. في حال تجاوزت وقت العودة ولم يصلنا تحديث لموقعك، سيتم إبلاغ جهات الطوارئ.";
 "solo" = "منفرد";
 "group.numberOfIndividuals" = "عدد الأفراد";
+"summary.creatingTrip" = "جاري إنشاء الرحلة...";
 
 
 /* MARK: - Active Trip */

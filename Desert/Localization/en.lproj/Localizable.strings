@@ -56,6 +56,8 @@
 "trip.addContact" = "Add Emergency Contact";
 "contact.add" = "Add Contact";
 "trip.contactsLimit" = "Maximum 3 contacts allowed";
+"contact.delete.title" = "Delete Contact?";
+"contact.delete.message" = "This contact will be removed from your emergency contacts.";
 
 
 /* MARK: - Vehicle Details */
@@ -112,6 +114,7 @@
 "summary.warningMessage" = "Make sure information is correct as it cannot be changed. If you exceed the return time of your trip and do not have a signal, your emergency contacts will be alerted.";
 "solo" = "Solo";
 "group.numberOfIndividuals" = "Number of individuals";
+"summary.creatingTrip" = "Creating...";
 
 
 /* MARK: - Active Trip */
@@ -208,4 +211,3 @@
 "contact_already_added" = "This contact has already been added";
 "emergency_contact_required" = "At least one emergency contact is required";
 "no_internet_connection" = "No internet connection. Please check your connection before starting";
-

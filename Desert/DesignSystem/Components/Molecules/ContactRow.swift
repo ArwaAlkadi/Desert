@@ -16,52 +16,65 @@ struct ContactRow: View {
 
     var deleteAction: (() -> Void)? = nil
 
-    @State private var showDeleteButton = false
-    @State private var dragOffset: CGFloat = 0
+    @State private var offsetX: CGFloat = 0
+    @State private var showDeleteConfirmation = false
 
-    private let deleteRevealWidth: CGFloat = 72
-    private let deleteTriggerWidth: CGFloat = 170
-    private let maxSwipeWidth: CGFloat = 190
+    private let deleteWidth: CGFloat = 72
+    private let fullSwipeDeleteWidth: CGFloat = 150
 
     var body: some View {
 
         ZStack(alignment: .trailing) {
-
             if isEditable {
                 deleteButton
             }
 
             rowContent
-                .offset(x: isEditable ? dragOffset : 0)
+                .offset(x: offsetX)
                 .gesture(isEditable ? swipeGesture : nil)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 68)
+        .clipped()
+        .confirmationDialog(
+            "contact.delete.title".localized,
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("common.delete".localized, role: .destructive) {
+                deleteAction?()
+                offsetX = 0
+            }
+
+            Button("common.cancel".localized, role: .cancel) {
+                withAnimation(.spring()) {
+                    offsetX = 0
+                }
+            }
+        } message: {
+            Text("contact.delete.message".localized)
+        }
     }
 }
 
 private extension ContactRow {
 
     var deleteButton: some View {
-        Button {
-            deleteAction?()
+        Button(role: .destructive) {
+            showDeleteConfirmation = true
         } label: {
             Text("common.delete".localized)
-                .font(AppTypography.caption)
+                .font(AppTypography.caption2)
                 .foregroundStyle(.white)
-                .frame(
-                    width: max(abs(dragOffset), deleteRevealWidth),
-                    height: 52
-                )
+                .frame(width: deleteWidth, height: 68)
                 .background(Color.Destructive)
-                .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
         }
         .buttonStyle(.plain)
-        .opacity(dragOffset < 0 || showDeleteButton ? 1 : 0)
+        .opacity(offsetX < 0 ? 1 : 0)
     }
 
     var rowContent: some View {
-        HStack(spacing: AppSpacing.sm) {
+        HStack(spacing: 10) {
 
             AvatarCircle(initial: initial)
 
@@ -75,64 +88,54 @@ private extension ContactRow {
                     .foregroundStyle(Color.Disabled)
             }
 
-            Spacer(minLength: AppSpacing.sx)
+            Spacer(minLength: 2)
 
             if isEditable {
-                trashButton
+                Button {
+                    withAnimation(.spring()) {
+                        offsetX = -deleteWidth
+                    }
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(Color.Disabled.opacity(0.6))
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.plain)
             }
         }
         .padding(.horizontal, AppSpacing.md)
         .frame(maxWidth: .infinity)
         .frame(height: 68)
-    }
-
-    var trashButton: some View {
-        Button {
-            withAnimation(.spring()) {
-                showDeleteButton.toggle()
-                dragOffset = showDeleteButton ? -deleteRevealWidth : 0
-            }
-        } label: {
-            Image(systemName: "trash")
-                .font(.system(size: 18))
-                .foregroundStyle(Color.Disabled.opacity(0.5))
-                .frame(width: 18, height: 21)
-                .frame(width: 44, height: 44)
-        }
-        .buttonStyle(.plain)
+        .background(Color.white)
     }
 
     var swipeGesture: some Gesture {
         DragGesture()
             .onChanged { value in
-                let startOffset = showDeleteButton ? -deleteRevealWidth : 0
-                let newOffset = startOffset + value.translation.width
+                let newOffset = value.translation.width
 
-                dragOffset = min(0, max(newOffset, -maxSwipeWidth))
+                if newOffset < 0 {
+                    offsetX = max(newOffset, -fullSwipeDeleteWidth)
+                }
             }
             .onEnded { value in
-                let startOffset = showDeleteButton ? -deleteRevealWidth : 0
-                let finalOffset = startOffset + value.translation.width
-
-                if finalOffset <= -deleteTriggerWidth {
+                if value.translation.width <= -fullSwipeDeleteWidth {
                     withAnimation(.spring()) {
-                        showDeleteButton = true
-                        dragOffset = -maxSwipeWidth
+                        offsetX = -fullSwipeDeleteWidth
                     }
 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                        deleteAction?()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        showDeleteConfirmation = true
                     }
                     return
                 }
 
                 withAnimation(.spring()) {
-                    if finalOffset < -40 {
-                        showDeleteButton = true
-                        dragOffset = -deleteRevealWidth
+                    if value.translation.width < -35 {
+                        offsetX = -deleteWidth
                     } else {
-                        showDeleteButton = false
-                        dragOffset = 0
+                        offsetX = 0
                     }
                 }
             }

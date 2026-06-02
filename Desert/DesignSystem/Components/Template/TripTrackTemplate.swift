@@ -31,7 +31,20 @@ struct TripTrackTemplate<MapContent: View>: View {
                 action: onBack
             )
             .padding(.horizontal, AppSpacing.lg)
-            .padding(.top, AppSpacing.xxl)
+            .padding(.top, 68)
+            .padding(.bottom, AppSpacing.sm)
+            .background(
+                LinearGradient(
+                    colors: [
+                        Color.Background.opacity(0.95),
+                        Color.Background.opacity(0.75),
+                        Color.clear
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea(edges: .top)
+            )
 
             VStack {
                 Spacer()
@@ -42,11 +55,11 @@ struct TripTrackTemplate<MapContent: View>: View {
                         onReset()
                     } label: {
                         Image(systemName: "backward.end.fill")
-                            .foregroundColor(.primary)
-                            .padding(12)
-                            .background(Color(.systemBackground))
+                            .foregroundColor(Color.Primary)
+                            .frame(width: 52, height: 52)
+                            .background(Color.white.opacity(0.95))
                             .clipShape(Circle())
-                            .shadow(radius: 3)
+                            .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 4)
                     }
 
                     Button {
@@ -54,10 +67,10 @@ struct TripTrackTemplate<MapContent: View>: View {
                     } label: {
                         Image(systemName: isReplaying ? "stop.fill" : "play.fill")
                             .foregroundColor(.white)
-                            .padding(14)
-                            .background(Color.black)
+                            .frame(width: 56, height: 56)
+                            .background(Color.Primary)
                             .clipShape(Circle())
-                            .shadow(radius: 3)
+                            .shadow(color: Color.black.opacity(0.16), radius: 12, x: 0, y: 5)
                     }
                 }
                 .padding(.bottom, 40)

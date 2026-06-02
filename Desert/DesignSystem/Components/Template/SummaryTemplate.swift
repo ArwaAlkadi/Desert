@@ -26,39 +26,39 @@ struct SummaryTemplate: View {
     @Binding var isLoading: Bool
 
     var body: some View {
-        VStack(spacing: 0) {
-            HeaderView(
-                titleKey: "summary.title",
-                leadingButton: .back,
-                action: {
-                    onBack()
-                }
-            )
-            .padding(.top, 0)
-            .padding(.bottom, 28)
-            .padding(.horizontal, 75)
-
+        CreateTripStepTemplate(
+            titleKey: "summary.title",
+            currentStep: 3,
+            buttonTitleKey: isLoading
+                ? "summary.creatingTrip"
+                : "summary.startNewTrip",
+            isLoading: isLoading,
+            leadingButton: .back,
+            showsProgressBar: false,
+            isInputFocused: false,
+            onBack: {
+                onBack()
+            },
+            onNext: {
+                guard isConnected && !isLoading else { return }
+                isLoading = true
+                onStartTrip()
+            }
+        ) {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: AppSpacing.lg) {
                     tripNameSection
-                        .padding(.horizontal, AppSpacing.xxl)
-
                     emergencyContactsSection
                     groupContactSection
-                        .padding(.horizontal, AppSpacing.xxl)
-
                     warningCard
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, AppSpacing.sm)
                 .padding(.bottom, AppSpacing.xxl)
-                .padding(.horizontal, AppSpacing.lg)
-                .frame(maxWidth: 300)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.horizontal, AppSpacing.xxl)
             }
         }
         .environment(\.layoutDirection, .leftToRight)
-        
     }
 }
 
@@ -148,7 +148,7 @@ private extension SummaryTemplate {
 
                         if contact.name != groupContacts.last?.name {
                             AppDivider()
-                                .padding(.horizontal, AppSpacing.xxl)
+                .padding(.horizontal, 40)
                         }
                     }
                 }

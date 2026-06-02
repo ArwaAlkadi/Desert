@@ -30,8 +30,9 @@ struct HistoryTemplate<Content: View>: View {
                 if hasTrips {
                     ScrollView(showsIndicators: false) {
                         content
-                            .padding(.bottom, 130)
+                            .padding(.bottom, 240)
                     }
+                    .frame(maxWidth: .infinity)
                 } else {
                     emptyStateSection
                 }

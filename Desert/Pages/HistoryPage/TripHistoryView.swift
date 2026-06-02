@@ -114,7 +114,6 @@ struct TripHistoryView: View {
 extension TripHistoryView {
     var tripList: some View {
 
-        ScrollView(showsIndicators: false) {
 
             LazyVStack(spacing: 16) {
 
@@ -147,7 +146,9 @@ extension TripHistoryView {
                     }
                 }
             }
-        }
+
         .padding(.horizontal, AppSpacing.lg)
     }
 }
+
+

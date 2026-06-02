@@ -109,15 +109,18 @@ private extension PersonalDetailsTemplate {
             onAddContact: onAddContact
         )
         .frame(maxWidth: .infinity, alignment: .leading)
-        .clipped()
     }
 
 }
 
 #Preview {
     PersonalDetailsTemplate(
-        fullName: .constant(""),
-        phoneNumber: .constant(""),
-        emergencyContacts: .constant([])
+        fullName: .constant("Samar Alqahtani"),
+        phoneNumber: .constant("512345678"),
+        emergencyContacts: .constant([
+            Contact(name: "Om Saqr", phone: "+966 5X XXX XXXX"),
+            Contact(name: "Fajer", phone: "+966 5X XXX XXXX"),
+            Contact(name: "Nouf", phone: "+966 5X XXX XXXX")
+        ])
     )
 }
