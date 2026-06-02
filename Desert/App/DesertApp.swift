@@ -12,9 +12,9 @@ import Network
 /// App entry point — configures Firebase and registers SwiftData models.
 @main
 struct DesertApp: App {
-
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
+    
     var body: some Scene {
         WindowGroup {
             RootView()
@@ -34,6 +34,16 @@ struct DesertApp: App {
         if UserDefaults.standard.object(forKey: "AppLanguageSet") == nil {
             UserDefaults.standard.set(["en"], forKey: "AppleLanguages")
             UserDefaults.standard.set(true, forKey: "AppLanguageSet")
+        }
+        
+        for family in UIFont.familyNames.sorted() {
+            if family.lowercased().contains("thmanyah") {
+                print("Family:", family)
+                
+                for name in UIFont.fontNames(forFamilyName: family) {
+                    print("   Font:", name)
+                }
+            }
         }
     }
 }

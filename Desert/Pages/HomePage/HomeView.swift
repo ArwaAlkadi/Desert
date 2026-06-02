@@ -38,14 +38,7 @@ struct HomeView: View {
 
                     AppTabBar(selectedTab: $currentPage)
                         .padding(.bottom, 16)
-                        .background(
-                            Group {
-                                if currentPage == .history {
-                                    Color.Background
-                                        .ignoresSafeArea(edges: .bottom)
-                                }
-                            }
-                        )                }
+                }
                 .frame(maxWidth: .infinity)
             }
             .ignoresSafeArea(edges: .bottom)

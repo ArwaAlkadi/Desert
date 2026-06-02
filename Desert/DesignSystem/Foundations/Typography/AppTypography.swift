@@ -14,59 +14,68 @@ enum AppTypography {
            Locale.current.language.languageCode?.identifier == "en"
 
        }
-    private static func arabicFontName(for weight: Font.Weight) -> String {
+       private static func arabicFontName(for weight: Font.Weight) -> String {
 
-        switch weight {
+           switch weight {
 
-        case .bold:
-            return "thmanyah sans"
+           case .bold:
 
-        case .semibold, .medium:
-            return "thmanyah sans"
+               return "thmanyah sans-Bold"
 
-        case .light:
-            return "thmanyah sans"
+           case .semibold, .medium:
 
-        case .black, .heavy:
-            return "thmanyah sans"
+               return "thmanyah sans-Medium"
 
-        default:
-            return "thmanyah sans"
-        }
-    }
-    
-    private static func font(
-        _ style: Font.TextStyle,
-        weight: Font.Weight = .regular
-    ) -> Font {
+           case .light:
 
-        for family in UIFont.familyNames.sorted() {
-            if family.lowercased().contains("thmanyah") {
-                print("Family:", family)
+               return "thmanyah sans-Light"
 
-                for name in UIFont.fontNames(forFamilyName: family) {
-                    print("   Font:", name)
-                }
-            }
-        }
+           case .black, .heavy:
 
-        if isEnglish {
+               return "thmanyah sans-Black"
 
-            return .system(style, design: .default)
-                .weight(weight)
+           default:
 
-        } else {
+               return "thmanyahsans-Regular"
 
-            return .custom(
-                arabicFontName(for: weight),
-                size: UIFont.preferredFont(
-                    forTextStyle: uiTextStyle(style)
-                ).pointSize,
-                relativeTo: style
-            )
-        }
-    }
-    
+           }
+
+       }
+
+       private static func font(
+
+           _ style: Font.TextStyle,
+
+           weight: Font.Weight = .regular
+
+       ) -> Font {
+
+           if isEnglish {
+
+               return .system(style, design: .default)
+
+                   .weight(weight)
+
+           } else {
+
+               return .custom(
+
+                   arabicFontName(for: weight),
+
+                   size: UIFont.preferredFont(
+
+                       forTextStyle: uiTextStyle(style)
+
+                   ).pointSize,
+
+                   relativeTo: style
+
+               )
+
+           }
+
+       }
+
     private static func uiTextStyle(_ style: Font.TextStyle) -> UIFont.TextStyle {
 
         switch style {
