@@ -189,7 +189,6 @@ class FirebaseManager {
 
             "f-tripInfo": [
                 "tripId": tripId,
-                "tripName": trip.tripName,
                 "startTime": trip.startTime.timeIntervalSince1970,
                 "startTimeReadable": formatDate(trip.startTime),
                 "returnTime": trip.returnTime.timeIntervalSince1970,
