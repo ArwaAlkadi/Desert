@@ -54,8 +54,7 @@ struct HistoryTripCard: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 16)
-        .frame(maxWidth: UIScreen.main.bounds.width - 32)
-        .background(Color.white)
+        .frame(maxWidth: .infinity)        .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
     }
 }

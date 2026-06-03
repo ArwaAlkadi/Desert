@@ -31,7 +31,7 @@ struct NoActiveTripsCard: View {
         }
         .frame(
             width: UIScreen.main.bounds.width - 32,
-            height: 470
+            height: 330
         )
         .background(Color.Background)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.xl))

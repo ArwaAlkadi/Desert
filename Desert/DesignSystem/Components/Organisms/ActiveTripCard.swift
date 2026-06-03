@@ -63,9 +63,9 @@ struct ActiveTripCard: View {
         }
         .padding(.horizontal, AppSpacing.lg)
         .padding(.vertical, AppSpacing.lg)
-        .frame(maxWidth: UIScreen.main.bounds.width - 32, alignment: .leading)
+        .frame(width: 360, alignment: .leading)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
         .shadow(color: .black.opacity(0.12), radius: 12, x: 0, y: 4)
         .onAppear {
             selectedReturnTime = returnTime

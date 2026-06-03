@@ -20,7 +20,7 @@ struct HomeTemplate: View {
     var onCenterTapped: () -> Void
 
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack {
 
             fabButtons
 
@@ -30,19 +30,16 @@ struct HomeTemplate: View {
                 if let activeTrip {
                     ActiveTripCardView(trip: activeTrip)
                         .padding(.horizontal, AppSpacing.lg)
-                        .padding(.bottom, AppSpacing.sm)
+                        .padding(.bottom, 96)
                 } else {
                     NoActiveTripsCard {
                         onStartTrip()
                     }
                     .padding(.horizontal, AppSpacing.lg)
-                    .padding(.bottom, AppSpacing.sm)
+                    .padding(.bottom, 100)
                 }
-
-                AppTabBar(selectedTab: $selectedTab)
-                    .padding(.horizontal, AppSpacing.lg)
-                    .padding(.bottom, 32)
             }
+
         }
     }
 }
@@ -79,7 +76,7 @@ extension HomeTemplate {
                         FABButton(icon: .map) { }
                     }
                 }
-                .padding(.trailing, AppSpacing.md)
+                .padding(.trailing, AppSpacing.lg)
                 .padding(.top, 68)
             }
             Spacer()

@@ -21,28 +21,26 @@ struct HistoryTemplate<Content: View>: View {
     
     var body: some View {
         
-        VStack(alignment: .leading, spacing: AppSpacing.lg) {
+        ZStack {
             
-            headerSection
-            
-            if hasTrips {
-                content
-            } else {
-                emptyStateSection
-            }
-        }
-        .padding(.top, AppSpacing.lg)
-        .background(Color.Background)
-        .safeAreaInset(edge: .bottom) {
-            
-            VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: AppSpacing.lg) {
                 
-                AppTabBar(selectedTab: $selectedTab)
-                    .padding(.horizontal, AppSpacing.md)
-                    .padding(.top, AppSpacing.md)
-                    .padding(.bottom, AppSpacing.sm)
+                headerSection
+                
+                if hasTrips {
+                    ScrollView(showsIndicators: false) {
+                        content
+                            .padding(.bottom, 240)
+                    }
+                    .frame(maxWidth: .infinity)
+                } else {
+                    emptyStateSection
+                }
             }
-            .frame(maxWidth: .infinity)
+            .padding(.top, AppSpacing.lg)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .background(Color.Background)
+            
         }
     }
 }
@@ -118,16 +116,16 @@ private extension HistoryTemplate {
                 peopleKey: "3 People",
                 dateKey: "1 Jun 2026"
             )
-
+            
             HistoryTripCard(
-                titleKey: "Empty Quarter Trip",
-                destinationKey: "Rub' al Khali",
+                titleKey: "Desert Camp",
+                destinationKey: "Al Rumah",
                 statusKey: "Alert Sent",
                 badgeStyle: .destructive,
-                durationKey: "8h 10m",
-                distanceKey: "240 km",
-                peopleKey: "5 People",
-                dateKey: "24 May 2026"
+                durationKey: "2 Days",
+                distanceKey: "34Km",
+                peopleKey: "3 people",
+                dateKey: "28 May, 5:30PM"
             )
         }
         .padding(.horizontal, AppSpacing.lg)

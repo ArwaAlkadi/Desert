@@ -114,6 +114,7 @@
 "summary.warningSuffix" = ".";
 "solo" = "منفرد";
 "group.numberOfIndividuals" = "عدد الأفراد";
+"summary.creatingTrip" = "جاري إنشاء الرحلة...";
 
 
 /* MARK: - Active Trip */

@@ -16,18 +16,17 @@ struct RepeatTripButton: View {
 
         Button(action: action) {
 
-            HStack(spacing: AppSpacing.sm) {
+            HStack(spacing: AppSpacing.sx) {
 
                 Image(systemName: "arrow.counterclockwise")
-                    .frame(width: 24 ,height: 24)
+                    .frame(width: 20 ,height: 20)
 
                 Text(title)
                     .font(AppTypography.caption2Semibold)
                     .lineLimit(1)
             }
             .foregroundStyle(.white)
-            .padding(.vertical, AppSpacing.sm)
-            .padding(.horizontal, AppSpacing.lg)
+            .frame(width: 105, height: 32)
             .background(Color.Secondary02)
             .clipShape(Capsule())
         }

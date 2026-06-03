@@ -39,6 +39,7 @@ struct TripHistoryView: View {
         ) {
             tripList
         }
+//        .ignoresSafeArea(edges: .bottom)
         .navigationDestination(isPresented: $showCreateTrip) {
             CreateTripStepsView(
                 showParentSheet: $showCreateTrip,
@@ -113,7 +114,6 @@ struct TripHistoryView: View {
 extension TripHistoryView {
     var tripList: some View {
 
-        ScrollView(showsIndicators: false) {
 
             LazyVStack(spacing: 16) {
 
@@ -146,7 +146,9 @@ extension TripHistoryView {
                     }
                 }
             }
-            .padding(.horizontal, AppSpacing.lg)
-        }
+
+        .padding(.horizontal, AppSpacing.lg)
     }
 }
+
+

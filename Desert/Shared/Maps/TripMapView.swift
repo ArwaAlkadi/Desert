@@ -1,4 +1,3 @@
-
 //
 //  TripMapView.swift
 //  Desert
@@ -49,7 +48,7 @@ struct TripMapView: UIViewRepresentable {
         mapView.addSubview(scaleView)
 
         NSLayoutConstraint.activate([
-            compassButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -24),
+            compassButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -30),
             compassButton.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 16),
             scaleView.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 16),
             scaleView.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 16)
@@ -92,7 +91,9 @@ struct TripMapView: UIViewRepresentable {
         }
 
         let existingPolylines = mapView.overlays.compactMap { $0 as? MKPolyline }
-        if localTrack.count > 1 {
+        let existingPointCount = existingPolylines.first?.pointCount ?? 0
+
+        if localTrack.count > 1 && localTrack.count != existingPointCount {
             let newPolyline = MKPolyline(coordinates: localTrack, count: localTrack.count)
             newPolyline.title = "Local"
             mapView.removeOverlays(existingPolylines)
@@ -212,3 +213,4 @@ struct TripMapView: UIViewRepresentable {
         }
     }
 }
+

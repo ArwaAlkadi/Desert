@@ -28,10 +28,17 @@ struct EmergencyContactsSection: View {
                     ContactRow(
                         initial: String(contact.name.prefix(1)),
                         titleKey: contact.name,
-                        captionKey: contact.phone
-                    ) {
-                        emergencyContacts.removeAll { $0.name == contact.name }
-                    }
+                        captionKey: contact.phone,
+                        isEditable: true,
+                        deleteAction: {
+                            if let index = emergencyContacts.firstIndex(where: {
+                                $0.name == contact.name && $0.phone == contact.phone
+                            }) {
+                                emergencyContacts.remove(at: index)
+                            }
+                        }
+                    )
+                    .frame(maxWidth: .infinity)
                     .frame(height: 64)
 
                     if contact.name != emergencyContacts.last?.name {
@@ -46,8 +53,11 @@ struct EmergencyContactsSection: View {
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 56)
+                    .clipped()
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, -8)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
@@ -61,5 +71,6 @@ struct EmergencyContactsSection: View {
                 .font(AppTypography.caption)
                 .foregroundStyle(Color.Disabled)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

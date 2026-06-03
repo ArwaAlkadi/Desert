@@ -47,9 +47,9 @@ struct RootView: View {
         .overlay(alignment: .top) {
             ZStack(alignment: .top) {
 
-//                #if DEBUG
-//                GridOverlay()
-//                #endif
+//              #if DEBUG
+//             GridOverlay()
+//         #endif
 
                 if networkMonitor.showOfflineToast {
                     NetworkStatusBanner(status: .disconnected)

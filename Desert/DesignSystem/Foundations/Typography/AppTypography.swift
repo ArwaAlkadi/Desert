@@ -10,29 +10,71 @@ import SwiftUI
 enum AppTypography {
 
     private static var isEnglish: Bool {
-        Locale.current.language.languageCode?.identifier == "en"
-    }
 
-    private static let arabicFontName = "thmanyahsans"
+           Locale.current.language.languageCode?.identifier == "en"
 
-    private static func font(
-        _ style: Font.TextStyle,
-        weight: Font.Weight = .regular
-    ) -> Font {
+       }
+       private static func arabicFontName(for weight: Font.Weight) -> String {
 
-        if isEnglish {
-            return .system(style, design: .default)
-                .weight(weight)
-        } else {
-            return .custom(
-                arabicFontName,
-                size: UIFont.preferredFont(
-                    forTextStyle: uiTextStyle(style)
-                ).pointSize,
-                relativeTo: style
-            )
-        }
-    }
+           switch weight {
+
+           case .bold:
+
+               return "thmanyah sans-Bold"
+
+           case .semibold, .medium:
+
+               return "thmanyah sans-Medium"
+
+           case .light:
+
+               return "thmanyah sans-Light"
+
+           case .black, .heavy:
+
+               return "thmanyahsans-Black"
+
+           default:
+
+               return "thmanyahsans-Regular"
+
+           }
+
+       }
+
+       private static func font(
+
+           _ style: Font.TextStyle,
+
+           weight: Font.Weight = .regular
+
+       ) -> Font {
+
+           if isEnglish {
+
+               return .system(style, design: .default)
+
+                   .weight(weight)
+
+           } else {
+
+               return .custom(
+
+                   arabicFontName(for: weight),
+
+                   size: UIFont.preferredFont(
+
+                       forTextStyle: uiTextStyle(style)
+
+                   ).pointSize,
+
+                   relativeTo: style
+
+               )
+
+           }
+
+       }
 
     private static func uiTextStyle(_ style: Font.TextStyle) -> UIFont.TextStyle {
 
@@ -68,3 +110,4 @@ enum AppTypography {
     static let caption2 = font(.caption2)
     static let caption2Semibold = font(.caption2, weight: .semibold)
 }
+

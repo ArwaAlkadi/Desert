@@ -62,7 +62,7 @@ struct HeaderView: View {
             if let titleKey {
                 Text(titleKey.localized)
                     .font(AppTypography.title3)
-                    .foregroundStyle(Color.Primary)
+                    .foregroundStyle(Color.black)
                     .lineLimit(1)
             }
         }

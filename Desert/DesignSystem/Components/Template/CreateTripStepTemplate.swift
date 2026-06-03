@@ -12,9 +12,11 @@ struct CreateTripStepTemplate<Content: View>: View {
     var titleKey: String
     var currentStep: Int
     var totalSteps: Int = 3
-    
+
     var buttonTitleKey: String
+    var isLoading: Bool = false
     var leadingButton: HeaderView.LeadingButton
+    var showsProgressBar: Bool = true
     
     var isInputFocused: Bool = false
     
@@ -35,9 +37,11 @@ struct CreateTripStepTemplate<Content: View>: View {
             .padding(.bottom, AppSpacing.md)
             .padding(.horizontal, AppSpacing.xxl)
             
-            ProgressBar(currentStep: currentStep)
-                .padding(.bottom, AppSpacing.xl)
-                .padding(.horizontal, AppSpacing.lg)
+            if showsProgressBar {
+                ProgressBar(currentStep: currentStep)
+                    .padding(.bottom, AppSpacing.xl)
+                    .padding(.horizontal, AppSpacing.lg)
+            }
             
             content
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -46,10 +50,18 @@ struct CreateTripStepTemplate<Content: View>: View {
             VStack(spacing: 0) {
                 if !isInputFocused {
                     CTAButton(
-                        title: buttonTitleKey.localized
+                        title: isLoading ? "" : buttonTitleKey.localized
                     ) {
+                        guard !isLoading else { return }
                         onNext()
                     }
+                    .overlay {
+                        if isLoading {
+                            ProgressView()
+                                .tint(.white)
+                        }
+                    }
+                    .disabled(isLoading)
                     .padding(.horizontal, AppSpacing.lg)
                     .padding(.top, AppSpacing.md)
                     .padding(.bottom, AppSpacing.sm)

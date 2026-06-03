@@ -27,8 +27,8 @@ struct TripSummaryView: View {
 
     var body: some View {
         
-        ZStack {
-        SummaryTemplate(
+        ZStack(alignment: .top) {
+            SummaryTemplate(
             tripName: vm.tripName,
             startTime: Date(),
             returnTime: vm.returnTime,
@@ -89,16 +89,17 @@ struct TripSummaryView: View {
         .onDisappear {
             networkMonitor.stopMonitoring()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             
             if isLoading {
-                   Color.black.opacity(0.2)
-                       .ignoresSafeArea()
-                   ProgressView()
-                       .scaleEffect(1.3)
-               }
+                Color.black.opacity(0.2)
+                    .ignoresSafeArea()
                 
+                ProgressView()
+                    .scaleEffect(1.3)
+            }
+        }
     }
-   }
 }
 
 

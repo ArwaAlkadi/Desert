@@ -92,9 +92,9 @@ struct DateRangeRow: View {
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(Color.Primary)
+                        .foregroundStyle(Color.black)
                         .frame(width: 44, height: 44)
-                        .background(Color.Background)
+                        .background(Color.Secondary)
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)

@@ -45,7 +45,7 @@ private extension TripSummaryCard {
                 .foregroundStyle(Color.lableSec)
                 .lineLimit(1)
         }
-        .frame(height: 34)
+        .frame(height: 37)
     }
 }
 

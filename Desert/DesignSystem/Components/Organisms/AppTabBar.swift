@@ -13,11 +13,11 @@ struct AppTabBar: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            tabButton(tab: .history, icon: "doc.text.fill", titleKey: "tab.history")
             tabButton(tab: .map, icon: "map.fill", titleKey: "tab.map")
+            tabButton(tab: .history, icon: "doc.text.fill", titleKey: "tab.history")
         }
         .padding(6)
-        .frame(maxWidth: UIScreen.main.bounds.width - 32)
+        .frame(width: UIScreen.main.bounds.width - 32)
         .frame(height: 64)
         .background(Color.Secondary)
         .clipShape(Capsule())

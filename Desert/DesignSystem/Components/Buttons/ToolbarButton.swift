@@ -50,7 +50,7 @@ private extension ToolbarButton {
             return "xmark"
 
         case .trash:
-            return "trash"
+            return "trash.fill"
         }
     }
     

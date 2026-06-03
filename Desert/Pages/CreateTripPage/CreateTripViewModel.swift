@@ -102,8 +102,17 @@ class CreateTripViewModel: ObservableObject {
 
     var phoneNumberIsValid: Bool {
         let digits = phoneNumber.filter(\.isNumber)
-        guard digits.hasPrefix("966") else { return false }
-        let local = String(digits.dropFirst(3))
+
+        let local: String
+
+        if digits.hasPrefix("966") {
+            local = String(digits.dropFirst(3))
+        } else if digits.hasPrefix("0") {
+            local = String(digits.dropFirst())
+        } else {
+            local = digits
+        }
+
         return local.hasPrefix("5") && local.count == 9
     }
 
