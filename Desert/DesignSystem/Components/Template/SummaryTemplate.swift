@@ -93,7 +93,7 @@ private extension SummaryTemplate {
                 "summary.numberOfIndividuals",
                 isGroup
                     ? String.localizedStringWithFormat(
-                        NSLocalizedString("people_count", tableName: "PluralStrings", comment: ""),
+                        NSLocalizedString("people.count", tableName: "PluralStrings", comment: ""),
                         groupCount
                       )
                     : "solo".localized

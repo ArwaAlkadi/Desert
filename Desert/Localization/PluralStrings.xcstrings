@@ -561,7 +561,7 @@
         }
       }
     },
-    "people_count" : {
+    "people.count" : {
       "localizations" : {
         "ar" : {
           "variations" : {
