@@ -41,9 +41,9 @@ struct AppTabBar: View {
                 Text(titleKey.localized)
                     .font(AppTypography.caption2)
             }
-            .foregroundStyle(isSelected ? Color.Primary : Color.TabNotSelected)
+            .foregroundStyle(isSelected ? Color.Lableblack : Color.TabNotSelected)
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(height: 56)
             .background(isSelected ? Color.TabSelected : Color.clear)
             .clipShape(Capsule())
         }

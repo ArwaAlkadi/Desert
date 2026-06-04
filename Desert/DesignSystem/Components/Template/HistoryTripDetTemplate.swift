@@ -52,7 +52,7 @@ struct HistoryTripDetailsTemplate: View {
                     emergencyContactsSection
                     groupContactsSection
                 }
-                .frame(maxWidth: 370, alignment: .leading) //عدلت السبينق للمحتوى
+                .frame(maxWidth: 370, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.bottom, 120)
 
@@ -105,7 +105,7 @@ private extension HistoryTripDetailsTemplate {
             StatusBadge(
                 titleKey: alertSent ? "history.status.alert" : "history.status.noAlert",
                 style: alertSent ? .destructive : .positive,
-                size: .small
+                size: .large
             )
         }
     }
@@ -204,8 +204,8 @@ private extension HistoryTripDetailsTemplate {
                         captionKey: contact.phone,
                         isEditable: false
                     )
-                    .frame(height: 70)
-
+                    .frame(minHeight: 70)
+                    
                     if index != contacts.count - 1 {
                         AppDivider()
                             .padding(.horizontal, AppSpacing.md)

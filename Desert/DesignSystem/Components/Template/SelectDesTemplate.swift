@@ -5,8 +5,6 @@
 //  Created by Samar A on 12/12/1447 AH.
 //
 
-// هنا غيرت فيه كان ينقصه متغيرات.. وبرضو سويت نتايج البحث  DONEعالسريع بدون ديزاين عدلي عدليها من فيقما ميار سوتها
-
 import SwiftUI
 import MapKit
 
@@ -37,8 +35,8 @@ struct SelectDestinationTemplate<MapContent: View>: View {
                     backAction: onBack,
                     searchAction: onSearch
                 )
-                .frame(width: 340)
-                .padding(.top, AppSpacing.sm)
+                .frame(maxWidth: 340)
+                .padding(.horizontal, AppSpacing.lg)
                 .zIndex(1)
                 
                 if !searchResults.isEmpty {
@@ -76,7 +74,7 @@ struct SelectDestinationTemplate<MapContent: View>: View {
                                     }
                                     .padding(.horizontal, AppSpacing.md)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .frame(height: 82)
+                                    .frame(minHeight: 82)
                                 }
                                 .buttonStyle(.plain)
 
@@ -90,10 +88,11 @@ struct SelectDestinationTemplate<MapContent: View>: View {
                     .frame(maxHeight: min(CGFloat(searchResults.count) * 82, 370))
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: AppRadius.xl))
-                    .frame(width: 325)
+                    .frame(maxWidth: 325)
                     .padding(.top, AppSpacing.sm)
                     .frame(maxWidth: .infinity, alignment: .top)
-                    .padding(.leading,34)                    .zIndex(0)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .zIndex(0)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .top)

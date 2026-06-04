@@ -44,13 +44,14 @@ struct AppTextField: View {
                 .focused($isFocused)
                 .disabled(state == .disabled)
                 .multilineTextAlignment(textAlignment)
+                .lineLimit(1)
+                .frame(maxWidth: .infinity, alignment: layoutDirection == .rightToLeft ? .trailing : .leading)
 
                 trailingIcon
             }
             .padding(.horizontal, AppSpacing.md)
             .frame(maxWidth: .infinity)
             .frame(height: 52)
-
         }
     }
 }
@@ -167,6 +168,8 @@ private extension AppTextField {
             text: .constant("Value"),
             state: .disabled
         )
+        
+        
     }
     .padding()
 }

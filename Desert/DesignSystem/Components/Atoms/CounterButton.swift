@@ -28,6 +28,7 @@ struct CounterButton: View {
                 .background(backgroundColor)
                 .clipShape(Circle())
         }
+        .frame(minWidth: 44, minHeight: 44)
     }
 }
 

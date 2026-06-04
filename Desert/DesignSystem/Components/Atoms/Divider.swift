@@ -12,7 +12,8 @@ struct AppDivider: View {
 
         Capsule()
             .fill(Color.Grey100)
-            .frame(width: 338 , height: 1)
+            .frame(maxWidth: .infinity)
+            .frame(height: 1)
     }
 }
 

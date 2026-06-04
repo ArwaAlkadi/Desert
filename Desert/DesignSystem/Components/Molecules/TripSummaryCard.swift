@@ -32,20 +32,19 @@ private extension TripSummaryCard {
     
     
     func summaryRow(titleKey: String, valueKey: String) -> some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .top, spacing: 12){
             Text(titleKey.localized)
                 .font(AppTypography.body)
                 .foregroundStyle(Color.Primary)
-                .lineLimit(1)
             
             Spacer(minLength: 8)
             
             Text(valueKey.localized)
                 .font(AppTypography.body)
                 .foregroundStyle(Color.lableSec)
-                .lineLimit(1)
+                .multilineTextAlignment(.trailing)
         }
-        .frame(height: 37)
+        .frame(minHeight: 37)
     }
 }
 

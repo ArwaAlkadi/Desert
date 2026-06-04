@@ -33,18 +33,7 @@ struct TripTrackTemplate<MapContent: View>: View {
             .padding(.horizontal, AppSpacing.lg)
             .padding(.top, 68)
             .padding(.bottom, AppSpacing.sm)
-            .background(
-                LinearGradient(
-                    colors: [
-                        Color.Background.opacity(0.95),
-                        Color.Background.opacity(0.75),
-                        Color.clear
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea(edges: .top)
-            )
+            
 
             VStack {
                 Spacer()

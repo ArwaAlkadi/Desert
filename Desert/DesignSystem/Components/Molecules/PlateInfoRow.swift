@@ -17,7 +17,7 @@ struct PlateInfoRow: View {
 
     var body: some View {
 
-        VStack(spacing: AppSpacing.md) {
+        VStack(spacing: AppSpacing.sm) {
 
             HStack(spacing: AppSpacing.sm) {
 
@@ -32,7 +32,8 @@ struct PlateInfoRow: View {
                 digits: $digits
             )
         }
-        .padding(.vertical, AppSpacing.sm)
+        .padding(.horizontal, AppSpacing.md)
+           .padding(.vertical, AppSpacing.md)
     }
 }
 

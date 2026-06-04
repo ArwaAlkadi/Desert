@@ -34,7 +34,6 @@ struct CTAButton: View {
             Text(title)
                 .font(AppTypography.headline)
                 .foregroundStyle(foregroundColor)
-                .frame(maxWidth: size == .large ? .infinity : nil)
                 .frame(
                     width: size == .large ? 291 : 200,
                     height: size == .large ? 51 : 40
@@ -42,8 +41,6 @@ struct CTAButton: View {
                 .background(backgroundColor)
                 .cornerRadius(AppRadius.xxl)
         }
-        .padding(.vertical, AppSpacing.md)
-        .padding(.horizontal, AppSpacing.xxxl)
         .disabled(style == .disabled)
     }
 }
@@ -75,6 +72,14 @@ private extension CTAButton {
         default:
             return .white
         }
+    }
+
+    var width: CGFloat {
+        size == .large ? 291 : 200
+    }
+
+    var height: CGFloat {
+        size == .large ? 51 : 40
     }
 }
 

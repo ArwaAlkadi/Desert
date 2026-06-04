@@ -47,7 +47,7 @@ struct SummaryTemplate: View {
             }
         ) {
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: AppSpacing.lg) {
+                VStack(alignment: .leading, spacing: AppSpacing.xl) {
                     tripNameSection
                     emergencyContactsSection
                     groupContactSection
@@ -55,8 +55,8 @@ struct SummaryTemplate: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, AppSpacing.sm)
-                .padding(.bottom, AppSpacing.xxl)
-                .padding(.horizontal, AppSpacing.xxl)
+                .padding(.bottom, AppSpacing.lg)
+                .padding(.horizontal, AppSpacing.md)
             }
         }
         .environment(\.layoutDirection, .leftToRight)
@@ -102,7 +102,7 @@ private extension SummaryTemplate {
     }
 
     var emergencyContactsSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+        VStack(alignment: .leading, spacing: AppSpacing.sx) {
             Text("summary.emergencyContacts".localized)
                 .font(AppTypography.headline)
                 .foregroundStyle(Color.Primary)
@@ -116,7 +116,6 @@ private extension SummaryTemplate {
                         isEditable: false
                     )
                     .frame(height: 70)
-
                     if contact.name != emergencyContacts.last?.name {
                         AppDivider()
                             .padding(.horizontal, AppSpacing.md)
@@ -146,10 +145,10 @@ private extension SummaryTemplate {
                             isEditable: false
                         )
                         .frame(height: 70)
-
+                        
                         if contact.name != groupContacts.last?.name {
                             AppDivider()
-                .padding(.horizontal, 40)
+                                .padding(.horizontal, AppSpacing.md)
                         }
                     }
                 }

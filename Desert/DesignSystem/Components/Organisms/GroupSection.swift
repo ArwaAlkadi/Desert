@@ -25,26 +25,25 @@ struct GroupSection: View {
                 .foregroundStyle(Color.Primary)
 
             VStack(spacing: 0) {
-
+                
                 InquiryRow(
                     titleKey: "trip.group.question",
                     isOn: $isGroup
                 )
                 .frame(maxWidth: .infinity)
-                .frame(height: 52)
-
-                AppDivider()
-                    .opacity(isGroup ? 1 : 0)
-
-                GroupNumberRow(
-                    count: $groupCount
-                )
-                .frame(maxWidth: .infinity)
-                .frame(height: 52)
-                .opacity(isGroup ? 1 : 0)
+                .frame(minHeight: 52)
+                if isGroup {
+                    AppDivider()
+                        .padding(.horizontal, AppSpacing.md)
+                    
+                    GroupNumberRow(
+                        count: $groupCount
+                    )
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 52)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .frame(height: isGroup ? 105 : 52, alignment: .top)
             .background(Color.white)
             .clipShape(
                 RoundedRectangle(cornerRadius: AppRadius.md)
@@ -74,10 +73,10 @@ struct GroupSection: View {
                                 groupContacts.removeAll { $0.name == contact.name }
                             }
                             .frame(maxWidth: .infinity)
-                            .frame(height: 64)
-
+                            .frame(minHeight: 64)
                             if contact.name != groupContacts.last?.name {
                                 AppDivider()
+                                    .padding(.horizontal,AppSpacing.md)
                             }
                         }
 
@@ -85,7 +84,7 @@ struct GroupSection: View {
                             onAddGroupContact()
                         }
                         .frame(maxWidth: .infinity)
-                        .frame(height: 56)
+                        .frame(minHeight: 56)
                     }
                     .background(Color.white)
                     .clipShape(

@@ -23,7 +23,6 @@ struct ProgressBar: View {
                 .frame(maxWidth: .infinity, minHeight: 4, maxHeight: 4)
             }
         }
-        .padding(.horizontal, AppSpacing.lg)
 
     }
 }

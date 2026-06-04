@@ -16,8 +16,7 @@ struct AvatarCircle: View {
         Text(initial)
             .font(AppTypography.body)
             .foregroundStyle(Color.black)
-            .frame(width: 50, height: 50)
-            .background(Color.Secondary)
+            .frame(minWidth: 50, minHeight: 50)           .background(Color.Secondary)
             .clipShape(Circle())
     }
 }

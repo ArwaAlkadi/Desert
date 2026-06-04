@@ -37,8 +37,8 @@ struct DateRangeRow: View {
 
             Rectangle()
                 .fill(Color.Grey100)
-                .frame(width: 1, height: 57)
-
+                .frame(width: 1)
+                .frame(maxHeight: .infinity)
             // End date — tappable
             Button {
                 showDatePicker = true
@@ -142,6 +142,7 @@ private struct LabelValueItem: View {
             Text(value)
                 .font(AppTypography.footnote)
                 .foregroundStyle(isDisabled ? Color.Disabled : Color.Primary)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

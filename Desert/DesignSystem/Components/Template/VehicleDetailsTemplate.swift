@@ -19,19 +19,27 @@ struct VehicleDetailsTemplate: View {
     var showErrors: Bool = false
 
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: AppSpacing.lg) {
-                carModelSection
-                carColorSection
-                fourWheelDriveSection
-                plateInfoSection
+        ScrollViewReader { proxy in
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: AppSpacing.xl) {
+                    carModelSection
+                    carColorSection
+                    fourWheelDriveSection
+                    plateInfoSection
+                        .id("plateInfoSection")
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, AppSpacing.sm)
+                .padding(.bottom, 260)
+                .padding(.horizontal, AppSpacing.md)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, AppSpacing.sm)
-            .padding(.bottom, AppSpacing.xxl)
-            .padding(.horizontal, AppSpacing.lg)
+            .background(Color.Background)
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    proxy.scrollTo("plateInfoSection", anchor: .center)
+                }
+            }
         }
-        .background(Color.Background)
     }
 }
 
@@ -40,7 +48,7 @@ struct VehicleDetailsTemplate: View {
 private extension VehicleDetailsTemplate {
 
     var carModelSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+        VStack(alignment: .leading, spacing: AppSpacing.sx) {
             Text("vehicle.carModel".localized)
                 .font(AppTypography.headline)
                 .foregroundStyle(Color.Primary)
@@ -51,7 +59,7 @@ private extension VehicleDetailsTemplate {
                 state: showErrors && carModel.isEmpty ? .error : .normal
             )
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(minHeight: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
@@ -84,7 +92,7 @@ private extension VehicleDetailsTemplate {
             isOn: $isFourWheelDrive
         )
         .frame(maxWidth: .infinity)
-        .frame(height: 52)
+        .frame(minHeight: 52)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
     }
@@ -102,6 +110,7 @@ private extension VehicleDetailsTemplate {
                 digits: $plateDigits
             )
             .frame(maxWidth: .infinity)
+            .frame(height: 151)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 

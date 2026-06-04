@@ -64,7 +64,8 @@ struct ActiveTripCard: View {
         }
         .padding(.horizontal, AppSpacing.lg)
         .padding(.vertical, AppSpacing.lg)
-        .frame(width: 360, alignment: .leading)
+        .frame(maxWidth: 360, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .center)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
         .shadow(color: .black.opacity(0.12), radius: 12, x: 0, y: 4)
@@ -140,7 +141,7 @@ private extension ActiveTripCard {
             }
         }
         .padding(AppSpacing.md)
-        .background(Color.Grey100.opacity(0.35))
+        .background(Color.Primary.opacity(0.06))
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
     }
     
@@ -183,7 +184,7 @@ private extension ActiveTripCard {
             .lineLimit(1)
             .minimumScaleFactor(0.9)
             .frame(maxWidth: .infinity)
-            .frame(height: 44)
+            .frame(minHeight: 44)
             .padding(.horizontal, 8)
             .background(Color.white)
             .clipShape(Capsule())
@@ -231,8 +232,8 @@ private extension ActiveTripCard {
         .frame(width: 320, height: 330)
         .padding(AppSpacing.md)
         .background(Color.white)
+        .presentationCompactAdaptation(.popover)
     }
-    
     var timePickerPopover: some View {
         DatePicker(
             "",
@@ -278,8 +279,7 @@ private extension ActiveTripCard {
                         captionKey: contact.phone,
                         isEditable: false
                     )
-                    .frame(height: 70)
-
+                    .frame(minHeight: 70)
                 }
             }
             .background(Color.white)
@@ -296,10 +296,12 @@ private extension ActiveTripCard {
                 .font(AppTypography.headline)
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: 51)
+                .frame(minHeight: 52)
                 .background(isConnected ? Color.Disabled : Color.Primary)
                 .clipShape(RoundedRectangle(cornerRadius: AppRadius.xxl))
         }
+        .frame(maxWidth: 291)
+        .frame(maxWidth: .infinity, alignment: .center)
         .disabled(isConnected)
         .buttonStyle(.plain)
     }

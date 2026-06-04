@@ -26,6 +26,7 @@ struct AddContactRow: View {
                 Text(titleKey.localized)
                     .font(AppTypography.body)
                     .foregroundStyle(Color.Primary)
+                    .lineLimit(1)
 
                 Spacer()
             }

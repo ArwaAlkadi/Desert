@@ -154,7 +154,6 @@ extension CreateTripStepsView {
             phoneError: vm.phoneError,
             onAddContact: { vm.showEmergencyContactPicker = true }
         )
-        .padding(.horizontal, AppSpacing.lg)
     }
 
     var vehicleDetailsView: some View {
@@ -168,7 +167,6 @@ extension CreateTripStepsView {
             plateDigits: $vm.plateDigits,
             showErrors: vm.showStep1Errors
         )
-        .padding(.horizontal, AppSpacing.lg)
     }
 
     var tripDetailsView: some View {
@@ -184,7 +182,6 @@ extension CreateTripStepsView {
             onSelectDestination: { vm.showDestinationPicker = true },
             onAddGroupContact: { vm.showGroupContactPicker = true }
         )
-        .padding(.horizontal, AppSpacing.lg)
     }
 
     // MARK: - Actions

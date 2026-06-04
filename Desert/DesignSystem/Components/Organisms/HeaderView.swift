@@ -99,7 +99,6 @@ struct HeaderView: View {
             case .none:
                 Color.clear
                     .frame(width: 44, height: 44)
-                
             case .trash:
                 ToolbarButton(
                     style: .primary,

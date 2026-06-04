@@ -43,7 +43,7 @@ struct ColorPickerRow: View {
                 Text(selectedColorKey.isEmpty ? placeholderKey.localized : selectedColorKey.localized)
                     .font(AppTypography.body)
                     .foregroundStyle(textColor)
-
+                   
                 Spacer()
 
                 Image(systemName: "chevron.down")
@@ -52,7 +52,7 @@ struct ColorPickerRow: View {
             }
             .padding(.horizontal, AppSpacing.md)
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(minHeight: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
         }

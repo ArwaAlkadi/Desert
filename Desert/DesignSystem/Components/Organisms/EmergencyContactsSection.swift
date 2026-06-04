@@ -39,8 +39,8 @@ struct EmergencyContactsSection: View {
                         }
                     )
                     .frame(maxWidth: .infinity)
-                    .frame(height: 64)
-
+                    .frame(minHeight: 64)
+                    
                     if contact.name != emergencyContacts.last?.name {
                         AppDivider()
                             .padding(.horizontal, AppSpacing.md)
@@ -48,6 +48,12 @@ struct EmergencyContactsSection: View {
                 }
 
                 if emergencyContacts.count < 3 {
+                    
+                    if !emergencyContacts.isEmpty {
+                        AppDivider()
+                            .padding(.horizontal, AppSpacing.md)
+                    }
+
                     AddContactRow(titleKey: "trip.addContact") {
                         onAddContact()
                     }
@@ -57,7 +63,7 @@ struct EmergencyContactsSection: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, -8)
+            //.padding(.horizontal, -8)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 

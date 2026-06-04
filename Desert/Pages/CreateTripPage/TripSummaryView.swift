@@ -91,10 +91,7 @@ struct TripSummaryView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             
-            if isLoading {
-                Color.black.opacity(0.2)
-                    .ignoresSafeArea()
-            }
+           
         }
     }
 }

@@ -17,6 +17,12 @@ extension Color {
     static let Secondary02 =
         Color("Secondary02")
 
+    static let Sec2 =
+        Color("sec2")
+    
+    static let Lableblack =
+        Color("LablePrimary")
+
     static let Background =
         Color("Background")
 

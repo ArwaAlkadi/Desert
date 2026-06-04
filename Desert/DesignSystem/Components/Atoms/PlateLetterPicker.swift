@@ -37,7 +37,8 @@ struct PlateLetterPicker: View {
                     .font(AppTypography.body)
                     .foregroundStyle(Color.Primary)
             }
-            .frame(width: 107, height: 52)
+            .frame(maxWidth: .infinity)
+            .frame(height: 52)
             .background(Color.white)
             .overlay(
                 RoundedRectangle(cornerRadius: AppRadius.sm)

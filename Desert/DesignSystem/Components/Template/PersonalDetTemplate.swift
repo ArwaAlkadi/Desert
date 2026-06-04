@@ -21,19 +21,18 @@ struct PersonalDetailsTemplate: View {
     var onAddContact: () -> Void = {}
 
     var body: some View {
-        GeometryReader { geometry in
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: AppSpacing.lg) {
+                VStack(alignment: .leading, spacing: AppSpacing.xl) {
                     fullNameSection
                     phoneNumberSection
                     emergencyContactsSection
                 }
-                .frame(width: geometry.size.width - (AppSpacing.lg * 2), alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, AppSpacing.sm)
                 .padding(.bottom, AppSpacing.xxl)
-                .padding(.horizontal, AppSpacing.lg)
+                .padding(.horizontal, AppSpacing.md)
             }
-        }
+        
         .background(Color.Background)
     }
 }
@@ -42,7 +41,7 @@ struct PersonalDetailsTemplate: View {
 private extension PersonalDetailsTemplate {
 
     var fullNameSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+        VStack(alignment: .leading, spacing: AppSpacing.sx) {
             Text("trip.fullName".localized)
                 .font(AppTypography.headline)
                 .foregroundStyle(Color.Primary)
@@ -53,7 +52,7 @@ private extension PersonalDetailsTemplate {
                 state: showErrors && fullName.isEmpty ? .error : .normal
             )
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(minHeight: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
@@ -66,7 +65,7 @@ private extension PersonalDetailsTemplate {
 
     var phoneNumberSection: some View {
 
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+        VStack(alignment: .leading, spacing: AppSpacing.sx) {
 
             Text("trip.phone".localized)
                 .font(AppTypography.headline)
@@ -80,8 +79,8 @@ private extension PersonalDetailsTemplate {
 
                 Rectangle()
                     .fill(Color.Grey100)
-                    .frame(width: 1, height: 24)
-
+                    .frame(width: 1)
+                    .frame(maxHeight: 24)
                 AppTextField(
                     placeholderKey: "trip.phone.placeholder",
                     text: $phoneNumber,
@@ -91,7 +90,7 @@ private extension PersonalDetailsTemplate {
             }
             .padding(.horizontal, AppSpacing.md)
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(minHeight: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 

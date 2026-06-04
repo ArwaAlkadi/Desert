@@ -35,12 +35,12 @@ struct CreateTripStepTemplate<Content: View>: View {
                 action: onBack
             )
             .padding(.bottom, AppSpacing.md)
-            .padding(.horizontal, AppSpacing.xxl)
+            .padding(.horizontal, AppSpacing.md)
             
             if showsProgressBar {
                 ProgressBar(currentStep: currentStep)
                     .padding(.bottom, AppSpacing.xl)
-                    .padding(.horizontal, AppSpacing.lg)
+                    .padding(.horizontal, AppSpacing.md)
             }
             
             content
@@ -50,7 +50,7 @@ struct CreateTripStepTemplate<Content: View>: View {
             VStack(spacing: 0) {
                 if !isInputFocused {
                     CTAButton(
-                        title: isLoading ? "" : buttonTitleKey.localized
+                        title: buttonTitleKey.localized
                     ) {
                         guard !isLoading else { return }
                         onNext()
@@ -62,8 +62,8 @@ struct CreateTripStepTemplate<Content: View>: View {
                         }
                     }
                     .disabled(isLoading)
-                    .padding(.horizontal, AppSpacing.lg)
-                    .padding(.top, AppSpacing.md)
+                    .padding(.horizontal, AppSpacing.md)
+                    .padding(.top, 0)
                     .padding(.bottom, AppSpacing.sm)
                 }
             }
@@ -72,5 +72,6 @@ struct CreateTripStepTemplate<Content: View>: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color.Background.ignoresSafeArea())
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }

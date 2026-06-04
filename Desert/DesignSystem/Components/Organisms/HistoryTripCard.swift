@@ -6,9 +6,6 @@
 //
 import SwiftUI
 
-// هنا خليت الايكون يتغير على حسب عدد الاشخاص
-// يحتاج تعديل هنا لزر اعادة الرحلة يكون دس ايبل اذا فيه رحلة نشطة
-
 struct HistoryTripCard: View {
     
     enum HistoryPeopleType {
@@ -45,7 +42,7 @@ struct HistoryTripCard: View {
             AppDivider()
             
             infoSection
-                .frame(height: 52)
+                .frame(minHeight: 52)
             
             AppDivider()
             
@@ -54,7 +51,8 @@ struct HistoryTripCard: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 16)
-        .frame(maxWidth: .infinity)        .background(Color.white)
+        .frame(maxWidth: .infinity)
+        .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
     }
 }
@@ -86,7 +84,7 @@ private extension HistoryTripCard {
         StatusBadge(
             titleKey: statusKey,
             style: badgeStyle,
-            size: .small
+            size: .large
         )
     }
     
@@ -125,7 +123,7 @@ private extension HistoryTripCard {
                 repeatAction()
             }
             .disabled(hasActiveTrip)
-            .opacity(hasActiveTrip ? 0.8 : 1) //هلا سمر حطيت هذا موقتا بس عدلي كومبونت الزر نفسه
+            .opacity(hasActiveTrip ? 0.8 : 1)
         }
     }
     

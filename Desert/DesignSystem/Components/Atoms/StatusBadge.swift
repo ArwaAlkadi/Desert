@@ -26,10 +26,10 @@ struct StatusBadge: View {
     var body: some View {
 
         Text(titleKey.localized)
-            .font(AppTypography.caption2)
+            .font(AppTypography.caption2Semibold)
             .foregroundStyle(textColor)
-            .padding(.horizontal, horizontalPadding)
-            .frame(height: height)
+            .padding(.horizontal, size == .large ? 16 : 12)
+            .frame(minHeight: 24)
             .background(backgroundColor)
             .clipShape(Capsule())
     }
@@ -45,13 +45,9 @@ private extension StatusBadge {
         style == .positive ? Color.PositiveBg : Color.DestructiveBg
     }
 
-    var height: CGFloat {
-        size == .large ? 40 : 32
-    }
-
-    var horizontalPadding: CGFloat {
-        size == .large ? AppSpacing.lg : AppSpacing.md
-    }
+//    var width: CGFloat {
+//        size == .large ? 97 : 64
+//    }
 }
 
 #Preview {

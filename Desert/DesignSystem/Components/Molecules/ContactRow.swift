@@ -34,7 +34,7 @@ struct ContactRow: View {
                 .gesture(isEditable ? swipeGesture : nil)
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 68)
+        .frame(minHeight: 68)
         .clipped()
         .confirmationDialog(
             "contact.delete.title".localized,
@@ -82,10 +82,12 @@ private extension ContactRow {
                 Text(titleKey.localized)
                     .font(AppTypography.body)
                     .foregroundStyle(Color.Primary)
+                    .lineLimit(2)
 
                 Text(captionKey.localized)
                     .font(AppTypography.footnote)
                     .foregroundStyle(Color.Disabled)
+                    .lineLimit(2)
             }
 
             Spacer(minLength: 2)
@@ -96,8 +98,7 @@ private extension ContactRow {
                         offsetX = -deleteWidth
                     }
                 } label: {
-                    Image(systemName: "trash")
-                        .font(.system(size: 18, weight: .medium))
+                    Image(systemName: "trash.fill")                      .font(.system(size: 18, weight: .medium))
                         .foregroundStyle(Color.Disabled.opacity(0.6))
                         .frame(width: 44, height: 44)
                 }

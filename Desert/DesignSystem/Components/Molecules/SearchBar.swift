@@ -58,7 +58,8 @@ struct SearchBar: View {
                 }
             }
             .padding(.horizontal, AppSpacing.lg)
-            .frame( width: 310, height: 52)
+            .frame(maxWidth: .infinity)
+            .frame(minHeight: 52)
             .background(Color.white)
             .clipShape(Capsule())
             

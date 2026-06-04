@@ -36,7 +36,6 @@ struct NetworkStatusBanner: View {
                     Text(subtitle)
                         .font(AppTypography.body)
                         .foregroundStyle(Color.lableSec)
-                        .lineLimit(1)
                 }
             }
             
@@ -44,7 +43,7 @@ struct NetworkStatusBanner: View {
         }
         .padding(.horizontal, AppSpacing.lg)
         .frame(maxWidth: .infinity)
-        .frame(height: 67)
+        .frame(minHeight: 67)
         .background(Color.Background)
         .clipShape(Capsule())
         .shadow(

@@ -22,7 +22,7 @@ struct TripDetailsTemplate: View {
 
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack(spacing: AppSpacing.lg) {
+            VStack(spacing: AppSpacing.xl) {
                 tripNameSection
                 destinationSection
                 timeSection
@@ -31,7 +31,7 @@ struct TripDetailsTemplate: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, AppSpacing.sm)
             .padding(.bottom, AppSpacing.xxl)
-            .padding(.horizontal, AppSpacing.lg)
+            .padding(.horizontal, AppSpacing.md)
         }
         .background(Color.Background)
     }
@@ -42,7 +42,7 @@ struct TripDetailsTemplate: View {
 private extension TripDetailsTemplate {
 
     var tripNameSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+        VStack(alignment: .leading, spacing: AppSpacing.sx) {
             Text("trip.name".localized)
                 .font(AppTypography.headline)
                 .foregroundStyle(Color.Primary)
@@ -52,7 +52,7 @@ private extension TripDetailsTemplate {
                 text: $tripName
             )
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(minHeight: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
@@ -63,7 +63,7 @@ private extension TripDetailsTemplate {
     }
 
     var destinationSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+        VStack(alignment: .leading, spacing: AppSpacing.sx) {
             Text("trip.destination".localized)
                 .font(AppTypography.headline)
                 .foregroundStyle(Color.Primary)
@@ -77,7 +77,7 @@ private extension TripDetailsTemplate {
                 )
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(minHeight: 52)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
@@ -88,7 +88,7 @@ private extension TripDetailsTemplate {
     }
 
     var timeSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+        VStack(alignment: .leading, spacing: AppSpacing.sx) {
             Text("trip.time".localized)
                 .font(AppTypography.headline)
                 .foregroundStyle(Color.Primary)
@@ -103,7 +103,7 @@ private extension TripDetailsTemplate {
                 compactStyle: false
             )
             .frame(maxWidth: .infinity)
-            .frame(height: 72)
+            .frame(minHeight: 72)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
 
