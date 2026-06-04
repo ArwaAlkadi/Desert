@@ -27,9 +27,8 @@ struct HomeViewModel {
     }
 
     /// Returns the last successfully uploaded location to Firebase, if available.
-    func lastUploadedLocation(for trip: Trip?) -> CLLocationCoordinate2D? {
-        guard let trip, trip.lastKnownLat != 0 else { return nil }
-        return CLLocationCoordinate2D(latitude: trip.lastKnownLat, longitude: trip.lastKnownLng)
+    func lastUploadedLocation() -> CLLocationCoordinate2D? {
+        TripSessionManager.shared.lastUploadedLocation
     }
 
     /// Returns the trip's selected destination coordinate, if set.

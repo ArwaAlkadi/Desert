@@ -62,7 +62,9 @@ class TripSessionManager: NSObject, ObservableObject {
     static let shared = TripSessionManager()
 
     @Published var hasActiveTrip = false
-
+    @Published var lastUploadedLocation: CLLocationCoordinate2D? = nil
+    
+    private var pinDebounceTimer: Timer?
     private let locationManager = LocationManager.shared
     private let notifications = NotificationsManager.shared
     private let firebase = FirebaseManager.shared
@@ -129,6 +131,15 @@ class TripSessionManager: NSObject, ObservableObject {
         }
     }
 
+    func updateLastUploadedLocation(_ location: CLLocationCoordinate2D) {
+        pinDebounceTimer?.invalidate()
+        pinDebounceTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.lastUploadedLocation = location
+            }
+        }
+    }
+    
     // MARK: - Finish Trip
 
     /// Stops tracking, cancels all notifications, and marks the trip as completed.
@@ -165,6 +176,14 @@ class TripSessionManager: NSObject, ObservableObject {
         startOverdueTimer(context: context)
         startUploadTimer(context: context)
         startTripStatusListener(tripId: settings.currentTripId, context: context)
+
+        if let trip = fetchActiveTrip(context: context),
+           trip.lastKnownLat != 0 {
+            lastUploadedLocation = CLLocationCoordinate2D(
+                latitude: trip.lastKnownLat,
+                longitude: trip.lastKnownLng
+            )
+        }
 
         DispatchQueue.main.async { self.hasActiveTrip = true }
         print("TripSessionManager: session resumed — \(settings.currentTripId)")
@@ -364,18 +383,15 @@ extension TripSessionManager: LocationManagerDelegate {
                 guard let self else { return }
 
                 if trip.isOverdue {
-                    // Upload succeeded after return time — user is fine and moving
-                    // Cancel the reassurance notification only; return time reminder already fired
                     self.notifications.cancelReassuranceNotification(tripId: trip.tripId)
                 }
-                // Before return time — notifications are scheduled for future, leave them
 
-                // Update trip properties on main thread to ensure UI updates correctly
                 DispatchQueue.main.async {
                     trip.lastKnownLat   = location.coordinate.latitude
                     trip.lastKnownLng   = location.coordinate.longitude
                     trip.lastUploadTime = Date()
                     trip.lastDirection  = direction
+                    self.updateLastUploadedLocation(location.coordinate)
                 }
 
                 self.lastUploadDate         = Date()
@@ -385,8 +401,6 @@ extension TripSessionManager: LocationManagerDelegate {
             },
             onFailure: { [weak self] in
                 guard let self else { return }
-                // Reassurance notification already scheduled at trip start
-                // WhatsApp alert handled by Cloud Function
                 print("TripSessionManager: upload failed — reassurance notification already scheduled at trip start")
             }
         )

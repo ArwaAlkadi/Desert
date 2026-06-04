@@ -82,7 +82,7 @@ extension HomeView {
         ZStack {
             TripMapView(
                 localTrack: vm.localTrack(for: activeTrip),
-                lastUploadedLocation: vm.lastUploadedLocation(for: activeTrip),
+                lastUploadedLocation: vm.lastUploadedLocation(),
                 destinationLocation: vm.destinationLocation(for: activeTrip),
                 userLocation: locationManager.currentUserLocation,
                 mapType: mapType,
