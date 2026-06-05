@@ -10,20 +10,6 @@ import Contacts
 import Combine
 import MapKit
 
-// MARK: - Phone Error
-
-enum PhoneError {
-    case required
-    case invalid
-
-    var messageKey: String {
-        switch self {
-        case .required: return "phone_required..."
-        case .invalid:  return "phone_invalid"
-        }
-    }
-}
-
 class CreateTripViewModel: ObservableObject {
 
     // MARK: - Form Fields

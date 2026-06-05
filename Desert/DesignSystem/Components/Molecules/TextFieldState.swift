@@ -15,6 +15,18 @@ enum AppTextFieldState {
     case disabled
 }
 
+enum PhoneError {
+    case required
+    case invalid
+
+    var messageKey: String {
+        switch self {
+        case .required: return "phone_required..."
+        case .invalid:  return "phone_invalid"
+        }
+    }
+}
+
 struct AppTextField: View {
 
     var placeholderKey: String
