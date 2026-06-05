@@ -1,24 +1,21 @@
 # ``Desert``
-
 A safety app for desert and remote trips.
 
 ## Overview
-
 A safety app for desert and remote trips that tracks users, provides a shareable safety card, and automatically sends their last known location to emergency contacts if they don't return on time.
 
 ## Data Schema
-
 #### Logical ERD
 ![LogicalERD](LogicalERD)
-[View ERD (Logical/Physical) ↗](https://desert-5549e.web.app/ERD.pdf)
+[View ERD (Logical/Physical) ↗](#)
 
 #### Physical ERD
 ![PhysicalERD](PhysicalERD)
-[View ERD (Logical/Physical) ↗](https://desert-5549e.web.app/ERD.pdf)
+[View ERD (Logical/Physical) ↗](#)
 
 #### UML
 ![UML](UML)
-[View UML ↗](https://desert-5549e.web.app/UML.pdf)
+[View UML ↗](#)
 
 ## Topics
 
@@ -27,10 +24,8 @@ A safety app for desert and remote trips that tracks users, provides a shareable
 - ``AppDelegate``
 - ``RootView``
 
-### Coordinator
+### Managers
 - ``TripSessionManager``
-
-### Services
 - ``LocationManager``
 - ``NotificationsManager``
 - ``FirebaseManager``
@@ -43,30 +38,24 @@ A safety app for desert and remote trips that tracks users, provides a shareable
 - ``Contact``
 - ``LocationPoint``
 
-### Splash Page
-- ``SplashView``
-
-### Onboarding Page
-- ``OnboardingView``
-- ``OnboardingViewModel``
-
-### Home Page
-- ``HomeView``
-- ``HomeViewModel``
-- ``WelcomeView``
-
-### Home Page — Trips
-- ``CreateTripView``
-- ``ActiveTripCardView``
-- ``HomePageTripsViewModel``
-
-### History Page
-- ``TripHistoryView``
-- ``TripHistoryInDetailsView``
-- ``RepeatTripView``
-- ``TripHistoryViewModel``
+### Pages
+- <doc:AppPages>
 
 ### Shared
 - ``TripMapView``
-- ``ReplayMapView``
-- ``SharedComponents``
+- ``DestinationPickerMapView``
+- ``SingleContactPickerView``
+- ``MultiContactPickerView``
+- ``MaintenanceView``
+
+### Helpers
+- ``NetworkMonitorHelper``
+- ``AppPage``
+- ``NavigationGestureDisabler``
+- ``OnTripStartedKey``
+
+### Design System + Compenents
+- <doc:DesignSystem>
+
+### Other
+- <doc:Others>
