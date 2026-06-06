@@ -79,7 +79,7 @@ struct TripHistoryInDetailsView: View {
             )
         }
         .fullScreenCover(isPresented: $showFullMap) {
-            HistoryMapTrackView(
+            HistoryTripTrackView(
                 localTrack: localTrack,
                 destinationLocation: destinationLocation,
                 onBack: { showFullMap = false }

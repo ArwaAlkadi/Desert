@@ -17,7 +17,7 @@
 import SwiftUI
 import MapKit
 
-struct HistoryMapTrackView: View {
+struct HistoryTripTrackView: View {
 
     var localTrack: [CLLocationCoordinate2D]
     var destinationLocation: CLLocationCoordinate2D?
@@ -33,7 +33,7 @@ struct HistoryMapTrackView: View {
         TripTrackTemplate(
             isReplaying: vm.isReplaying,
             mapContent: {
-                TripMapView(
+                MapView(
                     localTrack: displayTrack,
                     lastUploadedLocation: nil,
                     destinationLocation: destinationLocation,
@@ -52,7 +52,7 @@ struct HistoryMapTrackView: View {
 }
 
 #Preview {
-    HistoryMapTrackView(
+    HistoryTripTrackView(
         localTrack: [
             CLLocationCoordinate2D(latitude: 24.7136, longitude: 46.6753),
             CLLocationCoordinate2D(latitude: 24.7300, longitude: 46.6900),

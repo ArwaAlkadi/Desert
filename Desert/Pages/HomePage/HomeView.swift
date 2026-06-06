@@ -77,7 +77,7 @@ extension HomeView {
 
     var mapContent: some View {
         ZStack {
-            TripMapView(
+            MapView(
                 localTrack: vm.localTrack(for: activeTrip),
                 lastUploadedLocation: vm.lastUploadedLocation(),
                 destinationLocation: vm.destinationLocation(for: activeTrip),

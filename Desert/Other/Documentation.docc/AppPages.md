@@ -13,7 +13,6 @@
 ### Home Page
 - ``HomeViewModel``
 - ``HomeView``
-- ``TripMapView``
 
 ### Create Trip Page
 - ``CreateTripViewModel``
@@ -29,7 +28,8 @@
 - ``TripHistoryViewModel``
 - ``TripHistoryView``
 - ``TripHistoryInDetailsView``
-- ``HistoryMapTrackView``
+- ``HistoryTripTrackView``
 
 ### Shared Pages
+- ``MapView``
 - ``MaintenanceView``

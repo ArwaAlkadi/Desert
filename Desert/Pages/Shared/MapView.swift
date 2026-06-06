@@ -19,7 +19,7 @@
 import SwiftUI
 import MapKit
 
-struct TripMapView: UIViewRepresentable {
+struct MapView: UIViewRepresentable {
 
     var localTrack: [CLLocationCoordinate2D]
     var lastUploadedLocation: CLLocationCoordinate2D?

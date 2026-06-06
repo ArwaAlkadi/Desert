@@ -19,6 +19,7 @@
 import SwiftUI
 import MapKit
 
+// MARK: Standalone input-only map for destination selection. Independent from MapView — built specifically for tap and drag interaction, not for display or reuse.
 struct DestinationPickerMapView: UIViewRepresentable {
 
     @Binding var region: MKCoordinateRegion

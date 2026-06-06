@@ -86,8 +86,8 @@
 		EC309FEE2FABDC58003E343E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC309FEA2FABDC58003E343E /* LocationManager.swift */; };
 		EC309FEF2FABDC58003E343E /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC309FEB2FABDC58003E343E /* NotificationsManager.swift */; };
 		EC57B32A2FCB87720024DD4F /* DestinationPickerMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57B3262FCB87720024DD4F /* DestinationPickerMapView.swift */; };
-		EC57B32B2FCB87720024DD4F /* HistoryMapTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57B3272FCB87720024DD4F /* HistoryMapTrackView.swift */; };
-		EC57B32C2FCB87720024DD4F /* TripMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57B3282FCB87720024DD4F /* TripMapView.swift */; };
+		EC57B32B2FCB87720024DD4F /* HistoryTripTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57B3272FCB87720024DD4F /* HistoryTripTrackView.swift */; };
+		EC57B32C2FCB87720024DD4F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57B3282FCB87720024DD4F /* MapView.swift */; };
 		EC57B32E2FCB880E0024DD4F /* MultiContactPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57B32D2FCB880E0024DD4F /* MultiContactPickerView.swift */; };
 		EC57B3302FCB88200024DD4F /* SingleContactPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57B32F2FCB88200024DD4F /* SingleContactPickerView.swift */; };
 		EC57B3322FCCA41B0024DD4F /* DestinationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC57B3312FCCA4180024DD4F /* DestinationPickerView.swift */; };
@@ -184,8 +184,8 @@
 		EC309FEA2FABDC58003E343E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		EC309FEB2FABDC58003E343E /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		EC57B3262FCB87720024DD4F /* DestinationPickerMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationPickerMapView.swift; sourceTree = "<group>"; };
-		EC57B3272FCB87720024DD4F /* HistoryMapTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMapTrackView.swift; sourceTree = "<group>"; };
-		EC57B3282FCB87720024DD4F /* TripMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripMapView.swift; sourceTree = "<group>"; };
+		EC57B3272FCB87720024DD4F /* HistoryTripTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTripTrackView.swift; sourceTree = "<group>"; };
+		EC57B3282FCB87720024DD4F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		EC57B32D2FCB880E0024DD4F /* MultiContactPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiContactPickerView.swift; sourceTree = "<group>"; };
 		EC57B32F2FCB88200024DD4F /* SingleContactPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleContactPickerView.swift; sourceTree = "<group>"; };
 		EC57B3312FCCA4180024DD4F /* DestinationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationPickerView.swift; sourceTree = "<group>"; };
@@ -435,7 +435,7 @@
 				EC309FB12F97FEA0003E343E /* TripHistoryViewModel.swift */,
 				EC309FAF2F97FE92003E343E /* TripHistoryView.swift */,
 				EC309FC12FA385D3003E343E /* TripHistoryInDetailsView.swift */,
-				EC57B3272FCB87720024DD4F /* HistoryMapTrackView.swift */,
+				EC57B3272FCB87720024DD4F /* HistoryTripTrackView.swift */,
 			);
 			path = HistoryPage;
 			sourceTree = "<group>";
@@ -445,7 +445,6 @@
 			children = (
 				EC309FA52F97FDF5003E343E /* HomeViewModel.swift */,
 				EC309FA32F97FDDF003E343E /* HomeView.swift */,
-				EC57B3282FCB87720024DD4F /* TripMapView.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -476,7 +475,7 @@
 				EC309F8B2F97FAF9003E343E /* HomePage */,
 				EC2F63472FCA6BFD007FF45C /* CreateTripPage */,
 				EC309F8A2F97FAF9003E343E /* HistoryPage */,
-				EC309FC92FA386C8003E343E /* SharedPages */,
+				EC309FC92FA386C8003E343E /* Shared */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -513,12 +512,13 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
-		EC309FC92FA386C8003E343E /* SharedPages */ = {
+		EC309FC92FA386C8003E343E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				EC57B3282FCB87720024DD4F /* MapView.swift */,
 				ECCD9F422FB7B79F00E2B5B9 /* MaintenanceView.swift */,
 			);
-			path = SharedPages;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		EC309FEC2FABDC58003E343E /* Managers */ = {
@@ -684,8 +684,8 @@
 				EC1FBE882FC52FAA00CA755B /* AvatarCircle.swift in Sources */,
 				EC1FBE892FC52FAA00CA755B /* ConnectivityIcon.swift in Sources */,
 				EC57B32A2FCB87720024DD4F /* DestinationPickerMapView.swift in Sources */,
-				EC57B32B2FCB87720024DD4F /* HistoryMapTrackView.swift in Sources */,
-				EC57B32C2FCB87720024DD4F /* TripMapView.swift in Sources */,
+				EC57B32B2FCB87720024DD4F /* HistoryTripTrackView.swift in Sources */,
+				EC57B32C2FCB87720024DD4F /* MapView.swift in Sources */,
 				EC2F63002FC7B084007FF45C /* HistoryTripCard.swift in Sources */,
 				EC1FBE8A2FC52FAA00CA755B /* CounterButton.swift in Sources */,
 				EC1FBEB42FC74FF100CA755B /* PersonalDetTemplate.swift in Sources */,
