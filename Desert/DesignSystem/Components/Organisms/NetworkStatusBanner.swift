@@ -34,7 +34,7 @@ struct NetworkStatusBanner: View {
                 
                 if let subtitle {
                     Text(subtitle)
-                        .font(AppTypography.body)
+                        .font(AppTypography.footnote)
                         .foregroundStyle(Color.lableSec)
                 }
             }

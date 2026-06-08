@@ -48,10 +48,6 @@ struct ActiveTripCard: View {
                 .onTapGesture {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
 
-                        if isExpanded && isUploaded {
-                            showUploadStatus = false
-                        }
-
                         isExpanded.toggle()
                     }
                 }
@@ -76,6 +72,22 @@ struct ActiveTripCard: View {
         .onChange(of: returnTime) { _, newValue in
             selectedReturnTime = newValue
             draftReturnTime = newValue
+        }
+        .onChange(of: isUploaded) { _, newValue in
+            if newValue {
+                showUploadStatus = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    showUploadStatus = false
+                }
+            }
+        }        .sheet(isPresented: Binding(
+            get: { activePicker != nil },
+            set: { if !$0 { activePicker = nil } }
+        )) {
+            dateTimePickerSheet
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
         }
     }
 }
@@ -134,10 +146,10 @@ private extension ActiveTripCard {
             HStack(spacing: AppSpacing.sm) {
                 dateChip
                 timeChip
-            }
 
-            if hasReturnTimeChanges {
-                updateButton
+                if hasReturnTimeChanges {
+                    updateButton
+                }
             }
         }
         .padding(AppSpacing.md)
@@ -152,13 +164,6 @@ private extension ActiveTripCard {
             chipText(formatDate(displayedReturnTime))
         }
         .buttonStyle(.plain)
-        .popover(isPresented: Binding(
-            get: { activePicker == .date },
-            set: { if !$0 { activePicker = nil } }
-        )) {
-            datePickerPopover
-                .presentationCompactAdaptation(.popover)
-        }
     }
     
     var timeChip: some View {
@@ -168,96 +173,51 @@ private extension ActiveTripCard {
             chipText(formatTime(displayedReturnTime))
         }
         .buttonStyle(.plain)
-        .popover(isPresented: Binding(
-            get: { activePicker == .time },
-            set: { if !$0 { activePicker = nil } }
-        )) {
-            timePickerPopover
-                .presentationCompactAdaptation(.popover)
-        }
     }
     
     func chipText(_ text: String) -> some View {
         Text(text)
             .font(AppTypography.caption)
-            .foregroundStyle(Color.Primary)
+            .foregroundStyle(Color.white)
             .lineLimit(1)
             .minimumScaleFactor(0.9)
             .frame(maxWidth: .infinity)
-            .frame(minHeight: 44)
+            .frame(height: 32)
             .padding(.horizontal, 8)
-            .background(Color.white)
+            .background(Color.Primary)
             .clipShape(Capsule())
-            .overlay {
-                Capsule()
-                    .stroke(Color.Grey100, lineWidth: 1)
-            }
     }
 
     var updateButton: some View {
         Button {
             guard draftReturnTime > Date() else { return }
-                selectedReturnTime = draftReturnTime
-                showUploadStatus = true
-                onUpdateReturnTime(draftReturnTime)
+            selectedReturnTime = draftReturnTime
+            showUploadStatus = true
+            onUpdateReturnTime(draftReturnTime)
         } label: {
-            Text("activeTrip.updateTime".localized)
-                .font(AppTypography.caption)
+            Image(systemName: "checkmark")
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 40)
+                .frame(width: 44, height: 32)
                 .background(draftReturnTime > Date() ? Color.Secondary02 : Color.Disabled)
                 .clipShape(Capsule())
         }
         .buttonStyle(.plain)
         .disabled(draftReturnTime <= Date())
-        .transition(.move(edge: .top).combined(with: .opacity))
+        .transition(.scale.combined(with: .opacity))
     }
-    
-    var datePickerPopover: some View {
-        DatePicker(
-            "",
-            selection: Binding(
-                get: { draftReturnTime },
-                set: { newDate in
-                    draftReturnTime = merge(date: newDate, time: draftReturnTime)
-                }
-            ),
-            in: Calendar.current.startOfDay(for: Date())...,
-            displayedComponents: [.date]
-        )
-        .datePickerStyle(.graphical)
-        .labelsHidden()
-        .tint(Color.Secondary02)
-        .frame(width: 320, height: 330)
-        .padding(AppSpacing.md)
-        .background(Color.white)
-        .presentationCompactAdaptation(.popover)
-    }
-    var timePickerPopover: some View {
-        DatePicker(
-            "",
-            selection: Binding(
-                get: { draftReturnTime },
-                set: { newTime in
-                    draftReturnTime = merge(date: draftReturnTime, time: newTime)
-                }
-            ),
-            displayedComponents: [.hourAndMinute]
-        )
-        .datePickerStyle(.wheel)
-        .labelsHidden()
-        .frame(width: 260, height: 140)
-        .padding(AppSpacing.md)
-        .background(Color.white)
-    }
-    
     
     var uploadStatus: some View {
         HStack(spacing: 5) {
-            Image(systemName: isUploaded ? "checkmark.circle.fill" : "arrow.up.circle")
-                .font(.system(size: 12))
-                .foregroundStyle(isUploaded ? Color.green : Color.lableSec)
+            if isUploaded {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.green)
+            } else {
+                ProgressView()
+                    .scaleEffect(0.6)
+                    .tint(Color.lableSec)
+            }
             
             Text(isUploaded ? "activeTrip.uploaded".localized : "activeTrip.uploading".localized)
                 .font(AppTypography.caption2)
@@ -309,32 +269,20 @@ private extension ActiveTripCard {
     
     // Helpers
     
-    func merge(date: Date, time: Date) -> Date {
-        let calendar = Calendar.current
-
-        let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
-        let timeComponents = calendar.dateComponents([.hour, .minute], from: time)
-
-        var components = DateComponents()
-        components.year = dateComponents.year
-        components.month = dateComponents.month
-        components.day = dateComponents.day
-        components.hour = timeComponents.hour
-        components.minute = timeComponents.minute
-
-        return calendar.date(from: components) ?? draftReturnTime
-    }
-    
     func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM yyyy"
         return formatter.string(from: date)
     }
-    
+
     func formatTime(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
         return formatter.string(from: date)
+    }
+    
+    var dateTimePickerSheet: some View {
+        DateTimePickerSheet(selectedDate: $draftReturnTime)
     }
 }
 

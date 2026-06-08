@@ -29,14 +29,14 @@ struct VehicleDetailsTemplate: View {
                         .id("plateInfoSection")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.top, AppSpacing.sm)
+                .padding(.top, 0)
                 .padding(.bottom, 260)
                 .padding(.horizontal, AppSpacing.md)
             }
             .background(Color.Background)
             .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
                 withAnimation(.easeInOut(duration: 0.25)) {
-                    proxy.scrollTo("plateInfoSection", anchor: .center)
+                    proxy.scrollTo("plateInfoSection", anchor: .top)
                 }
             }
         }

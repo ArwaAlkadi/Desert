@@ -30,8 +30,11 @@ struct Stepper: View {
             } label: {
                 Image(systemName: "minus")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(minusColor)
+                    .foregroundColor(minusColor)
+                    .frame(width: 24, height: 24)
+                    .opacity(1)
             }
+            .buttonStyle(.plain)
 
             
             Text("\(count)")
@@ -43,7 +46,8 @@ struct Stepper: View {
             } label: {
                 Image(systemName: "plus")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(foregroundColor)
+                    .foregroundColor(foregroundColor)
+                    .frame(width: 24, height: 24)
             }
             .disabled(style == .disabled)
         }
@@ -81,4 +85,3 @@ private extension Stepper {
         canDecrease ? foregroundColor : Color.Sec2
     }
 }
-

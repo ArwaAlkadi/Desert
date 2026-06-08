@@ -36,7 +36,7 @@ struct SelectDestinationTemplate<MapContent: View>: View {
                     searchAction: onSearch
                 )
                 .frame(maxWidth: 340)
-                .padding(.horizontal, AppSpacing.lg)
+                .padding(.horizontal, AppSpacing.md)
                 .zIndex(1)
                 
                 if !searchResults.isEmpty {
@@ -74,7 +74,7 @@ struct SelectDestinationTemplate<MapContent: View>: View {
                                     }
                                     .padding(.horizontal, AppSpacing.md)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .frame(minHeight: 82)
+                                    .frame(height: 68)
                                 }
                                 .buttonStyle(.plain)
 
@@ -85,10 +85,10 @@ struct SelectDestinationTemplate<MapContent: View>: View {
                             }
                         }
                     }
-                    .frame(maxHeight: min(CGFloat(searchResults.count) * 82, 370))
+                    .frame(width: 370)
+                    .frame(maxHeight: min(CGFloat(searchResults.count) * 68, 370))
                     .background(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: AppRadius.xl))
-                    .frame(maxWidth: 325)
+                    .clipShape(RoundedRectangle(cornerRadius: 24))
                     .padding(.top, AppSpacing.sm)
                     .frame(maxWidth: .infinity, alignment: .top)
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -107,8 +107,9 @@ struct SelectDestinationTemplate<MapContent: View>: View {
             ) {
                 onConfirm()
             }
-            .padding(.horizontal, AppSpacing.xl)
-            .padding(.bottom, AppSpacing.lg)
+            .padding(.horizontal, AppSpacing.md)
+            .padding(.top, AppSpacing.lg)
+            .padding(.bottom, AppSpacing.sm)
         }
         
     }

@@ -41,6 +41,7 @@ struct CreateTripStepTemplate<Content: View>: View {
                 ProgressBar(currentStep: currentStep)
                     .padding(.bottom, AppSpacing.xl)
                     .padding(.horizontal, AppSpacing.md)
+                
             }
             
             content
@@ -63,8 +64,7 @@ struct CreateTripStepTemplate<Content: View>: View {
                     }
                     .disabled(isLoading)
                     .padding(.horizontal, AppSpacing.md)
-                    .padding(.top, 0)
-                    .padding(.bottom, AppSpacing.sm)
+                    .padding(.vertical, AppSpacing.xl)
                 }
             }
             .frame(maxWidth: .infinity)

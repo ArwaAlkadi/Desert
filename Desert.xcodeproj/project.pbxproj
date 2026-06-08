@@ -11,6 +11,8 @@
 		3354E7202FCA01CE0072C1F0 /* ActiveTripCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3354E71F2FCA01CA0072C1F0 /* ActiveTripCard.swift */; };
 		336A69672FC9055800C93DEB /* SelectDesTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A69662FC9055400C93DEB /* SelectDesTemplate.swift */; };
 		336A696B2FC9BF7100C93DEB /* CreateTripStepTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336A696A2FC9BF6900C93DEB /* CreateTripStepTemplate.swift */; };
+		33984C482FD4759100F6DD72 /* DateTimePickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33984C472FD4758E00F6DD72 /* DateTimePickerSheet.swift */; };
+		33D049C72FCC991C00EA942D /* MainContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D049C62FCC991900EA942D /* MainContainerView.swift */; };
 		EC1FBE882FC52FAA00CA755B /* AvatarCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE582FC52FAA00CA755B /* AvatarCircle.swift */; };
 		EC1FBE892FC52FAA00CA755B /* ConnectivityIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE592FC52FAA00CA755B /* ConnectivityIcon.swift */; };
 		EC1FBE8A2FC52FAA00CA755B /* CounterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBE5A2FC52FAA00CA755B /* CounterButton.swift */; };
@@ -110,6 +112,8 @@
 		3354E71F2FCA01CA0072C1F0 /* ActiveTripCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTripCard.swift; sourceTree = "<group>"; };
 		336A69662FC9055400C93DEB /* SelectDesTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDesTemplate.swift; sourceTree = "<group>"; };
 		336A696A2FC9BF6900C93DEB /* CreateTripStepTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripStepTemplate.swift; sourceTree = "<group>"; };
+		33984C472FD4758E00F6DD72 /* DateTimePickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickerSheet.swift; sourceTree = "<group>"; };
+		33D049C62FCC991900EA942D /* MainContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainerView.swift; sourceTree = "<group>"; };
 		EC1FBE582FC52FAA00CA755B /* AvatarCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCircle.swift; sourceTree = "<group>"; };
 		EC1FBE592FC52FAA00CA755B /* ConnectivityIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityIcon.swift; sourceTree = "<group>"; };
 		EC1FBE5A2FC52FAA00CA755B /* CounterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterButton.swift; sourceTree = "<group>"; };
@@ -259,6 +263,7 @@
 		EC1FBE742FC52FAA00CA755B /* Molecules */ = {
 			isa = PBXGroup;
 			children = (
+				33984C472FD4758E00F6DD72 /* DateTimePickerSheet.swift */,
 				EC2F63092FC8901D007FF45C /* SearchBar.swift */,
 				EC2F630B2FC8903E007FF45C /* TripSummaryCard.swift */,
 				EC1FBE692FC52FAA00CA755B /* AddContactRow.swift */,
@@ -650,6 +655,7 @@
 				EC57B3342FCCB3960024DD4F /* AppDelegate.swift in Sources */,
 				EC309FA42F97FDDF003E343E /* HomeView.swift in Sources */,
 				EC309FA22F97FDC9003E343E /* OnboardingViewModel.swift in Sources */,
+				33984C482FD4759100F6DD72 /* DateTimePickerSheet.swift in Sources */,
 				EC309FA62F97FDF5003E343E /* HomeViewModel.swift in Sources */,
 				EC2F634B2FCA6DF9007FF45C /* CreateTripViewModel.swift in Sources */,
 				EC309FE52FABCB93003E343E /* Documentation.docc in Sources */,

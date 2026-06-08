@@ -39,11 +39,14 @@ struct SearchBar: View {
             HStack(spacing: AppSpacing.md) {
                 
                 TextField(
-                    placeholderKey.localized,
-                    text: $text
+                    "",
+                    text: $text,
+                    prompt: Text(placeholderKey.localized)
+                        .font(AppTypography.body)
+                        .foregroundStyle(Color.LableSecondary)
                 )
                 .font(AppTypography.body)
-                .foregroundStyle(Color.Primary)
+                .foregroundStyle(Color.Lableblack)
                 .multilineTextAlignment(.leading)
                 .onSubmit {
                     searchAction()
@@ -54,14 +57,20 @@ struct SearchBar: View {
                 } label: {
                     Image(systemName: "magnifyingglass")
                         .font(.system(size: 20, weight: .medium))
-                        .foregroundStyle(Color.Primary)
+                        .foregroundStyle(Color.Lableblack)
                 }
             }
-            .padding(.horizontal, AppSpacing.lg)
-            .frame(maxWidth: .infinity)
-            .frame(minHeight: 52)
+            .padding(.horizontal, AppSpacing.md)
+            .frame(width: style == .withBackButton ? 318 : nil)
+            .frame(maxWidth: style == .withBackButton ? nil : .infinity)
+            .frame(height: 52)
             .background(Color.white)
-            .clipShape(Capsule())
+            .clipShape(RoundedRectangle(cornerRadius: 50))
+            .overlay(
+                RoundedRectangle(cornerRadius: 50)
+                    .stroke(Color.Secondary, lineWidth: 1)
+
+            )
             
         }
     }

@@ -131,6 +131,7 @@
 "uploaded" = "Uploaded";
 "uploading" = "Uploading";
 "pending_upload" = "Pending";
+"activeTrip.time" = "Time";
 
 
 /* MARK: - History */

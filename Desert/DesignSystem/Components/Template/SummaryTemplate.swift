@@ -54,8 +54,8 @@ struct SummaryTemplate: View {
                     warningCard
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.top, AppSpacing.sm)
-                .padding(.bottom, AppSpacing.lg)
+                .padding(.top, 0)
+                .padding(.bottom, AppSpacing.xxl)
                 .padding(.horizontal, AppSpacing.md)
             }
         }
@@ -160,36 +160,32 @@ private extension SummaryTemplate {
     }
 
     var warningCard: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: "exclamationmark.triangle.fill")
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(Color.Secondary02)
-                .padding(.top, 2)
-
-            (
-                Text("summary.warningPrefix".localized)
-                    .foregroundStyle(Color.Primary)
-                +
-                Text(" ")
-                +
-                Text("summary.termsAndConditions".localized)
-                    .foregroundStyle(Color.Secondary02)
-                    .underline()
-                +
-                Text("summary.warningSuffix".localized)
-                    .foregroundStyle(Color.Primary)
-            )
-            .font(AppTypography.caption)
-            .fixedSize(horizontal: false, vertical: true)
-            .onTapGesture {
-                onTermsTapped()
-            }
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 14)
+        
+        (
+            Text("summary.warningPrefix".localized)
+                .foregroundStyle(Color.Positive)
+            +
+            Text(" ")
+            +
+            Text("summary.termsAndConditions".localized)
+                .foregroundStyle(Color.Positive)
+                .underline()
+            +
+            Text("summary.warningSuffix".localized)
+                .foregroundStyle(Color.Positive)
+        )
+        .font(AppTypography.caption2)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.vertical, AppSpacing.sm)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.Secondary)
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
+        .background(Color.PositiveBg)
+        .clipShape(
+            RoundedRectangle(cornerRadius: AppRadius.md)
+        )
+        .onTapGesture {
+            onTermsTapped()
+        }
     }
     
 

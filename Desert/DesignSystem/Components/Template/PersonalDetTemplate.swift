@@ -28,8 +28,8 @@ struct PersonalDetailsTemplate: View {
                     emergencyContactsSection
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.top, AppSpacing.sm)
-                .padding(.bottom, AppSpacing.xxl)
+                .padding(.top, 0)
+                .padding(.bottom, 0)
                 .padding(.horizontal, AppSpacing.md)
             }
         

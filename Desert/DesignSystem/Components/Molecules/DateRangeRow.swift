@@ -58,54 +58,10 @@ struct DateRangeRow: View {
         .cornerRadius(AppRadius.md)
         .sheet(isPresented: $showDatePicker) {
 
-            ZStack(alignment: .topLeading) {
-
-                VStack(spacing: AppSpacing.sm) {
-
-                    if compactStyle {
-                        DatePicker(
-                            endLabelKey.localized,
-                            selection: $returnTime,
-                            in: Date()...,
-                            displayedComponents: displayedComponents
-                        )
-                        .datePickerStyle(.compact)
-                        .labelsHidden()
-                    } else {
-                        DatePicker(
-                            endLabelKey.localized,
-                            selection: $returnTime,
-                            in: Date()...,
-                            displayedComponents: displayedComponents
-                        )
-                        .datePickerStyle(.graphical)
-                        .labelsHidden()
-                    }
-                }
-                .tint(Color.Secondary02)
-                .padding(.top, 84)
-                .padding(.horizontal, AppSpacing.md)
-                .padding(.bottom, AppSpacing.md)
-
-                Button {
-                    showDatePicker = false
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(Color.black)
-                        .frame(width: 44, height: 44)
-                        .background(Color.Secondary)
-                        .clipShape(Circle())
-                }
-                .buttonStyle(.plain)
-                .padding(.top, 28)
-                .padding(.leading, AppSpacing.lg)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .background(Color.white)
-            .presentationDetents([.height(500)])
-            .presentationDragIndicator(.hidden)
-            .environment(\.locale, Locale(identifier: "en"))
+            DateTimePickerSheet(selectedDate: $returnTime)
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
+                .environment(\.locale, Locale(identifier: "en"))
         }
         
     }

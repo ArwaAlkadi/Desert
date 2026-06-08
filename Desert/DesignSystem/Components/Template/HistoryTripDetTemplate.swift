@@ -40,8 +40,8 @@ struct HistoryTripDetailsTemplate: View {
                 showDeleteAlert = true
             }
             .padding(.top, 0)
-            .padding(.bottom, AppSpacing.lg)
-            .padding(.horizontal, 75)
+            .padding(.bottom, AppSpacing.xl)
+            .padding(.horizontal, AppSpacing.md)
 
 
             ScrollView(showsIndicators: false) {
@@ -54,7 +54,7 @@ struct HistoryTripDetailsTemplate: View {
                 }
                 .frame(maxWidth: 370, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.bottom, 120)
+                .padding(.bottom, 90)
 
             }
         }

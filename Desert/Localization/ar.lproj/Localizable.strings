@@ -129,7 +129,7 @@
 "uploaded" = "تم الرفع";
 "uploading" = "جارٍ الرفع";
 "pending_upload" = "في الانتظار";
-
+"activeTrip.time" = "الوقت";
 
 /* MARK: - History */
 "history.title" = "السجل";

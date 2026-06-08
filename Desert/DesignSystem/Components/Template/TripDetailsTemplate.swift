@@ -29,7 +29,7 @@ struct TripDetailsTemplate: View {
                 groupSection
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, AppSpacing.sm)
+            .padding(.top, 0)
             .padding(.bottom, AppSpacing.xxl)
             .padding(.horizontal, AppSpacing.md)
         }
