@@ -7,6 +7,11 @@ Desert is an off-road safety application designed to help users share their trip
 
 When an alert is triggered, emergency contacts receive a WhatsApp message containing the user's latest known location and a tracking link. The recipient does not need to install the application or create an account to access the shared trip information.
 
+## Technical Journey Documentation
+Comprehensive documentation covering research findings, architectural decisions, system design, testing results, security considerations, and major technical decisions made throughout development.
+
+[View Technical Documentation ↗](https://suhail-1.web.app/technical_journey_documentation.pdf)
+
 ## Data Storage Strategy
 
 A hybrid storage model was adopted because the application's requirements differ significantly between operational data and safety-critical data.
@@ -16,11 +21,6 @@ The application is expected to operate in remote areas where network connectivit
 In contrast, data required by backend services and emergency workflows is synchronized to Firestore. This includes trip status, emergency contacts, destination information, and the latest known location.
 
 Separating responsibilities between local and cloud storage reduces network dependency, improves reliability in remote environments, and limits the amount of location data uploaded to the server.
-
-## Technical Journey Documentation
-Comprehensive documentation covering research findings, architectural decisions, system design, testing results, security considerations, and major technical decisions made throughout development.
-
-[View Technical Documentation ↗](https://suhail-1.web.app/technical_journey_documentation.pdf)
 
 ## Terms & Conditions and Privacy Policy
 The same Terms & Conditions and Privacy Policy published with the App Store release, covering terms of use, privacy practices, data collection, and user responsibilities.

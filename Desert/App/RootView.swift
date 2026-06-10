@@ -28,7 +28,10 @@ struct RootView: View {
     @StateObject private var networkMonitor = NetworkMonitorHelper()
 
     @Query var settings: [AppSettings]
-
+    @Query(filter: #Predicate<Trip> { $0.status == "active" || $0.status == "overdue" })
+    
+    var activeTrips: [Trip]
+    
     @State private var showSplash = true
 
     @State private var showUpdateAlert = false
@@ -46,7 +49,7 @@ struct RootView: View {
             if showSplash {
                 SplashView(showSplash: $showSplash)
 
-            } else if maintenanceEnabled && !ActiveTripSession.shared.hasActiveTrip {
+            } else if maintenanceEnabled && activeTrips.isEmpty {
                 MaintenanceView(
                     title: maintenanceTitle,
                     message: maintenanceMessage
