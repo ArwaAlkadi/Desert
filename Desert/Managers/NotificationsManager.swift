@@ -2,38 +2,44 @@
 //  NotificationsManager.swift
 //  Desert
 //
-//  Manages all local notifications for active desert trips.
-//
-//  Responsibilities:
-//  1. Requesting notification permission (called once from HomeViewModel.onAppear)
-//  2. Scheduling a return time reminder when a trip starts
-//  3. Scheduling a single overdue notification 30 minutes after return time
-//  4. Cancelling notifications appropriately based on trip state
-//  5. Showing notifications even when the app is in the foreground
-//
-//  Notification schedule (scheduled at trip start, fixed to return time):
-//  - returnTime + 0 min:  "Return Time Reminder"
-//  - returnTime + 30 min: "Stay Near Your Vehicle" (overdue reminder)
-//
-//  Identifiers:
-//  - "returnTime_<tripId>"  — return time reminder
-//  - "overdue_<tripId>"     — overdue reminder
-//
 
 import Foundation
 import UserNotifications
 import Combine
 
+/// Schedules and cancels all local notifications for active desert trips.
+///
+/// ## Responsibilities
+/// 1. Requesting notification permission (called once from `HomeViewModel.onAppear`)
+/// 2. Scheduling a return-time reminder and a reassurance reminder at trip start
+/// 3. Cancelling the reassurance reminder when a Firebase upload confirms the user is moving
+/// 4. Cancelling all notifications when a trip ends or the return time is updated
+/// 5. Showing notifications even when the app is in the foreground
+///
+/// ## Talks To
+/// - `HomeViewModel` — triggers `requestPermission()` on first visible app visit
+/// - `ActiveTripSession` — calls `scheduleTripNotifications`, `cancelReassuranceNotification`, and `cancelAllNotifications`
+///
+/// ## Notification Schedule (fixed to `returnTime`, scheduled at trip start)
+/// | Offset | Identifier | Purpose |
+/// |--------|------------|---------|
+/// | +0 min | `returnTime_<tripId>` | Return time reminder |
+/// | +10 min | `reassurance_<tripId>` | Overdue follow-up reminder |
 class NotificationsManager: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
 
+    // MARK: - Singleton
+
     static let shared = NotificationsManager()
+
+    // MARK: - Published
 
     /// Whether the user has granted notification permission.
     @Published var isAuthorized: Bool = false
 
+    // MARK: - Init
+
     override init() {
         super.init()
-        // Show notifications even when app is in foreground
         UNUserNotificationCenter.current().delegate = self
     }
 

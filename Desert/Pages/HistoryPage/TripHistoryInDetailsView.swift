@@ -9,32 +9,39 @@ import SwiftData
 
 struct TripHistoryInDetailsView: View {
 
+    // MARK: - Input
+
     var trip: Trip
+
+    // MARK: - Environment
 
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
 
+    // MARK: - ViewModel
+
     @StateObject private var vm = TripHistoryViewModel()
+
+    // MARK: - State
 
     @State private var showRepeatTrip = false
     @State private var showFullMap = false
 
+    // MARK: - Computed
+
     var localTrack: [CLLocationCoordinate2D] {
         trip.gpsTrack
             .sorted { $0.index < $1.index }
-            .map {
-                CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lng)
-            }
+            .map { CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lng) }
     }
-    
+
     var destinationLocation: CLLocationCoordinate2D? {
         guard trip.destinationLat != 0 else { return nil }
-        return CLLocationCoordinate2D(
-            latitude: trip.destinationLat,
-            longitude: trip.destinationLng
-        )
+        return CLLocationCoordinate2D(latitude: trip.destinationLat, longitude: trip.destinationLng)
     }
-    
+
+    // MARK: - Body
+
     var body: some View {
         HistoryTripDetailsTemplate(
             tripName: trip.tripName,
@@ -65,9 +72,7 @@ struct TripHistoryInDetailsView: View {
                 guard !vm.hasActiveTrip else { return }
                 showRepeatTrip = true
             },
-            onExpandMap: {
-                showFullMap = true
-            },
+            onExpandMap: { showFullMap = true },
             hasActiveTrip: vm.hasActiveTrip
         )
         .navigationBarTitleDisplayMode(.inline)
@@ -92,6 +97,7 @@ struct TripHistoryInDetailsView: View {
     }
 }
 
+// MARK: - Preview
 
 #Preview {
     let trip = Trip(
@@ -111,24 +117,16 @@ struct TripHistoryInDetailsView: View {
         plateLetters: "ABC",
         plateNumbers: "1234"
     )
-
     trip.status = "completed"
     trip.alertSent = false
-    trip.emergencyContacts = [
-        Contact(name: "Ahmed", phone: "+966501234567")
-    ]
-    trip.groupContacts = [
-        Contact(name: "Faisal", phone: "+966507654321")
-    ]
+    trip.emergencyContacts = [Contact(name: "Ahmed", phone: "+966501234567")]
+    trip.groupContacts = [Contact(name: "Faisal", phone: "+966507654321")]
 
     return NavigationStack {
         TripHistoryInDetailsView(trip: trip)
     }
     .modelContainer(for: [
-        Trip.self,
-        LocationPoint.self,
-        SavedInfo.self,
-        SavedContact.self,
-        AppSettings.self
+        Trip.self, LocationPoint.self,
+        SavedInfo.self, SavedContact.self, AppSettings.self
     ], inMemory: true)
 }

@@ -8,10 +8,15 @@ import SwiftData
 
 struct TripHistoryView: View {
 
+    // MARK: - Input
+
     @Binding var currentPage: AppPage
 
-    @StateObject private var vm = TripHistoryViewModel()
+    // MARK: - Environment
+
     @Environment(\.modelContext) private var context
+
+    // MARK: - Query
 
     @Query(
         filter: #Predicate<Trip> { $0.status == "completed" },
@@ -20,26 +25,30 @@ struct TripHistoryView: View {
     )
     var trips: [Trip]
 
+    // MARK: - ViewModel
+
+    @StateObject private var vm = TripHistoryViewModel()
+
+    // MARK: - State
+
     @State private var selectedTrip: Trip?
     @State private var showDetails = false
-
     @State private var tripToRepeat: Trip?
     @State private var showRepeatTrip = false
     @State private var showCreateTrip = false
-    
+
+    // MARK: - Body
+
     var body: some View {
         HistoryTemplate(
             selectedTab: $currentPage,
             hasTrips: !trips.isEmpty,
             tripsCount: trips.count,
             hasActiveTrip: vm.hasActiveTrip,
-            onStartTrip: {
-                showCreateTrip = true
-            }
+            onStartTrip: { showCreateTrip = true }
         ) {
             tripList
         }
-//        .ignoresSafeArea(edges: .bottom)
         .navigationDestination(isPresented: $showCreateTrip) {
             CreateTripStepsView(
                 showParentSheet: $showCreateTrip,
@@ -47,9 +56,7 @@ struct TripHistoryView: View {
                     showCreateTrip = false
                     currentPage = .map
                 },
-                onCancel: {
-                    showCreateTrip = false
-                }
+                onCancel: { showCreateTrip = false }
             )
         }
         .navigationDestination(isPresented: $showRepeatTrip) {
@@ -61,10 +68,13 @@ struct TripHistoryView: View {
                         showRepeatTrip = false
                         currentPage = .map
                     },
-                    onCancel: {
-                        showRepeatTrip = false
-                    }
+                    onCancel: { showRepeatTrip = false }
                 )
+            }
+        }
+        .navigationDestination(isPresented: $showDetails) {
+            if let selectedTrip {
+                TripHistoryInDetailsView(trip: selectedTrip)
             }
         }
         .alert(
@@ -72,19 +82,12 @@ struct TripHistoryView: View {
             isPresented: $vm.showDeleteAlert
         ) {
             Button("cancel".localized, role: .cancel) { }
-
             Button("delete".localized, role: .destructive) {
                 vm.deleteSelected(trips: trips, context: context)
             }
         } message: {
             Text("delete_trips_message".localized)
         }
-        .navigationDestination(isPresented: $showDetails) {
-            if let selectedTrip {
-                TripHistoryInDetailsView(trip: selectedTrip)
-            }
-        }
-       
         .onAppear {
             for trip in trips {
                 vm.syncAlertStatusIfNeeded(for: trip, context: context)
@@ -93,62 +96,56 @@ struct TripHistoryView: View {
     }
 }
 
-
+// MARK: - Preview
 
 #Preview {
     NavigationStack {
         TripHistoryView(currentPage: .constant(.history))
     }
     .modelContainer(for: [
-        Trip.self,
-        LocationPoint.self,
-        SavedInfo.self,
-        SavedContact.self,
-        AppSettings.self
+        Trip.self, LocationPoint.self,
+        SavedInfo.self, SavedContact.self, AppSettings.self
     ], inMemory: true)
 }
 
-
-
+// MARK: - Trip List
 
 extension TripHistoryView {
+
     var tripList: some View {
-
-
-            LazyVStack(spacing: 16) {
-
-                ForEach(trips, id: \.tripId) { trip in
-
-                    HistoryTripCard(
-                        titleKey: trip.tripName,
-                        destinationKey: trip.destination,
-                        statusKey: trip.alertSent
-                            ? "history.status.alertSent"
-                            : "history.status.noAlert",
-                        badgeStyle: trip.alertSent ? .destructive : .positive,
-                        durationKey: vm.tripDuration(trip),
-                        distanceKey: vm.formatDistance(trip.gpsTrack.count),
-                      peopleType: trip.groupSize == 1 ? .solo : .group,
-                        peopleKey: String.localizedStringWithFormat(
-                            NSLocalizedString("history.peopleCount", tableName: "PluralStrings", comment: ""),
-                            trip.groupSize
+        LazyVStack(spacing: 16) {
+            ForEach(trips, id: \.tripId) { trip in
+                HistoryTripCard(
+                    titleKey: trip.tripName,
+                    destinationKey: trip.destination,
+                    statusKey: trip.alertSent
+                        ? "history.status.alertSent"
+                        : "history.status.noAlert",
+                    badgeStyle: trip.alertSent ? .destructive : .positive,
+                    durationKey: vm.tripDuration(trip),
+                    distanceKey: vm.formatDistance(trip.gpsTrack.count),
+                    peopleType: trip.groupSize == 1 ? .solo : .group,
+                    peopleKey: String.localizedStringWithFormat(
+                        NSLocalizedString(
+                            "history.peopleCount",
+                            tableName: "PluralStrings",
+                            comment: ""
                         ),
-                        dateKey: vm.formatStartDate(trip.startTime),
-                        repeatAction: {
-                            tripToRepeat = trip
-                            showRepeatTrip = true
-                        },
-                        hasActiveTrip: vm.hasActiveTrip
-                    )
-                    .onTapGesture {
-                        selectedTrip = trip
-                        showDetails = true
-                    }
+                        trip.groupSize
+                    ),
+                    dateKey: vm.formatStartDate(trip.startTime),
+                    repeatAction: {
+                        tripToRepeat = trip
+                        showRepeatTrip = true
+                    },
+                    hasActiveTrip: vm.hasActiveTrip
+                )
+                .onTapGesture {
+                    selectedTrip = trip
+                    showDetails = true
                 }
             }
-
+        }
         .padding(.horizontal, AppSpacing.lg)
     }
 }
-
-

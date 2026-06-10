@@ -2,17 +2,22 @@
 //  SavedInfo.swift
 //  Desert
 //
-//  Created by Arwa Alkadi on 21/04/2026.
-//
 
 import SwiftData
 import Foundation
 
-/// Stores the user's default data for auto-filling future trips.
-/// Updated after each trip when "Save my info" is enabled.
+/// Stores the user's default trip data for auto-filling future trips.
+///
+/// ## Responsibilities
+/// 1. Holding personal and vehicle details entered during previous trips
+/// 2. Storing default emergency contacts that are pre-filled on new trips
+///
+/// Updated at the end of each trip start via `CreateTripViewModel.saveUserInfo`.
 @Model
 class SavedInfo {
-    
+
+    // MARK: - Stored
+
     var userName: String
     var phoneNumber: String
     var carName: String
@@ -20,11 +25,12 @@ class SavedInfo {
     var is4WD: Bool
     var plateLetters: String
     var plateNumbers: String
-    
-  
-    /// Default emergency contacts — auto-filled when creating a new trip.
+
+    /// Pre-filled emergency contacts — copied into new trips as `Contact` objects.
     var defaultEmergencyContacts: [SavedContact]
-    
+
+    // MARK: - Init
+
     init(
         userName: String,
         phoneNumber: String,
@@ -48,18 +54,19 @@ class SavedInfo {
 
 // MARK: - SavedContact
 
-/// A saved contact inside `SavedInfo` — converted to `Contact` when a new trip starts.
+/// A persisted contact inside `SavedInfo` — converted to `Contact` when a new trip starts.
 @Model
 class SavedContact {
+
+    // MARK: - Stored
+
     var name: String
     var phone: String
-    
-    /// Contact type — either `"emergency"` or `"group"`.
-    var contactType: String
-    
-    init(name: String, phone: String, contactType: String) {
+
+    // MARK: - Init
+
+    init(name: String, phone: String) {
         self.name = name
         self.phone = phone
-        self.contactType = contactType
     }
 }

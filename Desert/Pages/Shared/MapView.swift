@@ -1,13 +1,13 @@
 //
-//  TripMapView.swift
+//  MapView.swift
 //  Desert
 //
 //  Live trip map — shown in HomeView during an active trip.
 //
 //  Displays:
-//  - Local GPS track (red polyline, saved every 250m, never uploaded)
-//  - Last uploaded location (blue pin)
-//  - Destination pin (orange pin)
+//  - Local GPS track (polyline, saved every 250m, never uploaded)
+//  - Last uploaded location pin
+//  - Destination pin
 //  - User's current location dot
 //
 //  Supports:
@@ -21,6 +21,8 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
 
+    // MARK: - Input
+
     var localTrack: [CLLocationCoordinate2D]
     var lastUploadedLocation: CLLocationCoordinate2D?
     var destinationLocation: CLLocationCoordinate2D?
@@ -29,11 +31,15 @@ struct MapView: UIViewRepresentable {
     var centerTrigger: Int = 0
     var resetNorthTrigger: Int = 0
 
+    // MARK: - UIViewRepresentable
+
+    /// Builds the MKMapView with user location dot, custom compass, and scale view.
+    /// Native compass and scale are hidden and replaced with manually positioned ones
+    /// to allow precise layout control independent of safe area insets.
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
         context.coordinator.mapView = mapView
-
         mapView.showsUserLocation = true
         mapView.showsCompass = false
         mapView.showsScale = false
@@ -60,11 +66,13 @@ struct MapView: UIViewRepresentable {
     func updateUIView(_ mapView: MKMapView, context: Context) {
         context.coordinator.userLocation = userLocation
 
+        // Center on user if the trigger incremented
         if context.coordinator.lastCenterTrigger != centerTrigger {
             context.coordinator.lastCenterTrigger = centerTrigger
             context.coordinator.centerOnUser()
         }
 
+        // Reset map heading to north if the trigger incremented
         if context.coordinator.lastResetNorthTrigger != resetNorthTrigger {
             context.coordinator.lastResetNorthTrigger = resetNorthTrigger
             mapView.setCamera(
@@ -78,18 +86,23 @@ struct MapView: UIViewRepresentable {
             )
         }
 
+        // Fit map to show track + destination if no user location is available yet
         if userLocation == nil && mapView.overlays.isEmpty && mapView.annotations.isEmpty {
             fitMapToContent(mapView)
         }
 
+        // Center on user location on first appearance (before any annotations are added)
         if let loc = userLocation, mapView.annotations.isEmpty {
-            let region = MKCoordinateRegion(
-                center: loc,
-                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            mapView.setRegion(
+                MKCoordinateRegion(
+                    center: loc,
+                    span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                ),
+                animated: true
             )
-            mapView.setRegion(region, animated: true)
         }
 
+        // Update polyline only if the track has new points — avoids unnecessary redraws
         let existingPolylines = mapView.overlays.compactMap { $0 as? MKPolyline }
         let existingPointCount = existingPolylines.first?.pointCount ?? 0
 
@@ -100,6 +113,7 @@ struct MapView: UIViewRepresentable {
             mapView.addOverlay(newPolyline)
         }
 
+        // Remove and re-add annotations on every update — pins are lightweight
         let existingAnnotations = mapView.annotations.filter { !($0 is MKUserLocation) }
         mapView.removeAnnotations(existingAnnotations)
 
@@ -120,6 +134,11 @@ struct MapView: UIViewRepresentable {
         mapView.mapType = mapType
     }
 
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    // MARK: - Helpers
+
+    /// Fits the map region to show the full GPS track and destination pin.
     private func fitMapToContent(_ mapView: MKMapView) {
         var coordinates = localTrack
         if let dest = destinationLocation { coordinates.append(dest) }
@@ -149,8 +168,11 @@ struct MapView: UIViewRepresentable {
 
         mapView.setRegion(MKCoordinateRegion(center: center, span: span), animated: true)
     }
+}
 
-    func makeCoordinator() -> Coordinator { Coordinator() }
+// MARK: - Coordinator
+
+extension MapView {
 
     class Coordinator: NSObject, MKMapViewDelegate {
 
@@ -159,51 +181,46 @@ struct MapView: UIViewRepresentable {
         var lastCenterTrigger = 0
         var lastResetNorthTrigger = 0
 
+        /// Centers the map on the user's current location at street level.
         func centerOnUser() {
             guard let mapView, let userLocation else { return }
-
-            let region = MKCoordinateRegion(
-                center: userLocation,
-                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            mapView.setRegion(
+                MKCoordinateRegion(
+                    center: userLocation,
+                    span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                ),
+                animated: true
             )
-
-            mapView.setRegion(region, animated: true)
         }
 
+        /// Renders the local GPS track as a solid polyline.
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             if let polyline = overlay as? MKPolyline {
                 let renderer = MKPolylineRenderer(polyline: polyline)
-
                 if polyline.title == "Local" {
                     renderer.strokeColor = .primary
                     renderer.lineWidth = 5
                 }
-
                 return renderer
             }
-
             return MKOverlayRenderer(overlay: overlay)
         }
 
+        /// Colors annotation pins by type: destination (orange), last upload (green).
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             guard !(annotation is MKUserLocation) else { return nil }
 
-            let reuseId = annotation.title ?? "pin"
-
             let view = MKMarkerAnnotationView(
                 annotation: annotation,
-                reuseIdentifier: reuseId
+                reuseIdentifier: annotation.title ?? "pin"
             )
-
             view.canShowCallout = true
 
             switch annotation.title {
             case "map.destination".localized:
                 view.markerTintColor = .secondary02
-
             case "map.lastSharedLocation".localized:
                 view.markerTintColor = .positive
-
             default:
                 view.markerTintColor = .systemBlue
                 view.canShowCallout = false
@@ -213,4 +230,3 @@ struct MapView: UIViewRepresentable {
         }
     }
 }
-

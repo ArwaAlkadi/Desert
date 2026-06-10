@@ -8,10 +8,25 @@ import SwiftUI
 import SwiftData
 import UIKit
 
+/// The app's root view — decides which screen to show based on app state.
+///
+/// ## Screen Routing
+/// | Condition | Screen Shown |
+/// |---|---|
+/// | `showSplash == true` | `SplashView` |
+/// | Maintenance mode ON (no active trip) | `MaintenanceView` |
+/// | First launch / no settings | `OnboardingView` |
+/// | Default | `HomeView` |
+///
+/// ## Responsibilities
+/// 1. Routing to the correct screen on launch
+/// 2. Checking maintenance mode and app version from Firebase on appear
+/// 3. Showing a forced update alert when the installed version is too old
+/// 4. Displaying the offline/online toast banner globally
 struct RootView: View {
 
     @StateObject private var networkMonitor = NetworkMonitorHelper()
-    
+
     @Query var settings: [AppSettings]
 
     @State private var showSplash = true
@@ -30,8 +45,8 @@ struct RootView: View {
         Group {
             if showSplash {
                 SplashView(showSplash: $showSplash)
-                
-            } else if maintenanceEnabled && !ActiveTripSession.shared.hasActiveTrip  {
+
+            } else if maintenanceEnabled && !ActiveTripSession.shared.hasActiveTrip {
                 MaintenanceView(
                     title: maintenanceTitle,
                     message: maintenanceMessage
@@ -46,11 +61,6 @@ struct RootView: View {
         }
         .overlay(alignment: .top) {
             ZStack(alignment: .top) {
-
-//              #if DEBUG
-//             GridOverlay()
-//         #endif
-
                 if networkMonitor.showOfflineToast {
                     NetworkStatusBanner(status: .disconnected)
                         .padding(.horizontal, AppSpacing.md)
@@ -83,35 +93,32 @@ struct RootView: View {
             Text(updateMessage)
         }
         .simultaneousGesture(
-            TapGesture().onEnded {
-                hideKeyboard()
-            }
+            TapGesture().onEnded { hideKeyboard() }
         )
-        
     }
 }
 
 
-extension RootView {
-    // MARK: - Maintenance Check
+// MARK: - Remote Checks
 
+extension RootView {
+
+    /// Fetches maintenance config from Firebase and updates the screen state.
     private func checkMaintenance() async {
         do {
             let config = try await FirebaseManager.shared.fetchMaintenanceConfig()
-
             await MainActor.run {
                 maintenanceEnabled = config.isEnabled
                 maintenanceTitle = config.title
                 maintenanceMessage = config.message
             }
-
         } catch {
-            print("Failed to check maintenance: \(error.localizedDescription)")
+            print("RootView: failed to check maintenance — \(error.localizedDescription)")
         }
     }
 
-    // MARK: - Version Check
-
+    /// Compares the installed version against the Firebase minimum version.
+    /// Shows a forced update alert if the app is too old — skipped during an active trip.
     private func checkVersion() async {
         let currentVersion =
             Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
@@ -119,26 +126,22 @@ extension RootView {
         do {
             let config = try await FirebaseManager.shared.fetchAppUpdateConfig()
 
-            if FirebaseManager.isOlderVersion(
-                current: currentVersion,
-                required: config.minimumVersion
-            ) && !ActiveTripSession.shared.hasActiveTrip {
+            if FirebaseManager.isOlderVersion(current: currentVersion, required: config.minimumVersion)
+                && !ActiveTripSession.shared.hasActiveTrip {
                 await MainActor.run {
                     updateMessage = config.message
                     appStoreURL = config.appStoreURL
                     showUpdateAlert = true
                 }
             }
-
         } catch {
-            print("Failed to check app version: \(error.localizedDescription)")
+            print("RootView: failed to check app version — \(error.localizedDescription)")
         }
     }
 
+    /// Opens the App Store URL from the Firebase config.
     private func openAppStore() {
-        guard let url = URL(string: appStoreURL),
-              !appStoreURL.isEmpty else { return }
-
+        guard let url = URL(string: appStoreURL), !appStoreURL.isEmpty else { return }
         UIApplication.shared.open(url)
     }
 }

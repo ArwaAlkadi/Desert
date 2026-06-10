@@ -1,17 +1,9 @@
 //
-//  HistoryMapTrackView.swift
+//  HistoryTripTrackView.swift
 //  Desert
 //
-//  Historical trip track map — shown in TripHistoryInDetailsView.
-//
-//  Displays the full saved GPS track for a completed trip.
-//  Supports replaying the route step-by-step, like a video.
-//  Uses TripMapView internally — no map rendering logic lives here.
-//  Replay logic lives in TripHistoryViewModel.
-//
-//  Controls:
-//  - Play / Stop: starts or pauses the replay animation
-//  - Reset: jumps back to the first point
+//  Full-screen map showing a completed trip's GPS track with step-by-step replay.
+//  Replay logic lives in TripHistoryViewModel — this view is UI only.
 //
 
 import SwiftUI
@@ -19,15 +11,24 @@ import MapKit
 
 struct HistoryTripTrackView: View {
 
+    // MARK: - Input
+
     var localTrack: [CLLocationCoordinate2D]
     var destinationLocation: CLLocationCoordinate2D?
     var onBack: () -> Void
 
+    // MARK: - ViewModel
+
     @StateObject private var vm = TripHistoryViewModel()
 
+    // MARK: - Computed
+
+    /// The visible slice of the track based on the current replay position.
     var displayTrack: [CLLocationCoordinate2D] {
         vm.displayTrack(for: localTrack)
     }
+
+    // MARK: - Body
 
     var body: some View {
         TripTrackTemplate(
@@ -41,15 +42,15 @@ struct HistoryTripTrackView: View {
                 )
             },
             onBack: onBack,
-            onReset: {
-                vm.resetReplay()
-            },
+            onReset: { vm.resetReplay() },
             onToggleReplay: {
                 vm.isReplaying ? vm.stopReplay() : vm.startReplay(localTrack: localTrack)
             }
         )
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     HistoryTripTrackView(
@@ -59,10 +60,7 @@ struct HistoryTripTrackView: View {
             CLLocationCoordinate2D(latitude: 24.7500, longitude: 46.7100),
             CLLocationCoordinate2D(latitude: 24.7800, longitude: 46.7400)
         ],
-        destinationLocation: CLLocationCoordinate2D(
-            latitude: 24.8000,
-            longitude: 46.7600
-        ),
+        destinationLocation: CLLocationCoordinate2D(latitude: 24.8000, longitude: 46.7600),
         onBack: {}
     )
 }

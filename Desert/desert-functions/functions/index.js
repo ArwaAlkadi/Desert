@@ -36,20 +36,20 @@ exports.checkOverdueTrips = onSchedule({
 
     const snapshot = await db
         .collection("trips")
-        .where("b-status.status", "in", ["active", "overdue"])
+        .where("02-status.a-status", "in", ["active", "overdue"])
         .get();
 
     for (const doc of snapshot.docs) {
         const trip = doc.data();
         const tripId = doc.id;
 
-        const statusObj = trip["b-status"] ?? {};
-        const status = statusObj.status;
-        const tripInfo = trip["f-tripInfo"] ?? {};
-        const location = trip["d-lastKnownLocation"] ?? {};
+        const statusObj = trip["02-status"] ?? {};
+        const status = statusObj["a-status"];
+        const tripInfo = trip["06-tripInfo"] ?? {};
+        const location = trip["04-lastKnownLocation"] ?? {};
 
-        const returnTime = tripInfo.returnTime;
-        const lastUploadTime = location.lastUploadTime ?? 0;
+        const returnTime = tripInfo["d-returnTime"];
+        const lastUploadTime = location["d-lastUploadTime"] ?? 0;
 
         if (!returnTime) continue;
 
@@ -58,12 +58,12 @@ exports.checkOverdueTrips = onSchedule({
             lastUploadTime === 0 ||
             now - lastUploadTime >= NO_RECENT_UPLOAD_LIMIT;
 
-        const alertAlreadySent = statusObj.alertSent === true;
+        const alertAlreadySent = statusObj["f-alertSent"] === true;
 
         // Step 1: Mark trip as overdue immediately when return time passes
         if (returnTimePassed && status !== "overdue") {
             await db.collection("trips").doc(tripId).update({
-                "b-status.status": "overdue"
+                "02-status.a-status": "overdue"
             });
             console.log(`Trip marked as overdue: ${tripId}`);
         }
@@ -82,22 +82,22 @@ exports.checkOverdueTrips = onSchedule({
             }
 
             await db.collection("trips").doc(tripId).update({
-                "b-status.alertSent": true,
-                "b-status.alertSentAt": now,
-                "b-status.alertSentAtReadable": new Date().toLocaleString("ar-SA"),
-                "b-status.updatedAlertCount": 0,
-                "b-status.pendingAlertAt": 0,
-                "b-status.alertReason": "return_time_passed_no_recent_upload"
+                "02-status.f-alertSent": true,
+                "02-status.g-alertSentAt": now,
+                "02-status.h-alertSentAtReadable": new Date().toLocaleString("ar-SA"),
+                "02-status.k-updatedAlertCount": 0,
+                "02-status.j-pendingAlertAt": 0,
+                "02-status.i-alertReason": "return_time_passed_no_recent_upload"
             });
 
             console.log(`Initial overdue alert sent for ${tripId}`);
         }
 
         // Step 3: Send debounced updated alert
-        const pendingAlertAt = statusObj.pendingAlertAt ?? 0;
+        const pendingAlertAt = statusObj["j-pendingAlertAt"] ?? 0;
         const hasPendingAlert = pendingAlertAt > 0;
         const debounceElapsed = now - pendingAlertAt >= DEBOUNCE_SECONDS;
-        const currentCount = statusObj.updatedAlertCount ?? 0;
+        const currentCount = statusObj["k-updatedAlertCount"] ?? 0;
         const maxReached = currentCount >= MAX_UPDATED_ALERTS;
 
         if (alertAlreadySent && hasPendingAlert && debounceElapsed && !maxReached) {
@@ -119,16 +119,16 @@ exports.checkOverdueTrips = onSchedule({
             }
 
             const updates = {
-                "b-status.updatedAlertCount": newCount,
-                "b-status.pendingAlertAt": 0,
-                "b-status.updatedAlertSentAt": now,
-                "b-status.updatedAlertSentAtReadable": new Date().toLocaleString("ar-SA")
+                "02-status.k-updatedAlertCount": newCount,
+                "02-status.j-pendingAlertAt": 0,
+                "02-status.updatedAlertSentAt": now,
+                "02-status.updatedAlertSentAtReadable": new Date().toLocaleString("ar-SA")
             };
 
             if (shouldCompleteTrip) {
-                updates["b-status.status"] = "completed";
-                updates["b-status.endedAt"] = now;
-                updates["b-status.endedAtReadable"] = new Date().toLocaleString("ar-SA");
+                updates["02-status.a-status"] = "completed";
+                updates["02-status.d-endedAt"] = now;
+                updates["02-status.e-endedAtReadable"] = new Date().toLocaleString("ar-SA");
                 console.log(`Trip auto-completed after ${MAX_UPDATED_ALERTS} updated alert groups — ${tripId}`);
             } else {
                 console.log(`Updated alert #${newCount} sent for ${tripId}`);
@@ -149,26 +149,26 @@ exports.onLocationUpdatedAfterOverdue = onDocumentUpdated({
 
     const tripId = event.params.tripId;
 
-    const beforeLocation = before["d-lastKnownLocation"] ?? {};
-    const afterLocation = after["d-lastKnownLocation"] ?? {};
-    const statusObj = after["b-status"] ?? {};
-    const status = statusObj.status;
+    const beforeLocation = before["04-lastKnownLocation"] ?? {};
+    const afterLocation = after["04-lastKnownLocation"] ?? {};
+    const statusObj = after["02-status"] ?? {};
+    const status = statusObj["a-status"];
 
-    const oldUploadTime = beforeLocation.lastUploadTime ?? 0;
-    const newUploadTime = afterLocation.lastUploadTime ?? 0;
+    const oldUploadTime = beforeLocation["d-lastUploadTime"] ?? 0;
+    const newUploadTime = afterLocation["d-lastUploadTime"] ?? 0;
     const newUploadArrived = newUploadTime > oldUploadTime;
 
     if (status !== "overdue") return;
     if (!newUploadArrived) return;
-    if (statusObj.alertSent !== true) return;
+    if (statusObj["f-alertSent"] !== true) return;
 
-    const currentCount = statusObj.updatedAlertCount ?? 0;
+    const currentCount = statusObj["k-updatedAlertCount"] ?? 0;
     if (currentCount >= MAX_UPDATED_ALERTS) return;
 
     const now = Date.now() / 1000;
 
     await db.collection("trips").doc(tripId).update({
-        "b-status.pendingAlertAt": now
+        "02-status.j-pendingAlertAt": now
     });
 
     console.log(`Pending alert set for ${tripId} — will send after ${DEBOUNCE_SECONDS}s debounce`);
@@ -176,80 +176,80 @@ exports.onLocationUpdatedAfterOverdue = onDocumentUpdated({
 
 // MARK: - Send Alert Helper
 async function sendAlert({ tripId, trip, type }) {
-    const tripInfo = trip["f-tripInfo"] ?? {};
-    const userInfo = trip["c-userInfo"] ?? {};
-    const contacts = trip["e-emergencyContacts"] ?? [];
-    const location = trip["d-lastKnownLocation"] ?? {};
+    const tripInfo = trip["06-tripInfo"] ?? {};
+    const userInfo = trip["03-userInfo"] ?? {};
+    const contacts = trip["05-emergencyContacts"] ?? [];
+    const location = trip["04-lastKnownLocation"] ?? {};
 
     if (contacts.length === 0) {
         console.log(`No emergency contacts for ${tripId}`);
         return false;
     }
 
-    const lat = location.lat;
-    const lng = location.lng;
+    const lat = location["a-lat"];
+    const lng = location["b-lng"];
 
-    if (!lat || !lng || lat === "Unknown" || lng === "Unknown") {
+    if (!lat || !lng || lat === 0 || lng === 0) {
         console.log(`No location available for ${tripId}, alert not sent`);
         return false;
     }
 
-    const userName = userInfo.userName ?? "المستخدم";
-    const tripStartTime = tripInfo.startTimeReadable ?? "غير معروف";
-    const returnTime = tripInfo.returnTimeReadable ?? "غير معروف";
-    const lastUpload = location.lastUploadTimeReadable ?? "غير معروف";
-    const direction = location.direction ?? "غير معروف";
-    const directionLine = `\nاتجاه الحركة:\n${direction}`;
+    const userName = userInfo["a-userName"] ?? "المستخدم";
+    const tripStartTime = tripInfo["c-startTimeReadable"] ?? "غير معروف";
+    const returnTime = tripInfo["e-returnTimeReadable"] ?? "غير معروف";
+    const lastUpload = location["e-lastUploadTimeReadable"] ?? "غير معروف";
+    const direction = location["c-direction"];
+    const directionLine = direction ? `\nاتجاه الحركة:\n${direction}` : "";
 
     const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
     const tripLink = `https://suhail-1.web.app/?id=${tripId}`;
 
-    const batteryLevel = location.deviceBatteryLevel;
+    const batteryLevel = location["f-deviceBatteryLevel"];
     const batteryLine = (batteryLevel != null && batteryLevel >= 0)
-        ? `\nنسبة البطارية:\n${batteryLevel}%`
+        ? `\nنسبة بطارية المستخدم عند آخر تحديث:\n${batteryLevel}%`
         : "";
 
     const message = type === "updated"
         ? `عزيزي وليّ الأمر،
 
-    وصلنا تحديث جديد لموقع ${userName} بعد تنبيه عدم العودة السابق.
+وصلنا تحديث جديد لموقع ${userName} بعد تنبيه عدم العودة السابق.
 
-    📍 آخر موقع معروف:
-    ${mapsLink}
+📍 آخر موقع معروف:
+${mapsLink}
 
-    آخر تحديث للموقع:
-    ${lastUpload}${directionLine}${batteryLine}
+آخر تحديث للموقع:
+${lastUpload}${directionLine}${batteryLine}
 
-    سنستمر في متابعة أي تحديثات، وسنقوم بإشعاركم فور وصول أي معلومات جديدة للموقع.
+سنستمر في متابعة أي تحديثات، وسنقوم بإشعاركم فور وصول أي معلومات جديدة للموقع.
 
-    للاطلاع على تفاصيل الرحلة كاملة:
-    ${tripLink}
+للاطلاع على تفاصيل الرحلة كاملة:
+${tripLink}
 
-    — تطبيق سهيل`
+— تطبيق سهيل`
         : `عزيزي وليّ الأمر،
 
-    لم نتلقَّ أي إشارة من ${userName} بعد وقت العودة المتوقع.
-    بدأت رحلته الساعة ${tripStartTime}، وكان من المفترض أن تنتهي الساعة ${returnTime}.
+لم نتلقَّ أي إشارة من ${userName} بعد وقت العودة المتوقع.
+بدأت رحلته الساعة ${tripStartTime}، وكان من المفترض أن تنتهي الساعة ${returnTime}.
 
-    📍 آخر موقع معروف:
-    ${mapsLink}
+📍 آخر موقع معروف:
+${mapsLink}
 
-    آخر تحديث للموقع:
-    ${lastUpload}${directionLine}${batteryLine}
+آخر تحديث للموقع:
+${lastUpload}${directionLine}${batteryLine}
 
-    ندرك أن هذا الموقف قد يكون مقلقًا، لذلك نوصي بمحاولة التواصل معه مباشرة. وفي حال عدم القدرة على الوصول إليه، يُرجى التواصل مع الجهات المختصة على الرقم: 911
+ندرك أن هذا الموقف قد يكون مقلقًا، لذلك نوصي بمحاولة التواصل معه مباشرة. وفي حال عدم القدرة على الوصول إليه، يُرجى التواصل مع الجهات المختصة على الرقم: 911
 
-    سنستمر في متابعة أي تحديثات، وسنقوم بإشعاركم فور وصول أي معلومات أو تحديث جديد للموقع.
+سنستمر في متابعة أي تحديثات، وسنقوم بإشعاركم فور وصول أي معلومات أو تحديث جديد للموقع.
 
-    للاطلاع على تفاصيل الرحلة كاملة:
-    ${tripLink}
+للاطلاع على تفاصيل الرحلة كاملة:
+${tripLink}
 
-    — تطبيق سهيل`;
+— تطبيق سهيل`;
 
     let sentToAtLeastOneContact = false;
 
     for (const contact of contacts) {
-        const contactPhone = contact.phone?.replace(/\D/g, "");
+        const contactPhone = contact["b-phone"]?.replace(/\D/g, "");
         if (!contactPhone) continue;
 
         try {

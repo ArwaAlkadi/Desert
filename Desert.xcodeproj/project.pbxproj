@@ -97,11 +97,12 @@
 		EC57B3462FCDE7790024DD4F /* PluralStrings.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EC57B3452FCDE7790024DD4F /* PluralStrings.xcstrings */; };
 		EC7DEA1F2FB5043D008D3938 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = EC7DEA1E2FB5043D008D3938 /* FirebaseAuth */; };
 		ECBF0B4F2FCE6F2200C02248 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBF0B4E2FCE6F1A00C02248 /* SafariView.swift */; };
+		ECBF0C032FD5D82700C02248 /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBF0C022FD5D82300C02248 /* UserDefaultsKeys.swift */; };
 		ECCD9EB02FB7843F00E2B5B9 /* TripSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9EAF2FB7843F00E2B5B9 /* TripSummaryView.swift */; };
 		ECCD9F402FB7A26A00E2B5B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ECCD9F3E2FB7A26A00E2B5B9 /* Localizable.strings */; };
 		ECCD9F432FB7B79F00E2B5B9 /* MaintenanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9F422FB7B79F00E2B5B9 /* MaintenanceView.swift */; };
 		ECCD9F832FB7CB0C00E2B5B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ECCD9F812FB7CB0C00E2B5B9 /* InfoPlist.strings */; };
-		ECCD9F862FB7E6FA00E2B5B9 /* TripSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9F852FB7E6FA00E2B5B9 /* TripSessionManager.swift */; };
+		ECCD9F862FB7E6FA00E2B5B9 /* ActiveTripSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9F852FB7E6FA00E2B5B9 /* ActiveTripSession.swift */; };
 		ECCD9FF22FB8AA5900E2B5B9 /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9FF12FB8AA5900E2B5B9 /* LocalizationHelper.swift */; };
 		ECCD9FF42FB8AA8E00E2B5B9 /* NavigationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9FF32FB8AA8E00E2B5B9 /* NavigationHelper.swift */; };
 		ECCD9FF62FB8AAA300E2B5B9 /* NetworkMonitorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCD9FF52FB8AAA300E2B5B9 /* NetworkMonitorHelper.swift */; };
@@ -196,13 +197,14 @@
 		EC57B3332FCCB3930024DD4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC57B3452FCDE7790024DD4F /* PluralStrings.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = PluralStrings.xcstrings; sourceTree = "<group>"; };
 		ECBF0B4E2FCE6F1A00C02248 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		ECBF0C022FD5D82300C02248 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		ECCD9EAF2FB7843F00E2B5B9 /* TripSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSummaryView.swift; sourceTree = "<group>"; };
 		ECCD9F3F2FB7A26A00E2B5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECCD9F412FB7A29700E2B5B9 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ECCD9F422FB7B79F00E2B5B9 /* MaintenanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceView.swift; sourceTree = "<group>"; };
 		ECCD9F822FB7CB0C00E2B5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ECCD9F842FB7CB2700E2B5B9 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		ECCD9F852FB7E6FA00E2B5B9 /* TripSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSessionManager.swift; sourceTree = "<group>"; };
+		ECCD9F852FB7E6FA00E2B5B9 /* ActiveTripSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTripSession.swift; sourceTree = "<group>"; };
 		ECCD9FF12FB8AA5900E2B5B9 /* LocalizationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationHelper.swift; sourceTree = "<group>"; };
 		ECCD9FF32FB8AA8E00E2B5B9 /* NavigationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHelper.swift; sourceTree = "<group>"; };
 		ECCD9FF52FB8AAA300E2B5B9 /* NetworkMonitorHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorHelper.swift; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 				EC309FB52F97FEDD003E343E /* AppSettings.swift */,
 				EC309FB72F97FF5A003E343E /* SavedInfo.swift */,
 				EC309FB92F97FF69003E343E /* Trip.swift */,
+				ECBF0C022FD5D82300C02248 /* UserDefaultsKeys.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -561,7 +564,7 @@
 		ECBF0C012FD43E2300C02248 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				ECCD9F852FB7E6FA00E2B5B9 /* TripSessionManager.swift */,
+				ECCD9F852FB7E6FA00E2B5B9 /* ActiveTripSession.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -680,7 +683,7 @@
 				EC2F63492FCA6DBA007FF45C /* CreateTripStepsView.swift in Sources */,
 				EC309FED2FABDC58003E343E /* FirebaseManager.swift in Sources */,
 				EC309FEE2FABDC58003E343E /* LocationManager.swift in Sources */,
-				ECCD9F862FB7E6FA00E2B5B9 /* TripSessionManager.swift in Sources */,
+				ECCD9F862FB7E6FA00E2B5B9 /* ActiveTripSession.swift in Sources */,
 				EC309FEF2FABDC58003E343E /* NotificationsManager.swift in Sources */,
 				EC2F62FC2FC7B07E007FF45C /* NoActiveTripsCard.swift in Sources */,
 				33984C642FD4D8D800F6DD72 /* AppLanguage.swift in Sources */,
@@ -738,6 +741,7 @@
 				EC1FBE9D2FC52FAA00CA755B /* GroupNumberRow.swift in Sources */,
 				EC1FBE9E2FC52FAA00CA755B /* InquiryRow.swift in Sources */,
 				EC57B3322FCCA41B0024DD4F /* DestinationPickerView.swift in Sources */,
+				ECBF0C032FD5D82700C02248 /* UserDefaultsKeys.swift in Sources */,
 				EC1FBE9F2FC52FAA00CA755B /* PlateInfoRow.swift in Sources */,
 				33984C662FD764B000F6DD72 /* PlateFormatter.swift in Sources */,
 				EC1FBEA02FC52FAA00CA755B /* TextFieldState.swift in Sources */,

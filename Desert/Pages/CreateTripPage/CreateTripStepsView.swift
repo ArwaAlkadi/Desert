@@ -9,25 +9,39 @@ import ContactsUI
 
 struct CreateTripStepsView: View {
 
+    // MARK: - Input
+
     @Binding var showParentSheet: Bool
     var tripToRepeat: Trip? = nil
     var onTripStarted: (() -> Void)? = nil
     var onCancel: (() -> Void)? = nil
 
+    // MARK: - Environment
+
     @Environment(\.modelContext) private var context
     @Environment(\.layoutDirection) private var layoutDirection
     @Environment(\.dismiss) private var dismiss
 
+    // MARK: - Query
+
     @Query var savedInfo: [SavedInfo]
+
+    // MARK: - ViewModel
+
     @StateObject private var vm = CreateTripViewModel()
+
+    // MARK: - State
 
     @State private var currentStep = 0
     @State private var showSummary = false
     @State private var showExitAlert = false
-
     @FocusState private var isInputFocused: Bool
 
+    // MARK: - Private
+
     private let totalSteps = 3
+
+    // MARK: - Computed
 
     var stepTitles: [String] {
         [
@@ -38,37 +52,27 @@ struct CreateTripStepsView: View {
     }
 
     // MARK: - Body
+
     var body: some View {
         CreateTripStepTemplate(
             titleKey: stepTitles[currentStep],
             currentStep: currentStep + 1,
-            buttonTitleKey: currentStep == totalSteps - 1
-                ? "review"
-                : "common.next",
+            buttonTitleKey: currentStep == totalSteps - 1 ? "review" : "common.next",
             leadingButton: currentStep == 0 ? .close : .back,
             isInputFocused: isInputFocused,
-            onBack: {
-                handleBackAction()
-            },
-            onNext: {
-                handleNextAction()
-            }
+            onBack: { handleBackAction() },
+            onNext: { handleNextAction() }
         ) {
             stepContent
                 .animation(.easeInOut, value: currentStep)
         }
-        .background(
-            NavigationGestureDisabler()
-        )
+        .background(NavigationGestureDisabler())
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
         .alert("discard_changes_title".localized, isPresented: $showExitAlert) {
             Button("cancel".localized, role: .cancel) { }
-
-            Button("discard".localized, role: .destructive) {
-                closeView()
-            }
+            Button("discard".localized, role: .destructive) { closeView() }
         } message: {
             Text("discard_changes_message".localized)
         }
@@ -89,9 +93,7 @@ struct CreateTripStepsView: View {
             DestinationPickerView(vm: vm)
         }
         .sheet(isPresented: $vm.showEmergencyContactPicker) {
-            SingleContactPickerView {
-                vm.importEmergencyContact($0)
-            }
+            SingleContactPickerView { vm.importEmergencyContact($0) }
         }
         .sheet(isPresented: $vm.showGroupContactPicker) {
             MultiContactPickerView { contacts in
@@ -122,14 +124,10 @@ struct CreateTripStepsView: View {
     NavigationStack {
         CreateTripStepsView(showParentSheet: .constant(true))
     }
-    .modelContainer(for: [
-        SavedInfo.self,
-        SavedContact.self,
-        Trip.self
-    ], inMemory: true)
+    .modelContainer(for: [SavedInfo.self, SavedContact.self, Trip.self], inMemory: true)
 }
 
-// MARK: - Steps
+// MARK: - Step Content
 
 extension CreateTripStepsView {
 
@@ -183,8 +181,11 @@ extension CreateTripStepsView {
             onAddGroupContact: { vm.showGroupContactPicker = true }
         )
     }
+}
 
-    // MARK: - Actions
+// MARK: - Actions
+
+extension CreateTripStepsView {
 
     private func handleBackAction() {
         guard currentStep == 0 else {

@@ -7,7 +7,7 @@
 //
 //  Permissions Flow:
 //  - Location (When In Use): Requested here during onboarding.
-//  - Notifications: Requested on the second app visit (handled in HomeView.onAppear).
+//  - Notifications: Requested on the second app visit (handled in HomeViewModel.onAppear).
 //  - Location (Always Allow): Requested when the user starts a trip.
 //
 
@@ -16,8 +16,15 @@ import SwiftData
 
 struct OnboardingView: View {
 
-    @State private var vm = OnboardingViewModel()
+    // MARK: - Environment
+
     @Environment(\.modelContext) private var context
+
+    // MARK: - Private
+
+    @State private var vm = OnboardingViewModel()
+
+    // MARK: - Body
 
     var body: some View {
         NavigationStack {
@@ -59,10 +66,9 @@ struct OnboardingView: View {
     }
 }
 
+// MARK: - Preview
 
 #Preview {
     OnboardingView()
-        .modelContainer(for: [
-            AppSettings.self
-        ], inMemory: true)
+        .modelContainer(for: [AppSettings.self], inMemory: true)
 }

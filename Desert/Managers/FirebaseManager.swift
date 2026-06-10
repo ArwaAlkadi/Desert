@@ -58,8 +58,8 @@ class FirebaseManager {
     /// The current anonymous user ID — persists on device across sessions.
     /// `nil` until ``signInAnonymously()`` completes.
     private(set) var userId: String? {
-        get { UserDefaults.standard.string(forKey: "anonymousUserId") }
-        set { UserDefaults.standard.set(newValue, forKey: "anonymousUserId") }
+        get { UserDefaults.standard.string(forKey: UserDefaultsKeys.anonymousUserId) }
+        set { UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.anonymousUserId) }
     }
     
     // MARK: - Remote Config Models
@@ -158,8 +158,8 @@ class FirebaseManager {
     /// Fields are prefixed with letters (`a-`, `b-`, etc.) to control
     /// display order in the Firebase console.
     ///
-    /// `c-lastKnownLocation` is intentionally excluded here —
-    /// it is added later by ``updateLocation(tripId:lat:lng:direction:onSuccess:onFailure:)``
+    /// `04-lastKnownLocation` is initialized with empty values here —
+    /// it is updated later by ``updateLocation(tripId:lat:lng:direction:onSuccess:onFailure:)``
     /// when the first GPS update arrives after the trip starts.
     ///
     /// - Parameters:
@@ -168,50 +168,66 @@ class FirebaseManager {
     func saveTrip(_ trip: Trip, tripId: String) {
         db.collection("trips").document(tripId).setData([
 
-            "a-userId": userId ?? "unknown",
+            "01-userId": userId ?? "unknown",
 
-            "b-status": [
-                "status": trip.status,
-                "endedAt": 0,
-                "endedAtReadable": "",
-                "alertSent": false,
+            "02-status": [
+                "a-status": trip.status,
+                "b-startedAt": trip.startTime.timeIntervalSince1970,
+                "c-startedAtReadable": formatDate(trip.startTime),
+                "d-endedAt": 0,
+                "e-endedAtReadable": "",
+                "f-alertSent": false,
+                "g-alertSentAt": 0,
+                "h-alertSentAtReadable": "",
+                "i-alertReason": "",
+                "j-pendingAlertAt": 0,
+                "k-updatedAlertCount": 0,
             ],
 
-            "c-userInfo": [
-                "userName": trip.userName,
-                "phoneNumber": trip.phoneNumber,
+            "03-userInfo": [
+                "a-userName": trip.userName,
+                "b-phoneNumber": trip.phoneNumber,
             ],
 
-            "e-emergencyContacts": trip.emergencyContacts.map {[
-                "name": $0.name,
-                "phone": $0.phone
+            "04-lastKnownLocation": [
+                "a-lat": 0,
+                "b-lng": 0,
+                "c-direction": "",
+                "d-lastUploadTime": 0,
+                "e-lastUploadTimeReadable": "",
+                "f-deviceBatteryLevel": -1,
+            ],
+
+            "05-emergencyContacts": trip.emergencyContacts.map {[
+                "a-name": $0.name,
+                "b-phone": $0.phone
             ]},
 
-            "f-tripInfo": [
-                "tripId": tripId,
-                "startTime": trip.startTime.timeIntervalSince1970,
-                "startTimeReadable": formatDate(trip.startTime),
-                "returnTime": trip.returnTime.timeIntervalSince1970,
-                "returnTimeReadable": formatDate(trip.returnTime),
-                "hasGroup": trip.hasGroup,
-                "groupSize": trip.groupSize,
-                "groupContacts": trip.groupContacts.map {[
-                    "name": $0.name,
-                    "phone": $0.phone
-                ]},
-                "destination": trip.destination,
-                "destinationCoordinates": [
+            "06-tripInfo": [
+                "a-tripId": tripId,
+                "b-startTime": trip.startTime.timeIntervalSince1970,
+                "c-startTimeReadable": formatDate(trip.startTime),
+                "d-returnTime": trip.returnTime.timeIntervalSince1970,
+                "e-returnTimeReadable": formatDate(trip.returnTime),
+                "f-destination": trip.destination,
+                "g-destinationCoordinates": [
                     "lat": trip.destinationLat,
                     "lng": trip.destinationLng
                 ],
+                "h-hasGroup": trip.hasGroup,
+                "i-groupSize": trip.groupSize,
+                "j-groupContacts": trip.groupContacts.map {[
+                    "a-name": $0.name,
+                    "b-phone": $0.phone
+                ]},
             ],
 
-            "g-carInfo": [
-                "carName": trip.carName,
-                "carColor": trip.carColor,
-                "is4WD": trip.is4WD,
-                "plateLetters": trip.plateLetters,
-                "plateNumbers": trip.plateNumbers,
+            "07-carInfo": [
+                "a-carName": trip.carName,
+                "b-carColor": trip.carColor,
+                "c-is4WD": trip.is4WD,
+                "d-plateLetters": trip.plateLetters,
+                "e-plateNumbers": trip.plateNumbers,
             ],
 
         ]) { error in
@@ -249,19 +265,20 @@ class FirebaseManager {
         let batteryPercentage = batteryLevel >= 0 ? Int(batteryLevel * 100) : -1
 
         var location: [String: Any] = [
-            "lat": lat,
-            "lng": lng,
-            "lastUploadTime": Date().timeIntervalSince1970,
-            "lastUploadTimeReadable": formatDate(Date()),
-            "deviceBatteryLevel": batteryPercentage
+            "a-lat": lat,
+            "b-lng": lng,
+            "c-direction": "",
+            "d-lastUploadTime": Date().timeIntervalSince1970,
+            "e-lastUploadTimeReadable": formatDate(Date()),
+            "f-deviceBatteryLevel": batteryPercentage
         ]
         
         if let direction = direction {
-            location["direction"] = readableDirection(from: direction)
+            location["c-direction"] = readableDirection(from: direction)
         }
         
         db.collection("trips").document(tripId).updateData([
-            "d-lastKnownLocation": location
+            "04-lastKnownLocation": location
         ]) { error in
             if error == nil {
                 print("location updated")
@@ -289,8 +306,8 @@ class FirebaseManager {
         onFailure: (() -> Void)? = nil
     ) {
         db.collection("trips").document(tripId).updateData([
-            "f-tripInfo.returnTime": returnTime.timeIntervalSince1970,
-            "f-tripInfo.returnTimeReadable": formatDate(returnTime)
+            "06-tripInfo.d-returnTime": returnTime.timeIntervalSince1970,
+            "06-tripInfo.e-returnTimeReadable": formatDate(returnTime)
         ]) { error in
             if error == nil {
                 print("return time updated — \(tripId)")
@@ -310,9 +327,9 @@ class FirebaseManager {
     /// - Parameter tripId: The Firebase trip ID to mark as completed.
     func endTrip(tripId: String) {
         db.collection("trips").document(tripId).updateData([
-            "b-status.status": "completed",
-            "b-status.endedAt": Date().timeIntervalSince1970,
-            "b-status.endedAtReadable": formatDate(Date())
+            "02-status.a-status": "completed",
+            "02-status.d-endedAt": Date().timeIntervalSince1970,
+            "02-status.e-endedAtReadable": formatDate(Date())
         ]) { error in
             if error == nil {
                 print("trip ended")
@@ -343,8 +360,8 @@ class FirebaseManager {
             }
 
             guard let data = snapshot?.data() else { return }
-            let statusObj = data["b-status"] as? [String: Any]
-            let status = statusObj?["status"] as? String ?? ""
+            let statusObj = data["02-status"] as? [String: Any]
+            let status = statusObj?["a-status"] as? String ?? ""
             onStatusChanged(status)
         }
     }
@@ -382,8 +399,8 @@ class FirebaseManager {
             }
 
             let data = document?.data()
-            let statusObj = data?["b-status"] as? [String: Any]
-            let alertSent = statusObj?["alertSent"] as? Bool ?? false
+            let statusObj = data?["02-status"] as? [String: Any]
+            let alertSent = statusObj?["f-alertSent"] as? Bool ?? false
 
             completion(alertSent)
         }

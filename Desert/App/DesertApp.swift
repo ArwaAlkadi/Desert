@@ -31,7 +31,7 @@ struct DesertApp: App {
                 .preferredColorScheme(.light)
                 .environment(
                     \.layoutDirection,
-                    AppLanguage.isArabic ? .rightToLeft : .leftToRight
+                     AppLanguage.isArabic ? .rightToLeft : .leftToRight
                 )
         }
         .modelContainer(for: [
@@ -51,15 +51,14 @@ struct DesertApp: App {
             "thmanyahsans-Light",
             "thmanyahsans-Black"
         ]
-
+        
         for fontName in fontNames {
             guard let fontURL = Bundle.main.url(forResource: fontName, withExtension: "otf") else {
                 print("Font file not found:", fontName)
                 continue
             }
-
+            
             CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
         }
-        
     }
 }

@@ -10,8 +10,15 @@ import SwiftUI
 
 struct SplashView: View {
 
+    // MARK: - Input
+
     @Binding var showSplash: Bool
+
+    // MARK: - Private
+
     private let vm = SplashViewModel()
+
+    // MARK: - Body
 
     var body: some View {
         ZStack {
@@ -32,7 +39,8 @@ struct SplashView: View {
     }
 }
 
+// MARK: - Preview
+
 #Preview {
     SplashView(showSplash: .constant(true))
 }
-

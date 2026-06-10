@@ -9,9 +9,19 @@ import SwiftData
 
 struct HomeView: View {
 
-    @StateObject private var vm = HomeViewModel()
+    // MARK: - Environment
+
     @Environment(\.modelContext) private var context
+
+    // MARK: - Query
+
     @Query var trips: [Trip]
+
+    // MARK: - ViewModel
+
+    @StateObject private var vm = HomeViewModel()
+
+    // MARK: - State
 
     @State private var currentPage: AppPage = .map
     @State private var showCreateTrip = false
@@ -20,7 +30,12 @@ struct HomeView: View {
     @State private var resetNorthTrigger: Int = 0
     @State private var navigationResetID = UUID()
 
+    // MARK: - Computed
+
+    /// The first active or overdue trip — only one can exist at a time.
     var activeTrip: Trip? { trips.first { $0.isActive || $0.isOverdue } }
+
+    // MARK: - Body
 
     var body: some View {
         NavigationStack {
@@ -55,6 +70,7 @@ struct HomeView: View {
     }
 }
 
+// MARK: - Preview
 
 #Preview {
     HomeView()
@@ -64,16 +80,21 @@ struct HomeView: View {
         ], inMemory: true)
 }
 
+// MARK: - Actions
 
 extension HomeView {
 
+    /// Resets navigation back to the map tab after a trip starts.
     func goToMap() {
         showCreateTrip = false
         currentPage = .map
         navigationResetID = UUID()
     }
+}
 
-    // MARK: - Map Content
+// MARK: - Map Content
+
+extension HomeView {
 
     var mapContent: some View {
         ZStack {
