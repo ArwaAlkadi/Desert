@@ -52,12 +52,6 @@ class CreateTripViewModel: ObservableObject {
     @Published var plateDigits: [String] = ["", "", "", ""]
     @Published var plateLetters: String = ""
     @Published var plateNumbers: String = ""
-    @Published var destination: String = ""
-    @Published var destinationLat: Double = 0
-    @Published var destinationLng: Double = 0
-    @Published var returnTime: Date = Date()
-    @Published var isGroup: Bool = false
-    @Published var groupCount: Int = 1
     @Published var groupContacts: [Contact] = []
 
     static func makeDefaultTripName() -> String {

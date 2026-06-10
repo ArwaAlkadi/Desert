@@ -57,18 +57,18 @@ struct DestinationPickerView: View {
     }
 }
 
-// MARK: - Preview
-
-#Preview {
-    let vm = CreateTripViewModel()
-    vm.destination = "Al Thumamah"
-    vm.destinationLat = 24.9
-    vm.destinationLng = 46.7
-
-    return NavigationStack {
-        DestinationPickerView(vm: vm)
-    }
-}
+//// MARK: - Preview
+//
+//#Preview {
+//    let vm = CreateTripViewModel()
+//    vm.destination = "Al Thumamah"
+//    vm.destinationLat = 24.9
+//    vm.destinationLng = 46.7
+//
+//    NavigationStack {
+//        DestinationPickerView(vm: vm)
+//    }
+//}
 
 // MARK: - Embedded Map
 
