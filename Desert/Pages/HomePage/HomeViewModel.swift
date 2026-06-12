@@ -165,9 +165,9 @@ class HomeViewModel: ObservableObject {
         ActiveTripSession.shared.setModelContext(context)
         ActiveTripSession.shared.resumeActiveSessionIfNeeded(context: context)
 
-        NotificationsManager.shared.requestPermission {
+       // NotificationsManager.shared.requestPermission {
             
-        }
+       // }
 
         startMonitoring()
     }

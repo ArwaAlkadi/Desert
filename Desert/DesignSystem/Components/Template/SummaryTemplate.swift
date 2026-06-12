@@ -75,7 +75,7 @@ private extension SummaryTemplate {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             Text(tripName)
                 .font(AppTypography.headline)
-                .foregroundStyle(Color.Primary)
+                .foregroundStyle(Color.Lableblack)
 
             tripSummaryCard
         }

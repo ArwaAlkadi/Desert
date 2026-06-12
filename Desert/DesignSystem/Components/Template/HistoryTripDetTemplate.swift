@@ -97,7 +97,7 @@ private extension HistoryTripDetailsTemplate {
         HStack {
             Text(tripName)
                 .font(AppTypography.title3)
-                .foregroundStyle(Color.Primary)
+                .foregroundStyle(Color.Lableblack)
 
             Spacer()
 
@@ -136,7 +136,7 @@ private extension HistoryTripDetailsTemplate {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             Text("history.tripSummary".localized)
                 .font(AppTypography.headline)
-                .foregroundStyle(Color.Primary)
+                .foregroundStyle(Color.Lableblack)
 
             TripSummaryCard(rows: [
                 ("summary.startTime", formatDate(startTime)),
@@ -186,11 +186,11 @@ private extension HistoryTripDetailsTemplate {
             HStack(spacing: AppSpacing.sm) {
                 Text(titleKey.localized)
                     .font(AppTypography.headline)
-                    .foregroundStyle(Color.Primary)
+                    .foregroundStyle(Color.Lableblack)
 
                 Text("(\(count))")
                     .font(AppTypography.caption2)
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(Color.Lableblack)
 
                 Spacer()
             }

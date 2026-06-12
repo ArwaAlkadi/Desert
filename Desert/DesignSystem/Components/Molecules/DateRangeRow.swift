@@ -59,11 +59,12 @@ struct DateRangeRow: View {
         
         
         .sheet(isPresented: $showDatePicker) {
-                DateTimePickerSheet(selectedDate: $returnTime)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.visible)
-            }
+            DateTimePickerSheet(selectedDate: $returnTime)
+                .environment(\.calendar, Calendar(identifier: .gregorian))
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
         }
+    }
         
     }
 
@@ -108,11 +109,14 @@ private struct LabelValueItem: View {
 private extension Date {
 
     var formattedDateTime: String {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: AppLanguage.isArabic ? "ar_SA" : "en_US")
+        formatter.dateFormat = AppLanguage.isArabic
+            ? "d MMM yyyy، h:mm a"
+            : "d MMM yyyy, h:mm a"
 
-        formatted(
-            date: .abbreviated,
-            time: .shortened
-        )
+        return formatter.string(from: self)
     }
 }
 

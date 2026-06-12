@@ -57,7 +57,7 @@ private extension HistoryTemplate {
 
             Text("history.title".localized)
                 .font(AppTypography.title1)
-                .foregroundStyle(Color.black)
+                .foregroundStyle(Color.Lableblack)
 
             Text(
                 String.localizedStringWithFormat(
@@ -78,11 +78,10 @@ private extension HistoryTemplate {
         
         VStack(spacing: AppSpacing.xl) {
             
-            
             Image("Hisrory")
                 .resizable()
                 .scaledToFit()
-                .frame(maxWidth: 400)
+                .frame(maxWidth: 300)
             
             VStack(spacing: AppSpacing.sx) {
                 
@@ -103,12 +102,13 @@ private extension HistoryTemplate {
                 guard !hasActiveTrip else { return }
                 onStartTrip()
             }
-            
-            .padding(.vertical, AppSpacing.xl)
+            .padding(.vertical, AppSpacing.sm)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .padding(.top, 120)
     }
-}
+    }
+
 
 #Preview {
     HistoryTemplate(

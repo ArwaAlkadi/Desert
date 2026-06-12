@@ -148,6 +148,16 @@ private struct RTLTextField: UIViewRepresentable {
     var isDisabled: Bool
     var isArabic: Bool
 
+    private func fontForText(_ value: String) -> UIFont {
+        let hasArabic = value.range(of: "\\p{Arabic}", options: .regularExpression) != nil
+
+        if hasArabic || (value.isEmpty && isArabic) {
+            return UIFont(name: "thmanyahsans-Regular", size: 17) ?? .systemFont(ofSize: 17)
+        } else {
+            return .systemFont(ofSize: 17)
+        }
+    }
+
     func makeUIView(context: Context) -> UITextField {
         let textField = UITextField()
         textField.delegate = context.coordinator
@@ -156,13 +166,13 @@ private struct RTLTextField: UIViewRepresentable {
         textField.keyboardType = .default
         textField.autocorrectionType = .no
         textField.backgroundColor = .clear
-        textField.font = UIFont(name: "thmanyahsans-Regular", size: 17) ?? .systemFont(ofSize: 17)
+        textField.font = fontForText(text.isEmpty ? placeholder : text)
         textField.textColor = UIColor(Color.Primary)
         textField.attributedPlaceholder = NSAttributedString(
             string: placeholder,
             attributes: [
                 .foregroundColor: UIColor(Color.Disabled),
-                .font: UIFont(name: "thmanyahsans-Regular", size: 17) ?? .systemFont(ofSize: 17)
+                .font: fontForText(placeholder)
             ]
         )
         return textField
@@ -173,6 +183,8 @@ private struct RTLTextField: UIViewRepresentable {
             uiView.text = text
         }
 
+        uiView.font = fontForText(text.isEmpty ? placeholder : text)
+
         uiView.isEnabled = !isDisabled
         uiView.textAlignment = isArabic ? .right : .left
         uiView.semanticContentAttribute = isArabic ? .forceRightToLeft : .forceLeftToRight
@@ -181,7 +193,7 @@ private struct RTLTextField: UIViewRepresentable {
             string: placeholder,
             attributes: [
                 .foregroundColor: UIColor(Color.Disabled),
-                .font: UIFont(name: "thmanyahsans-Regular", size: 17) ?? .systemFont(ofSize: 17)
+                .font: fontForText(placeholder)
             ]
         )
     }

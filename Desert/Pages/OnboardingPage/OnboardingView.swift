@@ -69,7 +69,9 @@ struct OnboardingView: View {
                             Spacer()
                             
                             Button("onboarding.skip".localized) {
-                                vm.completeOnboarding(context: context)
+                                withAnimation {
+                                    currentPage = onboardingItems.count - 1
+                                }
                             }
                             .font(AppTypography.body)
                             .foregroundStyle(Color.Secondary02)

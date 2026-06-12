@@ -17,23 +17,17 @@ struct DesertApp: App {
     init() {
         registerFonts()
         
-        // To force Arabic as the default language on first launch, uncomment the following:
-//        if UserDefaults.standard.object(forKey: "AppLanguageSet") == nil {
-//            UserDefaults.standard.set(["ar"], forKey: "AppleLanguages")
-//            UserDefaults.standard.set(true, forKey: "AppLanguageSet")
-//        }
         
-        print("Current Language:", Locale.current.language.languageCode?.identifier ?? "nil")
+        
     }
+    
     
     var body: some Scene {
         WindowGroup {
             RootView()
                 .preferredColorScheme(.light)
-                .environment(
-                    \.layoutDirection,
-                     AppLanguage.isArabic ? .rightToLeft : .leftToRight
-                )
+                .environment(\.locale, Locale.current)
+                .environment(\.layoutDirection, AppLanguage.layoutDirection)
         }
         .modelContainer(for: [
             AppSettings.self,
@@ -44,6 +38,7 @@ struct DesertApp: App {
             LocationPoint.self
         ])
     }
+       
     
     private func registerFonts() {
         let fontNames = [
@@ -61,5 +56,8 @@ struct DesertApp: App {
             
             CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
         }
+        print(AppLanguage.isArabic)
+        print(Locale.current.identifier)
+        print(UserDefaults.standard.array(forKey: "AppleLanguages") ?? [])
     }
 }

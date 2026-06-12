@@ -116,12 +116,12 @@ private extension ActiveTripCard {
         VStack(alignment: .leading, spacing: 6) {
             Text(tripName)
                 .font(AppTypography.body)
-                .foregroundStyle(Color.Primary)
+                .foregroundStyle(Color.Lableblack)
                 .multilineTextAlignment(.leading)
             
             Text(daysLeft)
                 .font(AppTypography.title1)
-                .foregroundStyle(Color.Primary)
+                .foregroundStyle(Color.Lableblack)
                 .multilineTextAlignment(.leading)
         }
     }
@@ -262,7 +262,7 @@ private extension ActiveTripCard {
                     + " (\(formatNumber(emergencyContacts.count)))"
                 )
                 .font(AppTypography.headline)
-                .foregroundStyle(Color.Primary)
+                .foregroundStyle(Color.Lableblack)
                 
                 if !AppLanguage.isArabic {
                     Spacer()
