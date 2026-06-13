@@ -64,21 +64,21 @@ struct OnboardingView: View {
                 
                 VStack(spacing: 0) {
                     
-                    if currentPage < onboardingItems.count - 1 {
-                        HStack {
-                            Spacer()
-                            
-                            Button("onboarding.skip".localized) {
-                                withAnimation {
-                                    currentPage = onboardingItems.count - 1
-                                }
+                    HStack {
+                        Spacer()
+                        
+                        Button("onboarding.skip".localized) {
+                            withAnimation(.easeInOut(duration: 0.35)) {
+                                currentPage = onboardingItems.count - 1
                             }
-                            .font(AppTypography.body)
-                            .foregroundStyle(Color.Secondary02)
                         }
-                        .padding(.horizontal, AppSpacing.xl)
-                        .padding(.top, 16)
+                        .font(AppTypography.body)
+                        .foregroundStyle(Color.Secondary02)
+                        .opacity(currentPage < onboardingItems.count - 1 ? 1 : 0)
+                        .disabled(currentPage == onboardingItems.count - 1)
                     }
+                    .padding(.horizontal, AppSpacing.xl)
+                    .padding(.top, 16)
                     
                     
                     TabView(selection: $currentPage) {
@@ -121,22 +121,19 @@ struct OnboardingView: View {
                     CTAButton(
                         title: buttonTitle
                     ) {
-                        
                         if currentPage == 2 {
-                            
                             NotificationsManager.shared.requestPermission {
-                                withAnimation {
-                                    currentPage += 1
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                                    withAnimation(.easeInOut(duration: 0.35)) {
+                                        currentPage = 3
+                                    }
                                 }
                             }
                         } else if currentPage < onboardingItems.count - 1 {
-                            
-                            withAnimation {
+                            withAnimation(.easeInOut(duration: 0.35)) {
                                 currentPage += 1
                             }
-                            
                         } else {
-                            
                             vm.completeOnboarding(context: context)
                         }
                     }
