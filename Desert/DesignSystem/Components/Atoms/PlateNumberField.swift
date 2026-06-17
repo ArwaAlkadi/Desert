@@ -40,6 +40,7 @@ struct PlateNumberFields: View {
                 )
             }
         }
+        .environment(\.layoutDirection, .leftToRight)
         .onAppear {
             if digits.count != 4 {
                 digits = ["", "", "", ""]
@@ -71,6 +72,7 @@ private struct BackspaceDetectingTextField: UIViewRepresentable {
         textField.delegate = context.coordinator
         textField.placeholder = placeholder
         textField.textAlignment = .center
+        textField.semanticContentAttribute = .forceLeftToRight
         textField.keyboardType = .numberPad
         textField.onBackspaceWhenEmpty = onBackspaceWhenEmpty
         return textField
