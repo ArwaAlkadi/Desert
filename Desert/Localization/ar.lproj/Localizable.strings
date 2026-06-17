@@ -77,7 +77,7 @@
 "trip.contacts" = "جهات الطوارئ";
 "trip.addContact" = "إضافة جهة طوارئ";
 "contact.add" = "إضافة جهة اتصال";
-"trip.contactsLimit" = "الحد الأقصى 3 جهات اتصال";
+"trip.contactsLimit" = "الحد الأقصى ٣ جهات اتصال";
 "contact.delete.title" = "حذف جهة الاتصال؟";
 "contact.delete.message" = "سيتم إزالة جهة الاتصال هذه من قائمة جهات اتصال الطوارئ.";
 
@@ -230,7 +230,7 @@
 "car_model_required" = "موديل السيارة مطلوب";
 "car_color_required" = "لون السيارة مطلوب";
 "plate_required" = "معلومات اللوحة مطلوبة";
-"max_contacts_reached" = "الحد الأقصى 3 جهات اتصال";
+"max_contacts_reached" = "الحد الأقصى ٣ جهات اتصال";
 "contact_phone_invalid" = "الرجاء اختيار جهة اتصال برقم سعودي صحيح";
 "contact_already_added" = "هذه الجهة مضافة مسبقاً.";
 "emergency_contact_required" = "يجب إضافة جهة طوارئ واحدة على الأقل";

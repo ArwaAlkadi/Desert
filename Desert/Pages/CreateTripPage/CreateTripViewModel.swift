@@ -94,6 +94,7 @@ class CreateTripViewModel: ObservableObject {
         
         return result
     }
+
     func normalizeArabicDigits(_ text: String) -> String {
         text
             .replacingOccurrences(of: "٠", with: "0")
@@ -106,6 +107,19 @@ class CreateTripViewModel: ObservableObject {
             .replacingOccurrences(of: "٧", with: "7")
             .replacingOccurrences(of: "٨", with: "8")
             .replacingOccurrences(of: "٩", with: "9")
+    }
+
+    private func localPhoneDisplay(from raw: String) -> String {
+        let digits = normalizeArabicDigits(raw).filter(\.isNumber)
+        var local: String
+        if digits.hasPrefix("966") {
+            local = String(digits.dropFirst(3).prefix(9))
+        } else if digits.hasPrefix("0") {
+            local = String(digits.dropFirst().prefix(9))
+        } else {
+            local = String(digits.prefix(9))
+        }
+        return AppLanguage.isArabic ? Self.localizeDigits(local) : local
     }
     
     
@@ -216,7 +230,8 @@ class CreateTripViewModel: ObservableObject {
     var tripNameIsValid: Bool { !tripName.isEmpty }
     
     var plateNumbersIsValid: Bool {
-        let digits = plateNumbers.filter { $0.isNumber }
+        let normalized = normalizeArabicDigits(plateNumbers)
+        let digits = normalized.filter { $0.isNumber }
         return digits.count >= 1 && digits.count <= 4
     }
     
@@ -305,17 +320,18 @@ class CreateTripViewModel: ObservableObject {
     /// Called when loading saved info or repeating a trip.
     func loadPlateInfoToTemplate() {
         let letters = Array(plateLetters)
-        
+
         if letters.count == 3 {
             firstPlateLetter = String(letters[0])
             secondPlateLetter = String(letters[1])
             thirdPlateLetter = String(letters[2])
         }
-        
+
         let numbers = Array(plateNumbers)
-        
+
         plateDigits = (0..<4).map { index in
-            index < numbers.count ? String(numbers[index]) : ""
+            let digit = index < numbers.count ? String(numbers[index]) : ""
+            return AppLanguage.isArabic ? Self.localizeDigits(digit) : digit
         }
     }
     
@@ -323,19 +339,8 @@ class CreateTripViewModel: ObservableObject {
     /// Keeps `phoneNumber` always in `+9665XXXXXXXX` format internally.
     var localPhoneBinding: Binding<String> {
         Binding(
-            get: {
-                let digits = self.phoneNumber.filter(\.isNumber)
-                if digits.hasPrefix("966") {
-                    return String(digits.dropFirst(3).prefix(9))
-                }
-                if digits.hasPrefix("0") {
-                    return String(digits.dropFirst().prefix(9))
-                }
-                return String(digits.prefix(9))
-            },
-            set: { newValue in
-                self.formatUserPhoneInput(newValue)
-            }
+            get: { self.phoneNumber },
+            set: { self.formatUserPhoneInput($0) }
         )
     }
     
@@ -357,7 +362,7 @@ class CreateTripViewModel: ObservableObject {
         
         local = String(local.prefix(9))
         
-        phoneNumber = local.isEmpty ? "" : "+966\(local)"
+        phoneNumber = AppLanguage.isArabic ? Self.localizeDigits(local) : local
     }
 }
 
@@ -370,7 +375,7 @@ extension CreateTripViewModel {
         guard let saved = savedInfo else { return }
 
         fullName = saved.userName
-        phoneNumber = saved.phoneNumber
+        phoneNumber = localPhoneDisplay(from: saved.phoneNumber)
         carModel = saved.carName
         selectedColor = saved.carColor
         isFourWheelDrive = saved.is4WD
@@ -394,7 +399,7 @@ extension CreateTripViewModel {
         isGroup = trip.hasGroup
         groupCount = trip.groupSize
         fullName = trip.userName
-        phoneNumber = trip.phoneNumber
+        phoneNumber = localPhoneDisplay(from: trip.phoneNumber)
         carModel = trip.carName
         selectedColor = trip.carColor
         isFourWheelDrive = trip.is4WD
@@ -559,6 +564,17 @@ extension CreateTripViewModel {
         }
 
         updatePlateInfoFromTemplate()
+
+        // Normalize Arabic-Indic numerals to Western Arabic before validation and Firebase upload
+        phoneNumber = normalizeArabicDigits(phoneNumber)
+        plateNumbers = normalizeArabicDigits(plateNumbers)
+
+        let phoneDigits = phoneNumber.filter(\.isNumber)
+        if !phoneDigits.hasPrefix("966") {
+            phoneNumber = "+966\(phoneDigits)"
+        } else {
+            phoneNumber = "+\(phoneDigits)"
+        }
 
         guard formIsValid else {
             showErrors = true
