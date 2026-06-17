@@ -75,6 +75,7 @@ struct SelectDestinationTemplate<MapContent: View>: View {
 
                                         Spacer()
                                     }
+                                    .contentShape(Rectangle())
                                     .padding(.horizontal, AppSpacing.md)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .frame(height: 68)

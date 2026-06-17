@@ -52,7 +52,11 @@ struct DestinationPickerView: View {
             }
         )
         .onChange(of: vm.destinationSearchText) { _, newValue in
-            if newValue.isEmpty { vm.destinationSearchResults = [] }
+            if newValue.isEmpty {
+                vm.destinationSearchResults = []
+            } else {
+                vm.searchDestination() 
+            }
         }
         
     }
