@@ -15,8 +15,6 @@
 - ``TripTrackTemplate``
 - ``MaintenanceTemplate``
 
-
-
 ### Organisms
 - ``ActiveTripCard``
 - ``HistoryTripCard``
