@@ -158,10 +158,14 @@ class CreateTripViewModel: ObservableObject {
     var fullNameIsValid: Bool { !fullName.isEmpty }
     
     var phoneNumberIsValid: Bool {
-        
         let normalized = normalizeArabicDigits(phoneNumber)
         let digits = normalized.filter(\.isNumber)
-        
+
+        if digits.hasPrefix("966") {
+            let local = String(digits.dropFirst(3))
+            return local.hasPrefix("5") && local.count == 9
+        }
+
         return digits.hasPrefix("5") && digits.count == 9
     }
 

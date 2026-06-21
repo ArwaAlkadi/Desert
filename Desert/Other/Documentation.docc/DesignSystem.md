@@ -15,6 +15,8 @@
 - ``TripTrackTemplate``
 - ``MaintenanceTemplate``
 
+
+
 ### Organisms
 - ``ActiveTripCard``
 - ``HistoryTripCard``
@@ -39,6 +41,7 @@
 - ``GroupNumberRow``
 - ``InquiryRow``
 - ``PlateInfoRow``
+- ``AppTextFieldState``
 - ``ValidatedTextField``
 
 ### Atoms
@@ -52,7 +55,6 @@
 - ``CounterButton``
 - ``PlateLetterPicker``
 - ``PlateNumberFields``
-- ``PlateFormatter``
 - ``ProgressSegment``
 - ``StatusBadge``
 - ``Stepper``
